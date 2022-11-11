@@ -6,4 +6,5 @@
 *.log
 *.pot
 .env
+.idea
 venv
