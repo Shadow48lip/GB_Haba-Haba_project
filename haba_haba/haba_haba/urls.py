@@ -18,9 +18,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from haba_app.views import pageNotFound
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('summernote/', include('django_summernote.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('', include('haba_app.urls')),
 ]
 
 if settings.DEBUG:
@@ -28,3 +32,7 @@ if settings.DEBUG:
 
     urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# Обработчик событий
+handler404 = pageNotFound  # Страница не найдена

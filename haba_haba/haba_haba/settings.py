@@ -46,10 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'ckeditor',
     'ckeditor_uploader',
+    'django_summernote',
     'debug_toolbar',
+    'users.apps.UsersConfig',
+    'haba_app.apps.HabaAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
@@ -146,6 +148,48 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
+
+AUTH_USER_MODEL = 'users.HabaUser'
+
+# Summernote
+SUMMERNOTE_THEME = 'bs4'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        'airMode': False,
+        'width': '100%',
+        'height': '480',
+        'lang': 'ru-RU',
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'italic', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['table', ['table']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture', 'emoji']],
+            ['view', ['codeview', 'help']],
+        ],
+    },
+    'attachment_require_authentication': True,
+    'lazy': True,
+    'css': (
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.css',
+        '../../../static/plugins/bootstrap-icons/bootstrap-icons.css',
+    ),
+    'css_for_inplace': (
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.css',
+        '../../../static/plugins/bootstrap-icons/bootstrap-icons.css',
+    ),
+    'js': (  # This is for SummernoteWidget
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.js',
+    ),
+    'js_for_inplace': (  # Also for SummernoteInplaceWidget
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.js',
+    ),
+}
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_CONFIGS = CUSTOM_CONFIGS
