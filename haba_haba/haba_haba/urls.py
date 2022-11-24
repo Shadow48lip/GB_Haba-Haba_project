@@ -18,13 +18,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from haba_app.views import pageNotFound
+from mainapp.views import pageNotFound
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('', include('haba_app.urls')),
+    path('', include('mainapp.urls')),
 ]
 
 if settings.DEBUG:

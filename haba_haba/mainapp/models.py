@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import HabaUser
+from userapp.models import HabaUser
 import datetime
 
 
@@ -17,7 +17,7 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=25, unique=True, verbose_name="Категория", db_index=True)
+    name = models.CharField(max_length=25, unique=True, verbose_name="Тэг", db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
 
     def __str__(self):
@@ -36,7 +36,7 @@ class Post(models.Model):
                                verbose_name='Автор')
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
-    content = models.TextField(blank=True, verbose_name='Текст статьи')
+    content = models.TextField(blank=True, verbose_name='Текст')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Презентационная картинка')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
