@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_summernote',
     'debug_toolbar',
+
     'userapp.apps.UsersConfig',
     'mainapp.apps.HabaAppConfig',
 ]
