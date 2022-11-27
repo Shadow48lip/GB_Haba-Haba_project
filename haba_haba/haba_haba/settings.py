@@ -50,6 +50,10 @@ INSTALLED_APPS = [
 
     'userapp.apps.UsersConfig',
     'mainapp.apps.HabaAppConfig',
+    'authapp',
+    'moderatorapp',
+    'searchapp',
+
 ]
 
 MIDDLEWARE = [
