@@ -67,8 +67,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="new_post.html" role="button"><i
-                                            class="bi bi-pencil"></i></a>
+                                    <a class="nav-link" href="#" role="button"><i class="bi bi-pencil"></i></a>
                                 </li>
 
                                 <!-- КОГДА НЕТ УВЕДОМЛЕНИЙ -->
@@ -203,7 +202,7 @@
                     <div class="col">
                         <div class="single-card card border border-secondary border-opacity-25">
 
-                            <h1 class="text-center fw-bold card-title">Профиль</h1>
+                            <h1 class="text-center fw-bold card-title">Новая публикация</h1>
 
                             <div class="card-body">
 
@@ -213,89 +212,23 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="floatingInput"
                                                 placeholder="name@example.com">
-                                            <label for="floatingInput">Псевдоним</label>
+                                            <label for="floatingInput">Заголовок статьи</label>
                                         </div>
                                     </div>
 
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="floatingInput"
-                                            placeholder="name@example.com" value="test@example.com" readonly>
-                                        <label for="floatingInput">Электронная почта</label>
-                                    </div>
-
-                                    <div class="row g-2">
-
-                                        <div class="col-md">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="floatingInput"
-                                                    placeholder="name@example.com">
-                                                <label for="floatingInput">Имя</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-floating">
-                                                <select class="form-select" id="floatingSelectGrid">
-                                                    <option selected>Не выбран</option>
-                                                    <option value="1">Мужской</option>
-                                                    <option value="2">Женский</option>
-                                                </select>
-                                                <label for="floatingSelectGrid">Ваш пол</label>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row g-2">
-
-                                        <div class="col-md">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="floatingInput"
-                                                    placeholder="name@example.com">
-                                                <label for="floatingInput">Фамилия</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control" id="floatingInput"
-                                                    placeholder="name@example.com">
-                                                <label for="floatingInput">Возраст</label>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row g-2">
-                                        <div class="col-md mb-3">
-                                            <div class="form-floating">
-                                                <textarea class="form-control" placeholder="About" id="floatingTextarea"
-                                                    oninput="auto_grow(this)"></textarea>
-                                                <label for="floatingTextarea">О себе</label>
-                                            </div>
+                                    <div class="col-md mb-3">
+                                        <div class="form-floating">
+                                            <textarea class="form-control custom-textarea" placeholder="Your post"
+                                                id="floatingTextarea" oninput="auto_grow(this)"></textarea>
+                                            <label for="floatingTextarea">Текст статьи</label>
                                         </div>
                                     </div>
 
-                                    <h4 class="text-center card-title mt-3">Поменять пароль</h4>
 
-                                    <div class="row g-2">
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control" id="floatingPassword"
-                                                    placeholder="Password">
-                                                <label for="floatingPassword">Новый пароль</label>
-                                            </div>
-                                        </div>
+                                    <div class="d-flex justify-content-between mt-5">
 
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control" id="floatingPassword"
-                                                    placeholder="Password">
-                                                <label for="floatingPassword">Подтвердить пароль</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-grid mt-4">
-                                        <button type="button" class="btn btn-outline-primary">Сохранить</button>
+                                        <button type="button" class="btn btn-primary w-50">Опубликовать</button>
+                                        <button type="button" class="btn btn-outline-danger w-25">В черновик</button>
                                     </div>
 
 
