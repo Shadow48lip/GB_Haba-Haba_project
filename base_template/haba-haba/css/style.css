@@ -100,9 +100,11 @@ h6 {
 
 /* ========== Скроллбар ========== */
 
+
 textarea::-webkit-scrollbar-button {
     background: transparent !important;
     height: 3px !important;
+
 }
 
 
@@ -245,25 +247,50 @@ body.dark .separ {
     background: center / cover no-repeat url(../img/raccoon-logo.jpg) !important;
 }
 
-.is_scrolled .header {
-    background: rgba(255, 255, 255, .5) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    backdrop-filter: blur(20px) !important;
-    box-shadow: 0 0 15px rgba(0, 0, 0, .25) !important;
-    transition: .3s background ease-in-out,
-        .2s box-shadow ease-in-out,
-        .15s backdrop-filter ease-in-out !important;
+/* если поддерживается свойство backdrop-filter */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .is_scrolled .header {
+        background: rgba(255, 255, 255, .5) !important;
+        box-shadow: 0 0 15px rgba(0, 0, 0, .25) !important;
+        transition: .3s background ease-in-out,
+            .2s box-shadow ease-in-out,
+            .15s backdrop-filter ease-in-out !important;
+    }
+
+    body.dark .is_scrolled .header {
+        background: rgba(20, 20, 20, .7) !important;
+        box-shadow: 0 0 15px rgba(0, 0, 0, .25) !important;
+        transition: .3s background ease-in-out,
+            .2s box-shadow ease-in-out,
+            .15s backdrop-filter ease-in-out !important;
+    }
+
+    .blurred-container,
+    body.dark .blurred-container {
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+    }
 }
 
-body.dark .is_scrolled .header {
-    background: rgba(20, 20, 20, .7) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    backdrop-filter: blur(20px) !important;
-    box-shadow: 0 0 15px rgba(0, 0, 0, .25) !important;
-    transition: .3s background ease-in-out,
-        .2s box-shadow ease-in-out,
-        .15s backdrop-filter ease-in-out !important;
+
+/* если НЕ поддерживается свойство backdrop-filter */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+
+    .is_scrolled .header {
+        background: rgba(255, 255, 255, .95);
+        box-shadow: 0 0 15px rgba(0, 0, 0, .25) !important;
+        transition: .2s background ease-in-out,
+            .15s box-shadow ease-in-out !important;
+    }
+
+    body.dark .is_scrolled .header {
+        background: rgba(20, 20, 20, .99);
+        box-shadow: 0 0 15px rgba(0, 0, 0, .25) !important;
+        transition: .2s background ease-in-out,
+            .15s box-shadow ease-in-out !important;
+    }
 }
+
 
 .nav-link {
     color: rgba(0, 0, 0, 0.55) !important;
@@ -703,11 +730,26 @@ body.dark .active .page-link:hover {
 
 
 /* ========== MODAL ========== */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
 
-.modal-blur {
-    -webkit-backdrop-filter: blur(20px) !important;
-    backdrop-filter: blur(20px) !important;
+    .modal-blur {
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+    }
 }
+
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+
+    .modal-blur {
+        background: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    body.dark .modal-blur {
+        background: rgba(5, 5, 5, 0.95) !important;
+    }
+}
+
+
 
 /* light */
 .modal-bg {
