@@ -124,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -152,6 +152,9 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
 AUTH_USER_MODEL = 'userapp.HabaUser'
+
+# для декоратора в контроллерах @login_required, позволяет перекидывать не авторизованных пользователей
+LOGIN_URL = '/auth/login/'
 
 # Summernote
 SUMMERNOTE_THEME = 'bs4'
