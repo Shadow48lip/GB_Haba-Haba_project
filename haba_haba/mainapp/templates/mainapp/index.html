@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link type="text/css" href="{% static 'mainapp/css/styles.css' %}" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'mainapp/images/main.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<ul class="list-articles">
+	{% for p in posts %}
+			<li>
+				<div class="article-panel">
+					<p class="first">Категория: {{p.cat}}</p>
+					<p class="last">Дата: {{p.time_update|date:"d-m-Y H:i:s"}}</p>
+				</div>
+				{% if p.photo %}
+					<p><img class="img-article-left thumb" src="{{p.photo.url}}"></p>
+				{% endif %}
+				<h2>{{p.title}}</h2>
+	{% autoescape on %}
+	{{p.content|safe|linebreaks|truncatewords:250 }}
+	{% endautoescape %}
+			<div class="clear"></div>
+				<div class="link-read-post-div">
+					<div class="link-read-post-div-div"><p class="link-read-post"><a href="#">Читать пост</a></p></div>
+					<div class="link-read-post-div-div"><p class="link-read-post"><a href="#">Комментарии</a></p></div>
+				</div>
+			</li>
+	{% endfor %}
+</ul>

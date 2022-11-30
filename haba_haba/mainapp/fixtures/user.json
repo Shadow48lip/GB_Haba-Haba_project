@@ -1,0 +1,172 @@
+[
+  {
+    "model": "userapp.habauser",
+    "pk": 50,
+    "fields": {
+      "username": "ivanov",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Иван",
+      "last_name": "Иванов",
+      "age": 18,
+      "email": "ivanov@google.com",
+      "gender": "М",
+      "about": "Люблю зависать на haba-haba",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "ivanov"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 51,
+    "fields": {
+      "username": "petrov",
+      "password": "pbkdf2_sha256$390000$6RX2cOGf5mKDoPO4S1sIgW$sRqskEMLqS1dHR9JMcWj3AJkmWvdYt4a4gOCMMTpUjg=",
+      "first_name": "Петр",
+      "last_name": "Петров",
+      "age": 35,
+      "email": "petrov@mail.com",
+      "gender": "М",
+      "about": "Закончил институт. Пишу статьи на haba-haba. Больше ничего делать не умею.",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "petrov"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 52,
+    "fields": {
+      "username": "sidorov",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Сидр",
+      "last_name": "Сидорович",
+      "age": 25,
+      "email": "sidr@google.com",
+      "gender": "М",
+      "about": "Не хочу о себе гничего писать",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "sidorov"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 53,
+    "fields": {
+      "username": "maruskina",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Маша",
+      "last_name": "Маруськина",
+      "age": 31,
+      "email": "masha@google.com",
+      "gender": "Ж",
+      "about": "Люблю вязать на машинке",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "maruskina"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 54,
+    "fields": {
+      "username": "alexandrov",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Саша",
+      "last_name": "Александров",
+      "age": 21,
+      "email": "sasha@mail.ru",
+      "gender": "М",
+      "about": "Увлекаюсь техникой. Люблю программировать на JavaScript",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "alexandrov"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 55,
+    "fields": {
+      "username": "mishkin",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Миша",
+      "last_name": "Мишкин",
+      "age": 12,
+      "email": "mishutka@mail.ru",
+      "gender": "М",
+      "about": "Мне 12 лет. Через 3 года начну писать научные статьи на haba-haba. Сделайте только нормальный сайт",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "mishkin"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 56,
+    "fields": {
+      "username": "kostik_ru",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Константин",
+      "last_name": "Константинов",
+      "age": 36,
+      "email": "kostik_86@mail.ru",
+      "gender": "М",
+      "about": "Мне 36. Характер нордический. Не женат. Пишу на django всякие сайты",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "kostik_ru"
+    }
+  },
+{
+    "model": "userapp.habauser",
+    "pk": 57,
+    "fields": {
+      "username": "sergeev_54",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Сергей",
+      "last_name": "Сергеев",
+      "age": 54,
+      "email": "serenka_54@bk.ru",
+      "gender": "М",
+      "about": "Работал на шиномантажке. Потом меня переклинило и я решил стать программистом. Выучился. Пишу на Java. Телефон для заказов 322-223, т.е. 223-322",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "sergeev_54"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 58,
+    "fields": {
+      "username": "maxik_16",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Максим",
+      "last_name": "Максимов",
+      "age": 18,
+      "email": "maxik_max@gmail.ru",
+      "gender": "М",
+      "about": "Лентяй по жизни. Не хочу ничему учиться. Зависаю на haba-haba",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "maxik_16"
+    }
+  },
+  {
+    "model": "userapp.habauser",
+    "pk": 59,
+    "fields": {
+      "username": "svetik_45",
+      "password": "pbkdf2_sha256$390000$ZAOSBLz14i8nBIopfhtEYV$g7h0RwPHRA86r+KpOjezaCSy8p/HRKhIarSHL95wFdY=",
+      "first_name": "Светочка",
+      "last_name": "Светикова",
+      "age": 55,
+      "email": "svetulya_18@gmail.ru",
+      "gender": "Ж",
+      "about": "Ищу мужа на haba-haba. Зачем только не знаю. Заодно читаю интересные статьи",
+      "is_staff": 0,
+      "is_superuser": 0,
+      "slug": "svetik_45"
+    }
+  }
+]
