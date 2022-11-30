@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
 
 from .models import HabaUser
+from mainapp.models import Post
 
 
 def redirect_2_profile(request):
@@ -14,7 +15,12 @@ def redirect_2_profile(request):
 @login_required
 def my_profile_view(request):
     """Выводит профиль авторизованного пользователя"""
-    content = {'title': 'кабинет пользователя'}
+
+    posts = get_user_posts(request.user)
+    content = {
+        'title': 'кабинет пользователя',
+        'posts': posts,
+    }
 
     # переменная user есть во всех шаблонах и содержит авторизованного пользователя
     return render(request, 'userapp/user_cabinet.html', content)
@@ -36,5 +42,9 @@ class UserProfile(DetailView):
         context['title'] = 'профиль пользователя'
         return context
 
+
+def get_user_posts(user: HabaUser):
+    """Запрос статей пользователя"""
+    return Post.objects.filter(author=user).values('title', 'content')
 
 """ https://ru.stackoverflow.com/questions/1103341/Как-получить-текущего-пользователя-в-models-py """

@@ -20,7 +20,7 @@ class HabaUser(AbstractUser):
     age = models.PositiveSmallIntegerField(default=0, null=False)
     lock_date = models.DateField(verbose_name='Заблокирован до', default=datetime.date(2000, 1, 1))
     is_blocked = models.BooleanField(default=False, verbose_name='Заблокирован')
-    about = models.TextField(verbose_name="О себе")
+    about = models.TextField(blank=True, verbose_name="О себе")
     gender = models.CharField(verbose_name='Пол', choices=GENDER_CHOICES, blank=True, max_length=5)
 
     def __str__(self):

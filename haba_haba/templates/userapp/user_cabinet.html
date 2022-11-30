@@ -11,6 +11,13 @@
         {% endif %}
     </h2>
     <p>Центральный блок со статьями пользователя</p>
+    {% for post in posts %}
+        <div>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content }}</p>
+
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block sidebar %}

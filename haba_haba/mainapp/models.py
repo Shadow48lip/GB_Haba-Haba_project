@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 from userapp.models import HabaUser
 import datetime
 
@@ -12,8 +14,8 @@ class Category(models.Model):
 
     class Meta:
         verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
         ordering = ['name', ]
+        verbose_name_plural = 'Категории'
 
 
 class Tag(models.Model):
@@ -38,7 +40,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
     content = models.TextField(blank=True, verbose_name='Текст')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Презентационная картинка')
+    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", blank=True, verbose_name='Презентационная картинка')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     is_published = models.BooleanField(default=False, verbose_name='Публикация')
@@ -47,6 +49,10 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title[:25]}...'
+
+    # Для формирования динамического url к записи. В шаблонах {{ p.get_absolute_url }}
+    def get_absolute_url(self):
+        return reverse('post', kwargs={'post_slug': self.slug})
 
     class Meta:
         verbose_name = 'Статья'
@@ -57,7 +63,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Статья')
     user = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Пользователь')
-    text = models.TextField(verbose_name="Комментарий")
+    text  = models.TextField(verbose_name="Комментарий")
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     is_published = models.BooleanField(default=False, verbose_name='Публикация')
