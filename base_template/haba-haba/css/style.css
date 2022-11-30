@@ -96,10 +96,13 @@ h6 {
     font-family: "Montserrat Alternates", sans-serif;
 }
 
+.trans-color-02 {
+    transition: .2s color ease-in-out !important;
+}
+
 
 
 /* ========== Скроллбар ========== */
-
 
 textarea::-webkit-scrollbar-button {
     background: transparent !important;
@@ -107,13 +110,13 @@ textarea::-webkit-scrollbar-button {
 
 }
 
-
 /* light */
 textarea::-webkit-scrollbar-corner,
 body::-webkit-scrollbar-corner {
     background: transparent !important;
 }
 
+select::-webkit-scrollbar,
 textarea::-webkit-scrollbar,
 body::-webkit-scrollbar {
     background: transparent !important;
@@ -126,26 +129,30 @@ body::-webkit-scrollbar-thumb {
     border-radius: .5rem !important;
 }
 
+select::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .3) !important;
+    border: 1px solid rgb(255, 255, 255) !important;
+    border-radius: .5rem !important;
+}
+
+select::-webkit-scrollbar-track,
 textarea::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track {
     background: transparent !important;
     border-radius: .5rem !important;
 }
 
+select::-webkit-scrollbar-thumb:hover,
 textarea::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, .4) !important;
 }
 
+select::-webkit-scrollbar-thumb:active,
 textarea::-webkit-scrollbar-thumb:active,
 body::-webkit-scrollbar-thumb:active {
     background: rgba(0, 0, 0, .5) !important;
-}
-
-textarea::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, .3) !important;
-    border: 1px solid rgb(255, 255, 255) !important;
-    border-radius: .5rem !important;
 }
 
 
@@ -155,21 +162,25 @@ body.dark::-webkit-scrollbar-thumb {
     border-radius: .5rem !important;
 }
 
-body.dark textarea::-webkit-scrollbar-thumb:hover,
-body.dark::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, .4) !important;
-}
-
-body.dark textarea::-webkit-scrollbar-thumb:active,
-body.dark::-webkit-scrollbar-thumb:active {
-    background: rgba(255, 255, 255, .5) !important;
-}
-
+body.dark select::-webkit-scrollbar-thumb,
 body.dark textarea::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, .3) !important;
     border: 1px solid rgb(5, 5, 5) !important;
     border-radius: .5rem !important;
 }
+
+body.dark select::-webkit-scrollbar-thumb:hover,
+body.dark textarea::-webkit-scrollbar-thumb:hover,
+body.dark::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, .4) !important;
+}
+
+body.dark select::-webkit-scrollbar-thumb:active,
+body.dark textarea::-webkit-scrollbar-thumb:active,
+body.dark::-webkit-scrollbar-thumb:active {
+    background: rgba(255, 255, 255, .5) !important;
+}
+
 
 
 
@@ -229,6 +240,110 @@ input:-webkit-autofill~label {
 body.dark .separ {
     color: rgba(200, 200, 200, .2);
     margin: 0 .5em !important;
+}
+
+/* calendar */
+body.dark .prev>span,
+body.dark .next>span {
+    border-color: rgb(255, 255, 255) !important;
+}
+
+body.dark .next:hover,
+body.dark .prev:hover,
+body.dark .available:hover {
+    background-color: rgba(40, 40, 40) !important;
+}
+
+body.dark .in-range {
+    background-color: rgb(40, 40, 40) !important;
+    color: rgba(53, 115, 212, .5) !important;
+}
+
+body.dark .start-date,
+body.dark .end-date {
+    background-color: rgb(53, 126, 189) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+body.dark .start-date:hover,
+body.dark .end-date:hover,
+body.dark .start-date.active,
+body.dark .end-date.active {
+    background-color: rgb(53, 126, 189) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+body.dark .ends.active,
+body.dark .off {
+    background-color: transparent !important;
+    color: rgb(153, 153, 153) !important;
+}
+
+body.dark .daterangepicker {
+    background-color: rgb(20, 20, 20) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: rgba(255, 255, 255, .25) !important;
+}
+
+body.dark .calendar-table {
+    background-color: rgb(20, 20, 20) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: transparent !important;
+}
+
+.monthselect,
+.yearselect,
+.hourselect,
+.minuteselect {
+    color: rgb(5, 5, 5) !important;
+    border: 1px solid rgba(5, 5, 5, .25) !important;
+    border-radius: 5px !important;
+}
+
+body.dark .monthselect,
+body.dark .yearselect,
+body.dark .hourselect,
+body.dark .minuteselect {
+    background-color: rgb(20, 20, 20) !important;
+    color: rgb(255, 255, 255) !important;
+    border: 1px solid rgba(255, 255, 255, .25) !important;
+    border-radius: 5px !important;
+}
+
+.drp-buttons {
+    border-color: rgba(5, 5, 5, .25) !important;
+}
+
+.cancelBtn {
+    background-color: rgb(225, 225, 225) !important;
+    color: rgba(5, 5, 5, .7) !important;
+}
+
+.cancelBtn:hover {
+    background-color: rgb(205, 205, 205) !important;
+    color: rgba(5, 5, 5, .7) !important;
+}
+
+.cancelBtn:focus {
+    border: 1px solid transparent !important;
+}
+
+body.dark .drp-buttons {
+    border-color: rgba(255, 255, 255, .25) !important;
+}
+
+body.dark .cancelBtn {
+    background-color: rgb(30, 30, 30) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+body.dark .cancelBtn:hover {
+    background-color: rgb(40, 40, 40) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+body.dark .cancelBtn:focus {
+    border: 1px solid transparent !important;
 }
 
 
@@ -294,6 +409,7 @@ body.dark .separ {
 
 .nav-link {
     color: rgba(0, 0, 0, 0.55) !important;
+    transition: .2s color ease-in-out !important;
 }
 
 .nav-link.active {
@@ -306,6 +422,7 @@ body.dark .separ {
 
 body.dark .nav-link {
     color: rgba(255, 255, 255, 0.55) !important;
+    transition: .2s color ease-in-out !important;
 }
 
 body.dark .nav-link.active {
@@ -453,15 +570,34 @@ body.dark .btn-search:focus {
 
 .text-danger {
     color: rgba(255, 50, 50, 0.7) !important;
+    transition: .2s color ease-in-out !important;
 }
 
 body.dark .text-danger {
     color: rgba(255, 50, 50, 0.5) !important;
+    transition: .2s color ease-in-out !important;
 }
 
 .text-danger:hover,
 body.dark .text-danger:hover {
     color: rgb(220, 50, 50) !important;
+}
+
+
+
+.text-primary {
+    color: rgba(13, 110, 253, 0.7) !important;
+    transition: .2s color ease-in-out !important;
+}
+
+body.dark .text-primary {
+    color: rgba(13, 110, 253, 0.5) !important;
+    transition: .2s color ease-in-out !important;
+}
+
+.text-primary:hover,
+body.dark .text-primary:hover {
+    color: rgb(13, 110, 253) !important;
 }
 
 .notify-nothing {
@@ -547,6 +683,7 @@ body.dark .sidebar-item:hover {
 /* ========== AUTHENTICATION ========== */
 
 .auth {
+    width: 100% !important;
     color: rgba(0, 0, 0, 0.55) !important;
     transition: .2s color ease-in-out !important;
 }
@@ -560,6 +697,11 @@ body.dark .auth {
 body.dark .auth:hover {
     color: rgb(53, 115, 212) !important;
     transition: .2s color ease-in-out !important;
+}
+
+.btn-auth:focus,
+body.dark .btn-auth:focus {
+    border-color: transparent !important;
 }
 
 
@@ -674,6 +816,7 @@ body.dark .custom-card-bg {
     font-size: 16px !important;
     background: transparent !important;
     color: rgba(5, 5, 5, .5) !important;
+    border: transparent !important;
 }
 
 .complaint:hover {
@@ -684,14 +827,16 @@ body.dark .complaint {
     font-size: 16px !important;
     background: transparent !important;
     color: rgba(255, 255, 255, 0.5) !important;
+    border: transparent !important;
 }
 
 body.dark .complaint:hover {
     color: rgb(255, 50, 50) !important;
 }
 
-
-
+.fs-30 {
+    font-size: 30px !important;
+}
 
 /* ========== PAGINATION ========== */
 
