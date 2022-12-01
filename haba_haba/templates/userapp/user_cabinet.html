@@ -15,7 +15,7 @@
         <div>
             <h3>{{ post.title }}</h3>
             <p>{{ post.content|striptags|truncatechars:'100' }}</p>
-
+            <p><a href="{{ post.get_absolute_url }}">открыть</a></p>
         </div>
     {% endfor %}
 {% endblock %}

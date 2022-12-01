@@ -12,6 +12,10 @@ class MainappHome(ListView):
     # Если мы вручную в строке браузера напишем не существующий путь
 
 
+def show_post(request, slug):
+    return HttpResponseNotFound('<h1>Статья</h1>')
+
+
 # Обработчик не найденной страницы
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')

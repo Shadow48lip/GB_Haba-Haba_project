@@ -22,7 +22,8 @@
 				{% endif %}
 				<h2>{{p.title}}</h2>
 	{% autoescape on %}
-	{{p.content|safe|linebreaks|truncatewords:250 }}
+{#	{{p.content|safe|linebreaks|truncatewords:250 }}#}
+        {{p.content|striptags|truncatechars:250 }}
 	{% endautoescape %}
 			<div class="clear"></div>
 				<div class="link-read-post-div">

@@ -32,6 +32,16 @@ python manage.py createsuperuser
 - Удалить папку и ее содержимое из папки 'media' 
 - Выполнить: python manage.py fill_db
 
+Уже существующий в базе
+
+| Пользователь | Пароль   |
+|--------------|----------|
+| admin        | habahaba |
+| ivanov       | 123      |
+| petrov       | 123      |
+| sidorov      | 123      |
+
+
 ## Бэкап статей:
 ```sh
 python manage.py save_db
