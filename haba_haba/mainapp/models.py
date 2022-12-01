@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from userapp.models import HabaUser
 import datetime
@@ -51,7 +51,7 @@ class Post(models.Model):
 
     # Для формирования динамического url к записи. В шаблонах {{ p.get_absolute_url }}
     def get_absolute_url(self):
-        return reverse('post', kwargs={'post_slug': self.slug})
+        return reverse('main:post', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Статья'

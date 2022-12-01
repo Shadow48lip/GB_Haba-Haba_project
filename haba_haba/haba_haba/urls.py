@@ -23,10 +23,10 @@ from mainapp.views import pageNotFound
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
-    path('', include('mainapp.urls')),
+    path('', include('mainapp.urls', namespace='main')),
     path('user/', include('userapp.urls', namespace='user')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('signup/', include('authapp.urls')),
+    path('signup/', include('authapp.urls', namespace='auth')),
 ]
 
 if settings.DEBUG:

@@ -23,7 +23,7 @@ def my_profile_view(request):
     }
 
     # переменная user есть во всех шаблонах и содержит авторизованного пользователя
-    return render(request, 'userapp/user_cabinet.html', content)
+    return render(request, 'userapp/user_cabinet.html', context=content)
 
 
 def my_profile_edit(request):
