@@ -18,13 +18,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from mainapp.views import pageNotFound
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
     path('', include('mainapp.urls')),
+    path('user/', include('userapp.urls', namespace='user')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('authapp.urls')),
+    path('signup/', include('authapp.urls')),
 ]
 
 if settings.DEBUG:
@@ -35,4 +37,4 @@ if settings.DEBUG:
 
 
 # Обработчик событий
-# handler404 = pageNotFound  # Страница не найдена
+handler404 = pageNotFound  # Страница не найдена

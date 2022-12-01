@@ -28,14 +28,12 @@ environ.Env.read_env(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env('SECRET_KEY')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env('DEBUG')
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -47,10 +45,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'ckeditor',
-    'ckeditor_uploader',
     'debug_toolbar',
     'django_summernote',
+
+    'userapp.apps.UsersConfig',
+    'mainapp.apps.HabaAppConfig',
+    'authapp',
+    'moderatorapp',
+    'searchapp',
 
 ]
 
@@ -120,9 +122,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -148,6 +150,51 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
+
+AUTH_USER_MODEL = 'userapp.HabaUser'
+
+# для декоратора в контроллерах @login_required, позволяет перекидывать не авторизованных пользователей
+LOGIN_URL = '/accounts/login/'
+
+# Summernote
+SUMMERNOTE_THEME = 'bs4'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        'airMode': False,
+        'width': '100%',
+        'height': '480',
+        'lang': 'ru-RU',
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'italic', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['table', ['table']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture', 'emoji']],
+            ['view', ['codeview', 'help']],
+        ],
+    },
+    'attachment_require_authentication': True,
+    'lazy': True,
+    'css': (
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.css',
+        '../../../static/plugins/bootstrap-icons/bootstrap-icons.css',
+    ),
+    'css_for_inplace': (
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.css',
+        '../../../static/plugins/bootstrap-icons/bootstrap-icons.css',
+    ),
+    'js': (  # This is for SummernoteWidget
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.js',
+    ),
+    'js_for_inplace': (  # Also for SummernoteInplaceWidget
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.js',
+    ),
+}
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_CONFIGS = CUSTOM_CONFIGS
