@@ -38,7 +38,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
     content = models.TextField(blank=True, verbose_name='Текст')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Презентационная картинка')
+    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Презентационная картинка', blank=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     is_published = models.BooleanField(default=False, verbose_name='Публикация')
@@ -114,7 +114,7 @@ class PostLike(models.Model):
 
 class CommentLike(models.Model):
     user = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Пользователь')
-    comment = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Комментарий')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='Комментарий')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
 
     def __str__(self):

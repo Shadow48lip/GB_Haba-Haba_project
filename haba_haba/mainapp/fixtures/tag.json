@@ -1,0 +1,74 @@
+[
+  {
+    "model": "mainapp.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Python",
+      "slug": "python"
+    }
+  },
+  {
+    "model": "mainapp.tag",
+    "pk": 2,
+    "fields": {
+      "name": "asyncio",
+      "slug": "asyncio"
+    }
+  },
+  {
+    "model": "mainapp.tag",
+    "pk": 3,
+    "fields": {
+      "name": "Разработка",
+      "slug": "development"
+    }
+  },
+  {
+    "model": "mainapp.tag",
+    "pk": 4,
+    "fields": {
+      "name": "Java",
+      "slug": "java"
+    }
+  },
+  {
+    "model": "mainapp.tag",
+    "pk": 5,
+    "fields": {
+      "name": "JavaScrypt",
+      "slug": "javascrypte"
+    }
+  },
+    {
+    "model": "mainapp.tag",
+    "pk": 6,
+    "fields": {
+      "name": "аналитика",
+      "slug": "analytika"
+    }
+  },
+  {
+    "model": "mainapp.tag",
+    "pk": 7,
+    "fields": {
+      "name": "работа",
+      "slug": "rabota"
+    }
+  },
+  {
+    "model": "mainapp.tag",
+    "pk": 8,
+    "fields": {
+      "name": "работа в it",
+      "slug": "rabota_v_it"
+    }
+  },
+  {
+    "model": "mainapp.tag",
+    "pk": 9,
+    "fields": {
+      "name": "опыт работы",
+      "slug": "opyt_raboty"
+    }
+  }
+]
