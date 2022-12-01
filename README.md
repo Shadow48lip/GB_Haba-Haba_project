@@ -27,3 +27,17 @@ python manage.py createsuperuser
 | Пользователь | Пароль   |
 |--------------|----------|
 | admin        | habahaba |
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Наполнение базы:
+1. Удалить все миграции. Файлы из папок 'migrations'
+2. Удалить базу данных. Файл db.sqlite3
+3. Выполнить: python manage.py makemigrations
+4. Выполнить: python manage.py migrate
+5. Выполнить: python manage.py createsuperuser
+6. Удалить папку и ее содержимое из папки 'media'
+7. Выполнить: python manage.py fill_db
+
+Бэкап статей:
+python manage.py save_db
+++++++++++++++++++++++++++++++++++++++++++++++++++++++

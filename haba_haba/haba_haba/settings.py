@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import environ
 from pathlib import Path
+
 from haba_haba.ckeditor_configs import CUSTOM_CONFIGS
 
 env = environ.Env(
@@ -22,7 +23,6 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(BASE_DIR / '.env')
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -198,3 +198,5 @@ SUMMERNOTE_CONFIG = {
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_CONFIGS = CUSTOM_CONFIGS
+
+LOGOUT_REDIRECT_URL = 'login'

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>page_not_found</title>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="" id="element">
+
+    <div class="wrapper">
+
+        <!-- заголовок -->
+        <header class="header blurred-container sticky-top">
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                        <div class="menu-icon">
+                            <span></span>
+                        </div>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="index.html">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Дизайн</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Веб-разработка</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Мобильная разработка</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Маркетинг</a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            <span class="d-flex justify-content-between">
+
+                                <li class="nav-item">
+                                    <form class="d-flex" role="search">
+                                        <input class="form-control form-search" type="search" placeholder="Search"
+                                            aria-label="Search">
+                                        <button class="btn btn-search" type="submit"><i
+                                                class="bi bi-search"></i></button>
+                                    </form>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="new_post.html" role="button"><i
+                                            class="bi bi-pencil"></i></a>
+                                </li>
+
+                                <!-- КОГДА НЕТ УВЕДОМЛЕНИЙ -->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-bell"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <div class="notify-nothing card-body m-1">
+                                            Ничего нет...
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-bell-fill text-danger"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+
+                                        <div class="notify-card card mt-1">
+                                            <div class="card-body">
+                                                Какое-то Уведомление 1
+                                            </div>
+                                        </div>
+
+                                        <div class="notify-card card mt-1">
+                                            <div class="card-body">
+                                                Какое-то Уведомление 2
+                                            </div>
+                                        </div>
+
+                                        <div class="notify-card card mt-1">
+                                            <div class="card-body">
+                                                Какое-то Уведомление 3
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+
+
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a href="#" class=" auth" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Регистрация
+                                                </button>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class=" auth" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Войти
+                                                </button>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="profile.html" class=" auth">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Профиль
+                                                </button>
+                                            </a>
+                                        </li>
+                                        <li><a href="moderator.html" class=" auth">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Модератор
+                                                </button>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item mt-2 ms-1 me-3">
+                                    <label class="theme">
+                                        <input class="theme-switch" type="checkbox">
+                                        <span class="theme-wrapper">
+                                            <i class="bi bi-sun sun"></i>
+                                            <i class="bi bi-moon moon"></i>
+                                        </span>
+                                    </label>
+                                </li>
+
+                            </span>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+
+
+        <!-- Modal -->
+        <div class="modal fade modal-blur" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content modal-bg">
+                    <div class="modal-header">
+                        <h2 class="modal-title fs-5" id="staticBackdropLabel">Регистрация</h2>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">Электронная почта</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword"
+                                    placeholder="Password">
+                                <label for="floatingPassword">Пароль</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword"
+                                    placeholder="Password">
+                                <label for="floatingPassword">Подтвердите пароль</label>
+                            </div>
+                            <div class="mb-3 form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label mt-1" for="exampleCheck1">Я даю своё согласие...</label>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer no-border-modal-footer">
+                            <button type="button" class="btn btn-primary btn-sm">Зарегистрироваться</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Отмена</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <div class="row row-main">
+
+                <!-- основное содержимое -->
+                <div class="col-md-9 row g-4">
+
+                    <div class="col">
+                        <div class="single-card card border border-secondary border-opacity-25">
+
+
+                            <h1 class="text-center fw-bold card-title">Ой... А такой страницы не
+                                существует...</h1>
+
+                            <div class="card-body">
+                                <p class="card-text">
+                                <div>
+                                    Если заблудился, то попробуй с самого <a href="index.html">начала</a>.
+                                </div>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- сайдбар -->
+                <div class="col-md-3 gy-5">
+
+                    <ul class="list-group sidebar-sticky-top sticky-top">
+                        <a href="#"
+                            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <span class="sidebar-item-title">sidebar item #1</span>
+                            <span class="badge bg-primary">63</span>
+                        </a>
+                        <a href="#"
+                            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <span class="sidebar-item-title">sidebar item #2</span>
+                            <span class="badge bg-primary">325</span>
+                        </a>
+                        <a href="#"
+                            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <span class="sidebar-item-title">sidebar item #3</span>
+                            <span class="badge bg-primary">33</span>
+                        </a>
+                    </ul>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- подвал -->
+        <footer class="footer mt-5 d-flex justify-content-center align-middle">
+
+            <nav class="navbar">
+                <div class="container">
+                    <span class="footer-title">haba-haba</span>
+                    <span class="copy">&copy;</span>
+                    <span class="cur-year">2022</span>
+                </div>
+            </nav>
+
+        </footer>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
