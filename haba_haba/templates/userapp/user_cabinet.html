@@ -14,7 +14,7 @@
     {% for post in posts %}
         <div>
             <h3>{{ post.title }}</h3>
-            <p>{{ post.content }}</p>
+            <p>{{ post.content|striptags|truncatechars:'100' }}</p>
 
         </div>
     {% endfor %}

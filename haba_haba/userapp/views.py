@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
 
 from .models import HabaUser
-from mainapp.models import Post
+from .services import get_user_posts
 
 
 def redirect_2_profile(request):
@@ -42,9 +42,5 @@ class UserProfile(DetailView):
         context['title'] = 'профиль пользователя'
         return context
 
-
-def get_user_posts(user: HabaUser):
-    """Запрос статей пользователя"""
-    return Post.objects.filter(author=user).values('title', 'content')
 
 """ https://ru.stackoverflow.com/questions/1103341/Как-получить-текущего-пользователя-в-models-py """
