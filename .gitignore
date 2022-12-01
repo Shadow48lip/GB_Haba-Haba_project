@@ -9,3 +9,4 @@ venv
 .env
 *.log
 *.pot
+*.sqllite3

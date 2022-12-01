@@ -39,7 +39,6 @@ class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
     content = models.TextField(blank=True, verbose_name='Текст')
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Презентационная картинка', blank=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
