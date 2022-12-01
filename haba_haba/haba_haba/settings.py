@@ -154,7 +154,7 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 AUTH_USER_MODEL = 'userapp.HabaUser'
 
 # для декоратора в контроллерах @login_required, позволяет перекидывать не авторизованных пользователей
-LOGIN_URL = '/auth/login/'
+LOGIN_URL = '/accounts/login/'
 
 # Summernote
 SUMMERNOTE_THEME = 'bs4'
