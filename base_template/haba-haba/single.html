@@ -121,15 +121,33 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>
-                                            <a href="#" class="auth" data-bs-toggle="modal"
-                                                data-bs-target="#staticBackdrop">Регистрация</a>
+                                            <a href="#" class=" auth" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Регистрация
+                                                </button>
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="#" class="auth" data-bs-toggle="modal"
-                                                data-bs-target="#staticBackdrop">Войти</a>
+                                            <a href="#" class=" auth" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Войти
+                                                </button>
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="profile.html" class="auth">Профиль</a>
+                                            <a href="profile.html" class=" auth">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Профиль
+                                                </button>
+                                            </a>
+                                        </li>
+                                        <li><a href="moderator.html" class=" auth">
+                                                <button class="btn w-100 btn-auth auth text-start">
+                                                    Модератор
+                                                </button>
+                                            </a>
                                         </li>
 
                                     </ul>
@@ -438,10 +456,16 @@
                                     <span class="ms-2"><i class="bi bi-heart"></i></span>
                                     <span>542</span>
 
-                                    <a href="single.html#comment">
+                                    <a href="single.html#comment" class="trans-color-02">
                                         <span class="ms-2"><i class="bi bi-chat"></i></span>
                                         <span>5</span>
                                     </a>
+
+                                    <a href="single.html#floatingTextarea" class="trans-color-02">
+                                        <span class="ms-2"><i class="bi bi-reply"></i></span>
+                                        <span>Ответить</span>
+                                    </a>
+
                                 </small>
 
                                 <small class="text-muted ">
@@ -449,8 +473,15 @@
                                     <span class="fw-bold separ">|</span>
                                     <span>11.10.2021 13:27</span>
 
-                                    <button class="btn btn-sm complaint ms-3"><i
-                                            class="bi bi-exclamation-circle "></i></button>
+                                    <!-- модератору, наверное, не нужна кнопка Пожаловаться -->
+                                    <button class="btn btn-sm complaint ms-3 trans-color-02">
+                                        <i class="bi bi-exclamation-circle "></i>
+                                    </button>
+
+                                    <!-- обычному юзеру не нужна кнопка удалить в этом месте -->
+                                    <button class="btn btn-sm complaint trans-color-02">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
 
                                 </small>
 
@@ -481,13 +512,13 @@
                                     <span class="ms-2"><i class="bi bi-heart"></i></span>
                                     <span>542</span>
 
-                                    <a href="single.html#floatingTextarea">
+                                    <a href="single.html#floatingTextarea" class="trans-color-02">
                                         <span class="ms-2"><i class="bi bi-reply"></i></span>
                                         <span>Ответить</span>
                                     </a>
                                 </small>
                                 <small>
-                                    <button class="btn btn-sm complaint"><i
+                                    <button class="btn btn-sm complaint trans-color-02"><i
                                             class="bi bi-exclamation-circle "></i></button>
                                 </small>
 

@@ -7,12 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>profile</title>
+    <title>moderator</title>
 
     <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -221,110 +222,81 @@
                     <div class="col">
                         <div class="single-card card border border-secondary border-opacity-25">
 
-                            <h1 class="text-center fw-bold card-title">Профиль</h1>
+                            <h1 class="text-center fw-bold card-title">Модератор</h1>
 
                             <div class="card-body">
 
-                                <form>
+                                <h4 class="text-center fw-bold card-title mt-5">Заблокировать пользователя</h2>
 
-                                    <div class="col-md">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingInput"
-                                                placeholder="name@example.com">
-                                            <label for="floatingInput">Псевдоним</label>
-                                        </div>
-                                    </div>
+                                    <form>
 
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="floatingInput"
-                                            placeholder="name@example.com" value="test@example.com" readonly>
-                                        <label for="floatingInput">Электронная почта</label>
-                                    </div>
-
-                                    <div class="row g-2">
-
-                                        <div class="col-md">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="floatingInput"
-                                                    placeholder="name@example.com">
-                                                <label for="floatingInput">Имя</label>
+                                        <div class="row d-flex justify-content-between align-items-center">
+                                            <div class="col-md-5">
+                                                <div class="form-floating">
+                                                    <select class="form-select" id="floatingSelectGrid">
+                                                        <option selected>Не выбран</option>
+                                                        <option value="1">Вася</option>
+                                                        <option value="2">Петя</option>
+                                                        <option value="3">Катя</option>
+                                                        <option value="4">Маша</option>
+                                                        <option value="5">Сява</option>
+                                                    </select>
+                                                    <label for="floatingSelectGrid">Имя пользователя</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-floating">
-                                                <select class="form-select" id="floatingSelectGrid">
-                                                    <option selected>Не выбран</option>
-                                                    <option value="1">Мужской</option>
-                                                    <option value="2">Женский</option>
-                                                </select>
-                                                <label for="floatingSelectGrid">Ваш пол</label>
+
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="datetimes" class="form-control"
+                                                        id="floatingInput">
+                                                    <label for="floatingInput">Дата блокировки</label>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </div>
-
-                                    <div class="row g-2">
-
-                                        <div class="col-md">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="floatingInput"
-                                                    placeholder="name@example.com">
-                                                <label for="floatingInput">Фамилия</label>
+                                            <div class="col-md">
+                                                <button type="submit" class="complaint">
+                                                    <i class="bi bi-lock fs-30 text-danger"></i>
+                                                </button>
                                             </div>
+
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control" id="floatingInput"
-                                                    placeholder="name@example.com">
-                                                <label for="floatingInput">Возраст</label>
+
+                                    </form>
+
+                                    <h4 class="text-center fw-bold card-title mt-5">Разблокировать пользователя</h2>
+
+                                        <form>
+
+                                            <div class="row d-flex justify-content-between align-items-center">
+                                                <div class="col-md-11">
+                                                    <div class="form-floating">
+                                                        <select class="form-select" id="floatingSelectGrid">
+                                                            <option selected>Не выбран</option>
+                                                            <option value="1">Вася</option>
+                                                            <option value="2">Петя</option>
+                                                            <option value="3">Катя</option>
+                                                            <option value="4">Маша</option>
+                                                            <option value="5">Сява</option>
+                                                        </select>
+                                                        <label for="floatingSelectGrid">Имя пользователя</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                    <button type="submit" class="complaint">
+                                                        <i class="bi bi-unlock fs-30 text-primary"></i>
+                                                    </button>
+                                                </div>
+
                                             </div>
-                                        </div>
 
-                                    </div>
-
-                                    <div class="row g-2">
-                                        <div class="col-md mb-3">
-                                            <div class="form-floating">
-                                                <textarea class="form-control" placeholder="About" id="floatingTextarea"
-                                                    oninput="auto_grow(this)"></textarea>
-                                                <label for="floatingTextarea">О себе</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <h4 class="text-center card-title mt-3">Поменять пароль</h4>
-
-                                    <div class="row g-2">
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control" id="floatingPassword"
-                                                    placeholder="Password">
-                                                <label for="floatingPassword">Новый пароль</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control" id="floatingPassword"
-                                                    placeholder="Password">
-                                                <label for="floatingPassword">Подтвердить пароль</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-grid mt-4">
-                                        <button type="button" class="btn btn-outline-primary">Сохранить</button>
-                                    </div>
-
-
-
-                                </form>
+                                        </form>
 
                             </div>
 
                         </div>
-
                     </div>
+
                 </div>
 
                 <!-- сайдбар -->
@@ -370,9 +342,13 @@
     </div>
 
     <!-- SCRIPTS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
+
     <script src="js/script.js"></script>
 </body>
 
