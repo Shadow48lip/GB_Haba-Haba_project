@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
+from django.core.paginator import Paginator
 
 from .models import HabaUser
 from .services import get_user_posts
@@ -17,9 +18,14 @@ def my_profile_view(request):
     """Выводит профиль авторизованного пользователя"""
 
     posts = get_user_posts(request.user)
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     content = {
         'title': 'кабинет пользователя',
         'posts': posts,
+        'page_obj': page_obj,
     }
 
     # переменная user есть во всех шаблонах и содержит авторизованного пользователя

@@ -10,12 +10,13 @@ class MainappHome(ListView):
     context_object_name = 'posts'
     allow_empty = False  # Будет генерироваться ошибка, если записей в таблице нет.
     # Если мы вручную в строке браузера напишем не существующий путь
+    paginate_by = 10
 
 
 def show_post(request, slug):
-    return HttpResponseNotFound('<h1>Статья</h1>')
+    return HttpResponse('<h1>Статья</h1>')
 
 
 # Обработчик не найденной страницы
-def pageNotFound(request, exception):
+def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
