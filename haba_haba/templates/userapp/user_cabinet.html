@@ -1,23 +1,43 @@
-{% extends 'userapp/base.html' %}
+{% extends 'mainapp/base.html' %}
 {% load static %}
 
 {% block content %}
-    <h2>
-        Личный кабинет пользователя
-        {% if user.first_name and user.last_name %}
-            {{ user.first_name }} {{ user.last_name }}
-        {% else %}
-            {{ user.username }}
-        {% endif %}
-    </h2>
-    <p>Центральный блок со статьями пользователя</p>
-    {% for post in posts %}
-        <div>
-            <h3>{{ post.title }}</h3>
-            <p>{{ post.content|striptags|truncatechars:'100' }}</p>
-            <p><a href="{{ post.get_absolute_url }}">открыть</a></p>
+    <div class="col">
+        <div class="single-card card border border-secondary border-opacity-25">
+            <h2>
+                Личный кабинет пользователя
+                {% if user.first_name and user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    {{ user.username }}
+                {% endif %}
+            </h2>
+            <p>Центральный блок со статьями пользователя</p>
+            {% for post in posts %}
+                <div>
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.content|striptags|truncatechars:'100' }}</p>
+                    <p><a href="{{ post.get_absolute_url }}">открыть</a></p>
+                </div>
+            {% endfor %}
+
+            {% if is_paginated %}
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'user:my_profile_view' %}?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                    </li>
+                {% endif %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'user:my_profile_view' %}?page={{ page_obj.next_page_number }}">&raquo;</a>
+                    </li>
+                {% endif %}
+            {% endif %}
         </div>
-    {% endfor %}
+    </div>
 {% endblock %}
 
 {% block sidebar %}
