@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 {% load static %}
+{% load maintags %}
 
 <head>
 
@@ -40,23 +41,7 @@
                         </div>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'main:home' %}">Главная</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Дизайн</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Веб-разработка</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Мобильная разработка</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Маркетинг</a>
-                            </li>
-                        </ul>
+                        {% show_main_categories cat_selected %}
 
                         <ul class="navbar-nav">
                             <span class="d-flex justify-content-between">
