@@ -17,6 +17,10 @@ def show_post(request, slug):
     return HttpResponse('<h1>Статья</h1>')
 
 
+def site_category(request, slug):
+    return HttpResponse('<h1>Категория</h1>')
+
+
 # Обработчик не найденной страницы
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')

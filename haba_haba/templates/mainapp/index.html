@@ -19,7 +19,7 @@
                     <div class="col-md-8">
                         <div class="card-body">
 
-                            <a href="single.html" class="card-link text-decoration-none">
+                            <a href="{{ p.get_absolute_url }}" class="card-link text-decoration-none">
                                 <h5 class="fw-bold">{{ p.title }}</h5>
                             </a>
 
@@ -100,9 +100,8 @@
             {% endif %}
 
         </ul>
-    </div>
     {% endif %}
-
+    </div>
 {% endblock %}
 
 
