@@ -1,0 +1,72 @@
+{% if page_obj.has_other_pages %}
+    <ul class="pagination justify-content-center mt-5">
+
+        {#  если есть предыдущая  #}
+        {% if page_obj.has_previous %}
+
+            {#  если общее кол-во страниц больше 3 и текущая страница больше 2  #}
+            {% if page_obj.paginator.num_pages > 3 and page_obj.number > 2 %}
+
+                {#  отображаем кнопку "первая страница"  #}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">На первую</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {#  отображаем кнопку "предыдущая страница"  #}
+            <li class="page-item">
+                <a class="page-link " href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {#  в диапазоне "page_range" перебираем страницы  #}
+        {% for page in page_obj.paginator.page_range %}
+
+            {#  если номер страницы совпал с текущей страницей - присваиваем класс "active"  #}
+            {% if page_obj.number == page %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ page }}</span>
+                </li>
+
+                {#  вывод на экран соседних от "active" страниц  #}
+            {% elif page > page_obj.number|add:-3 and page < page_obj.number|add:3 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                </li>
+
+                {#  вывод индикации о скрытых страницах  #}
+            {% elif page > page_obj.number|add:-4 and page < page_obj.number|add:4 %}
+                <li class="page-item">
+                    <span class="page-link unused-page-link">...</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {#  отображаем кнопку "следующая страница"  #}
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+
+            {#  если общее кол-во страниц больше 3 и СЛЕДУЮЩАЯ страница меньше ПОСЛЕДНЕЙ  #}
+            {% if page_obj.paginator.num_pages > 3 and page_obj.next_page_number < page_obj.paginator.num_pages %}
+
+                {#  отображаем кнопку "последняя страница"  #}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"
+                       aria-label="Last">
+                        <span aria-hidden="true">На последнюю</span>
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+
+    </ul>
+{% endif %}

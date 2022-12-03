@@ -10,7 +10,7 @@ class MainappHome(ListView):
     context_object_name = 'posts'
     allow_empty = False  # Будет генерироваться ошибка, если записей в таблице нет.
     # Если мы вручную в строке браузера напишем не существующий путь
-    paginate_by = 10
+    paginate_by = 5
 
 
 def show_post(request, slug):

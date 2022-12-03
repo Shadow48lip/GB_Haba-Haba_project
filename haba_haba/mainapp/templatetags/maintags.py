@@ -18,7 +18,7 @@ def post_photo_process(string):
     return f'{string}'
 
 
-@register.inclusion_tag('mainapp/includes/site_main_categories.html')
+@register.inclusion_tag('mainapp/includes/_site_main_categories.html')
 def show_main_categories(cat_selected=None):
     categories = Category.objects.all()
     return {'categories': categories, 'cat_selected': cat_selected}
