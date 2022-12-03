@@ -50,7 +50,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='tags')
 
     def __str__(self):
-        return f'{self.title[:25]}...'
+        return self.title
 
     # Для формирования динамического url к записи. В шаблонах {{ p.get_absolute_url }}
     def get_absolute_url(self):

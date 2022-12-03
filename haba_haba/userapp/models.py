@@ -24,7 +24,7 @@ class HabaUser(AbstractUser):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
 
     def __str__(self):
-        return f'{self.username} / {self.age}'
+        return self.username
 
     class Meta:
         verbose_name = 'Пользователь'
