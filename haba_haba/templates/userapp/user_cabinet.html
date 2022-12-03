@@ -2,6 +2,10 @@
 {% load static %}
 {% load posttags %}
 
+{% block title %}
+    {{ title|title }} :: {{ block.super }}
+{% endblock %}
+
 {% block content %}
     <div class="col">
         <div class="single-card card border border-secondary border-opacity-25">
