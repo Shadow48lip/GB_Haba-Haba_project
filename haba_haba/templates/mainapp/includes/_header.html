@@ -1,0 +1,162 @@
+{% load maintags %}
+
+<header class="header blurred-container sticky-top">
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'main:home' %}"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+
+                {% main_categories cat_selected %}
+
+                <ul class="navbar-nav">
+                    <span class="d-flex justify-content-between">
+
+                        <li class="nav-item">
+                            <form class="d-flex" role="search">
+                                <input class="form-control form-search" type="search" placeholder="Search"
+                                       aria-label="Search">
+                                <button class="btn btn-search" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </form>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="new_post.html" role="button">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </li>
+
+                        <!-- КОГДА НЕТ УВЕДОМЛЕНИЙ -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <div class="notify-nothing card-body m-1">
+                                    Ничего нет...
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell-fill text-danger"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+
+                                <div class="notify-card card mt-1">
+                                    <div class="card-body">
+                                        Какое-то Уведомление 1
+                                    </div>
+                                </div>
+
+                                <div class="notify-card card mt-1">
+                                    <div class="card-body">
+                                        Какое-то Уведомление 2
+                                    </div>
+                                </div>
+
+                                <div class="notify-card card mt-1">
+                                    <div class="card-body">
+                                        Какое-то Уведомление 3
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item dropdown me-1">
+                            <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                {% if user.is_authenticated %}
+
+                                    <span class="d-flex justify-content-center">
+                                        Привет,
+                                        <span class="welcome-block">{{ user.username }}</span>
+                                    </span>
+
+                                    <hr class="text-muted">
+
+                                    <li>
+                                        <a href="{% url 'user:my_profile_view' %}" class=" auth">
+                                            <button class="btn w-100 btn-auth auth text-start">
+                                                Профиль
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li><a href="{% url 'moderator:index' %}" class=" auth">
+                                            <button class="btn w-100 btn-auth auth text-start">
+                                                Модератор
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'auth:logout' %}" class=" auth">
+                                            <button class="btn w-100 btn-auth auth text-start">
+                                                Выйти
+                                            </button>
+                                        </a>
+                                    </li>
+                                {% else %}
+
+                                    <span class="d-flex justify-content-center">
+                                        Привет
+                                    </span>
+
+                                    <hr class="text-muted">
+
+                                    <li>
+                                        <a href="{% url 'auth:signup' %}" class="auth" data-bs-toggle="modal"
+                                           data-bs-target="#staticBackdropRegister">
+                                        <button class="btn w-100 btn-auth auth text-start">
+                                        Регистрация
+                                        </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'auth:login' %}" class="auth" data-bs-toggle="modal"
+                                           data-bs-target="#staticBackdropLogin">
+                                        <button class="btn w-100 btn-auth auth text-start">
+                                        Войти
+                                        </button>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+
+                        <li class="nav-item mt-2 ms-1 me-3">
+                            <label class="theme">
+                                <input class="theme-switch" type="checkbox">
+                                <span class="theme-wrapper">
+                                    <i class="bi bi-sun sun"></i>
+                                    <i class="bi bi-moon moon"></i>
+                                </span>
+                            </label>
+                        </li>
+
+                    </span>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>

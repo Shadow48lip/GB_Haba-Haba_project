@@ -26,8 +26,8 @@ urlpatterns = [
     path('', include('mainapp.urls', namespace='main')),
     path('user/', include('userapp.urls', namespace='user')),
     path('moderator/', include('moderatorapp.urls', namespace='moderator')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('signup/', include('authapp.urls', namespace='auth')),
+
+    path('accounts/', include('authapp.urls', namespace='auth')),
 ]
 
 if settings.DEBUG:
@@ -35,7 +35,6 @@ if settings.DEBUG:
 
     urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
 # Обработчик событий
 handler404 = page_not_found  # Страница не найдена

@@ -1,0 +1,58 @@
+<div class="modal fade modal-blur" id="staticBackdropRegister" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-bg">
+
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="staticBackdropLabel">Регистрация</h2>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="id_username"
+                               placeholder="Username">
+                        <label for="id_username">Имя пользователя</label>
+
+                        <div class="invalid-feedback">
+                            {{ form.username.errors }}
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword"
+                               placeholder="Password">
+                        <label for="floatingPassword">Пароль</label>
+
+                        <div class="invalid-feedback">
+                            {{ form.password1.errors }}
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword"
+                               placeholder="Password">
+                        <label for="floatingPassword">Подтвердите пароль</label>
+
+                        <div class="invalid-feedback">
+                            {{ form.password2.errors }}
+                        </div>
+                    </div>
+                    <div class="mb-3 form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label mt-1" for="exampleCheck1">Я даю своё согласие...</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer no-border-modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Зарегистрироваться</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Отмена</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

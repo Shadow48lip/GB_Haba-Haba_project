@@ -2,58 +2,19 @@
 {% load static %}
 {% load posttags %}
 
+{% block title %}
+    {{ title }} :: {{ block.super }}
+{% endblock %}
+
 {% block content %}
     <div class="custom-card-bg card border border-secondary border-opacity-25">
     {% for p in posts %}
         {% post_mini p %}
     {% endfor %}
 
-    {% if is_paginated %}
-        <ul class="pagination justify-content-center mt-5">
+        {% block pagination %}
+            {% include 'mainapp/includes/_pagination.html' %}
+        {% endblock %}
 
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="{% url 'main:home' %}?page={{ page_obj.previous_page_number }}">&laquo;</a>
-                </li>
-            {% endif %}
-
-            <li class="page-item active" aria-current="page">
-                <span class="page-link">{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
-            </li>
-
-
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="{% url 'main:home' %}?page={{ page_obj.next_page_number }}">&raquo;</a>
-                </li>
-            {% endif %}
-
-        </ul>
-    {% endif %}
     </div>
-{% endblock %}
-
-
-{% block sidebar %}
-    <ul class="list-group sidebar-sticky-top sticky-top">
-
-        <a href="#"
-            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span class="sidebar-item-title">sidebar item #1</span>
-            <span class="badge bg-primary">3</span>
-        </a>
-
-        <a href="#"
-            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span class="sidebar-item-title">sidebar item #2</span>
-            <span class="badge bg-primary">325</span>
-        </a>
-
-        <a href="#"
-            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span class="sidebar-item-title">sidebar item #3</span>
-            <span class="badge bg-primary">33</span>
-        </a>
-
-    </ul>
 {% endblock %}
