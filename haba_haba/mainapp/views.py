@@ -20,13 +20,12 @@ class MainappHome(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Статьи'
         context['news'] = Post.get_new_post()
-        context['single_page'] = False
         return context
 
 
 class ShowPost(DetailView):
     model = Post
-    template_name = 'mainapp/post.html'
+    template_name = 'mainapp/post_single.html'
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
 
@@ -34,7 +33,6 @@ class ShowPost(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Статья'
         context['news'] = Post.get_new_post()
-        context['single_page'] = True
         return context
 
 
