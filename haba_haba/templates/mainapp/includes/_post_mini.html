@@ -11,14 +11,17 @@
             </div>
 
             <div class="col-md-8">
-                <div class="card-body">
+                <div class="card-body pt-0">
 
                     <a href="{{ p.get_absolute_url }}" class="card-link text-decoration-none">
-                        <h5 class="fw-bold">{{ p.title }}</h5>
+                        <h5 class="fw-bold custom-card-header">
+                            <span>{{ p.title }}</span>
+                        </h5>
                     </a>
 
+
                     <p class="card-text">
-                        {{ p.content|striptags|truncatewords:'70' }}
+                        {{ p.content|striptags|truncatewords:'50'|safe }}
 
                         <a href="{{ p.get_absolute_url }}" class="trans-color-02">Читать далее...</a>
 
