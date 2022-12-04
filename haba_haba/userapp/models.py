@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import datetime
 
+from django.utils.text import slugify
+
 
 class HabaUser(AbstractUser):
     MALE = 'М'
@@ -25,6 +27,10 @@ class HabaUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.username)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Пользователь'

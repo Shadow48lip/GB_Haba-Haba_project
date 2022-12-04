@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse, reverse_lazy
+from django.utils.text import slugify
 
 from userapp.models import HabaUser
 import datetime
@@ -16,7 +17,7 @@ class Category(models.Model):
         return reverse('main:category', kwargs={'slug': self.slug})
 
     class Meta:
-        verbose_name = 'Категория'
+        verbose_name = 'Категория(ю)'
         verbose_name_plural = 'Категории'
         ordering = ['name', ]
 
@@ -60,7 +61,7 @@ class Post(models.Model):
         return reverse('main:post', kwargs={'slug': self.slug})
 
     class Meta:
-        verbose_name = 'Статья'
+        verbose_name = 'Статья(ю)'
         verbose_name_plural = 'Статьи'
         ordering = ['time_create', 'title']
 
