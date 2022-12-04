@@ -24,7 +24,7 @@
                 <p>К сожалению вы пока не написали ни одной статьи.</p>
             {% endif %}
             {% for post in page_obj %}
-                {% post_mini post %}
+                {% post_mini post user %}
             {% endfor %}
 
 {#            {% if page_obj.paginator.num_pages > 1 %}#}
