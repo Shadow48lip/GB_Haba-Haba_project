@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse, reverse_lazy
+from django.utils.text import slugify
 
 from userapp.models import HabaUser
 import datetime
@@ -16,7 +17,7 @@ class Category(models.Model):
         return reverse('main:category', kwargs={'slug': self.slug})
 
     class Meta:
-        verbose_name = 'Категория'
+        verbose_name = 'Категория(ю)'
         verbose_name_plural = 'Категории'
         ordering = ['name', ]
 
@@ -27,6 +28,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('main:tag', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Тэг'
@@ -50,14 +54,14 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='tags')
 
     def __str__(self):
-        return f'{self.title[:25]}...'
+        return self.title
 
     # Для формирования динамического url к записи. В шаблонах {{ p.get_absolute_url }}
     def get_absolute_url(self):
         return reverse('main:post', kwargs={'slug': self.slug})
 
     class Meta:
-        verbose_name = 'Статья'
+        verbose_name = 'Статья(ю)'
         verbose_name_plural = 'Статьи'
         ordering = ['time_create', 'title']
 

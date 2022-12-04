@@ -5,31 +5,42 @@ from django_summernote.admin import SummernoteModelAdmin
 
 
 class PostAdmin(SummernoteModelAdmin):
+    save_on_top = True
+    save_as = True
     list_display = ('id', 'title', 'time_create', 'photo', 'is_published')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     list_editable = ('is_published',)
     list_filter = ('is_published', 'time_create')
+
     prepopulated_fields = {'slug': ('title',)}
     # Подключаем виджет к админке
     summernote_fields = ('content',)
 
 
 class CategoryAdmin(admin.ModelAdmin):
+    save_on_top = True
+    save_as = True
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
+
     prepopulated_fields = {'slug': ('name',)}
 
 
 class TagAdmin(admin.ModelAdmin):
+    save_on_top = True
+    save_as = True
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
+
     prepopulated_fields = {'slug': ('name',)}
 
 
 class CommentAdmin(admin.ModelAdmin):
+    save_on_top = True
+    save_as = True
     list_display = ('id', 'post', 'user', 'time_create', 'time_update')
     list_display_links = ('id', 'post', 'user')
     list_filter = ('is_published', 'time_create')
