@@ -60,6 +60,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('main:post', kwargs={'slug': self.slug})
 
+    @staticmethod
+    def get_new_post():
+        return Post.objects.filter(is_published=True, is_blocked=False).order_by('time_update')[:5]
+
     class Meta:
         verbose_name = 'Статья(ю)'
         verbose_name_plural = 'Статьи'
