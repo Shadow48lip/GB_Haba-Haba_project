@@ -802,21 +802,26 @@ body.dark .card-body {
 }
 
 .custom-card {
-    line-height: 1.5;
+    line-height: 1.5 !important;
     overflow: hidden !important;
     background: transparent !important;
     border: transparent !important;
 }
 
 .custom-card .card-img-top {
-    height: 15em;
-    object-fit: cover;
-    border-radius: 6px;
+    height: 15em !important;
+    object-fit: cover !important;
+    border-radius: 6px !important;
+    transition: .5s !important;
+}
+
+.custom-card:hover .card-img-top {
+    height: auto !important;
+    object-fit: contain !important;
 }
 
 .single-card .card-img-top {
-    height: 30em;
-    object-fit: cover;
+    object-fit: cover !important;
 }
 
 .custom-card-title {
