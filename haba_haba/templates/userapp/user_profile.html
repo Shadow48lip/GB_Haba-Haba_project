@@ -2,29 +2,18 @@
 {% load static %}
 
 {% block content %}
-    <h2>
-        Информация о {{ object.username }}
+    <div class="single-card card border border-secondary border-opacity-25">
 
-    </h2>
-    <p>{{ object.first_name }} {{ object.last_name_name }}</p>
+        <h1 class="text-center fw-bold card-title mt-3 mb-3">
+            Информация о {{ object.username }}
+        </h1>
+
+        <div class="card-body">
+            <p>{{ object.first_name }} {{ object.last_name }}</p>
+        </div>
+    </div>
 {% endblock %}
 
 {% block sidebar %}
-    <ul class="list-group sidebar-sticky-top sticky-top">
-        <a href="#"
-            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span class="sidebar-item-title">статей</span>
-            <span class="badge bg-primary">63</span>
-        </a>
-        <a href="#"
-            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span class="sidebar-item-title">комментариев</span>
-            <span class="badge bg-primary">325</span>
-        </a>
-        <a href="#"
-            class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span class="sidebar-item-title">лайков</span>
-            <span class="badge bg-primary">33</span>
-        </a>
-    </ul>
+    {% include 'mainapp/includes/_sidebar.html' %}
 {% endblock %}
