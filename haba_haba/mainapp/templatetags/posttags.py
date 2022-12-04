@@ -6,12 +6,12 @@ register = template.Library()
 
 
 @register.inclusion_tag('mainapp/includes/_post_mini.html', name='post_mini')
-def show_post_mini(post):
+def show_post_mini(post, user):
     """Формирует оформленный с html блок привью статьи.
     @post: статья
     """
 
-    return {'p': post}
+    return {'p': post, 'user': user}
 
 
 @register.inclusion_tag('mainapp/includes/_post_mini_single.html', name='post_mini_single')
