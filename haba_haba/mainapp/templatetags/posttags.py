@@ -14,7 +14,7 @@ def show_post_mini(post):
     return {'p': post}
 
 
-@register.inclusion_tag('mainapp/includes/post_mini_single.html', name='post_mini_single')
+@register.inclusion_tag('mainapp/includes/_post_mini_single.html', name='post_mini_single')
 def show_post_mini_single(post):
     return {'p': post}
 
