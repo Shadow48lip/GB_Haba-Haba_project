@@ -5,13 +5,13 @@ from django.template.defaultfilters import stringfilter
 register = template.Library()
 
 
-@register.inclusion_tag('mainapp/includes/post_mini.html', name='post_mini')
-def show_post_mini(post):
+@register.inclusion_tag('mainapp/includes/_post_mini.html', name='post_mini')
+def show_post_mini(post, user):
     """Формирует оформленный с html блок привью статьи.
     @post: статья
     """
 
-    return {'p': post}
+    return {'p': post, 'user': user}
 
 
 @register.filter(name='post_photo_process')
