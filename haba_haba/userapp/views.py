@@ -9,6 +9,7 @@ from .services import get_user_posts
 
 
 def redirect_2_profile(request):
+    """Сервисный редирект, если кто-то зайдёт на пустую /user/"""
     response = redirect('profile/')
     return response
 
@@ -18,13 +19,13 @@ def my_profile_view(request):
     """Выводит профиль авторизованного пользователя"""
 
     posts = get_user_posts(request.user)
-    paginator = Paginator(posts, 10)
+
+    paginator = Paginator(posts, 1)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     content = {
         'title': 'кабинет пользователя',
-        'posts': posts,
         'page_obj': page_obj,
     }
 
