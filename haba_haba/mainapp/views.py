@@ -12,6 +12,11 @@ class MainappHome(ListView):
     # Если мы вручную в строке браузера напишем не существующий путь
     paginate_by = 5
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        return context
+
 
 def show_post(request, slug):
     return HttpResponse('<h1>Статья</h1>')

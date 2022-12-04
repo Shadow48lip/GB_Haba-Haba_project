@@ -46,8 +46,10 @@ class UserProfile(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'профиль пользователя'
+        context['title'] = 'Профиль пользователя'
         return context
+
+
 
 
 """ https://ru.stackoverflow.com/questions/1103341/Как-получить-текущего-пользователя-в-models-py """

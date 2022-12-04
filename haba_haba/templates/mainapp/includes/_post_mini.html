@@ -43,40 +43,31 @@
                                 <span class="ms-2"><i class="bi bi-chat"></i></span>
                                 <span>5</span>
                             </a>
-                        </small>
-                    </div>
 
-                    <div class="card-footer no-border-modal-footer d-flex justify-content-end align-items-center">
-                        <small class="text-muted ">
-                            <span>
-                                <a href="{% url 'user:user_profile' p.author.slug %}">
-                            {% if p.author.first_name and p.author.last_name %}
-                                {{ p.author.first_name }} {{ p.author.last_name }}
-                            {% else %}
+                        <span>
+                            <a href="{% url 'user:user_profile' p.author.slug %}">
                                 {{ p.author.username }}
+                            </a>
+                        </span>
+                        <span class="fw-bold separ">|</span>
+                        <span>{{ p.time_update|date:"d.m.Y H:i" }}</span>
+
+                        {% if user.is_authenticated %}
+                            {% if user.username == 'admin' %}
+                                <!-- обычному юзеру не нужна кнопка удалить в этом месте -->
+                                <button class="btn btn-sm complaint ms-3">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+
+                            {% else %}
+
+                                <!-- модератору не нужна кнопка Пожаловаться -->
+                                <button class="btn btn-sm complaint ms-3">
+                                    <i class="bi bi-exclamation-circle "></i>
+                                </button>
+
                             {% endif %}
-                                </a>
-                            </span>
-                            <span class="fw-bold separ">|</span>
-                            <span>{{ p.time_update|date:"d.m.Y H:i" }}</span>
-
-                            {% if user.is_authenticated %}
-                                {% if user.username == 'admin' %}
-
-                                    <!-- обычному юзеру не нужна кнопка удалить в этом месте -->
-                                    <button class="btn btn-sm complaint ms-3">
-                                        <i class="bi bi-x-circle"></i>
-                                    </button>
-
-                                {% else %}
-
-                                    <!-- модератору не нужна кнопка Пожаловаться -->
-                                    <button class="btn btn-sm complaint ms-3">
-                                        <i class="bi bi-exclamation-circle "></i>
-                                    </button>
-
-                                {% endif %}
-                            {% endif %}
+                        {% endif %}
                         </small>
                     </div>
 
