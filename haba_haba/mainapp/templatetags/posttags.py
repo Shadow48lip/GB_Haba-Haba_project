@@ -14,6 +14,11 @@ def show_post_mini(post):
     return {'p': post}
 
 
+@register.inclusion_tag('mainapp/includes/post_mini_single.html', name='post_mini_single')
+def show_post_mini_single(post):
+    return {'p': post}
+
+
 @register.filter(name='post_photo_process')
 @stringfilter
 def post_photo_process(string):

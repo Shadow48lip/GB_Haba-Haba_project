@@ -1,27 +1,23 @@
 {% load posttags %}
-
 <div class="card-body">
     <div class="custom-card card">
         <div class="row">
 
-            <div class="col-md-4">
-                <a href="{{ p.get_absolute_url }}" class="text-decoration-none">
+             <div class="row-md-4">
+              <span  class="text-decoration-none">
                     <img src="{{ p.photo.url|post_photo_process }}" alt="{{p.title}}" class="img-fluid">
-                </a>
-            </div>
+                </span>
+             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-25">
                 <div class="card-body">
 
-                    <a href="{{ p.get_absolute_url }}" class="card-link text-decoration-none">
+                    <div class="card-link text-decoration-none">
                         <h5 class="fw-bold">{{ p.title }}</h5>
-                    </a>
+                    </div>
 
                     <p class="card-text">
-                        {{ p.content|striptags|truncatewords:'70' }}
-
-                        <a href="{{ p.get_absolute_url }}" class="trans-color-02">Читать далее...</a>
-
+                        {{ p.content|safe }}
                     </p>
 
                     <hr class="text-muted">
@@ -76,5 +72,7 @@
         </div>
     </div>
 </div>
-
+<button class="btn btn-sm complaint">
+    <a href="{% url 'main:home' %}">на главную</a>
+</button>
 <hr class="opacity-25">
