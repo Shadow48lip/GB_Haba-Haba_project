@@ -106,77 +106,92 @@ h6 {
 textarea::-webkit-scrollbar-button {
     background: transparent !important;
     height: 3px !important;
-
 }
 
 /* light */
 textarea::-webkit-scrollbar-corner,
-body::-webkit-scrollbar-corner {
+body::-webkit-scrollbar-corner,
+*::-webkit-scrollbar-corner {
     background: transparent !important;
 }
 
+pre::-webkit-scrollbar,
 select::-webkit-scrollbar,
 textarea::-webkit-scrollbar,
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
     background: transparent !important;
     width: 7px !important;
+    height: 7px !important;
     border-radius: .5rem !important;
 }
 
-body::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, .3) !important;
     border-radius: .5rem !important;
 }
 
+pre::-webkit-scrollbar-thumb,
 select::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, .3) !important;
-    border: 1px solid rgb(255, 255, 255) !important;
     border-radius: .5rem !important;
 }
 
+pre::-webkit-scrollbar-track,
 select::-webkit-scrollbar-track,
 textarea::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
     background: transparent !important;
     border-radius: .5rem !important;
 }
 
+pre::-webkit-scrollbar-thumb:hover,
 select::-webkit-scrollbar-thumb:hover,
 textarea::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover {
+body::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, .4) !important;
 }
 
+pre::-webkit-scrollbar-thumb:active,
 select::-webkit-scrollbar-thumb:active,
 textarea::-webkit-scrollbar-thumb:active,
-body::-webkit-scrollbar-thumb:active {
+body::-webkit-scrollbar-thumb:active,
+*::-webkit-scrollbar-thumb:active {
     background: rgba(0, 0, 0, .5) !important;
 }
 
 
 /* dark */
-body.dark::-webkit-scrollbar-thumb {
+body.dark::-webkit-scrollbar-thumb,
+*.dark::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, .3) !important;
     border-radius: .5rem !important;
 }
 
+body.dark pre::-webkit-scrollbar-thumb,
 body.dark select::-webkit-scrollbar-thumb,
 body.dark textarea::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, .3) !important;
-    border: 1px solid rgb(5, 5, 5) !important;
     border-radius: .5rem !important;
 }
 
+body.dark pre::-webkit-scrollbar-thumb:hover,
 body.dark select::-webkit-scrollbar-thumb:hover,
 body.dark textarea::-webkit-scrollbar-thumb:hover,
-body.dark::-webkit-scrollbar-thumb:hover {
+body.dark::-webkit-scrollbar-thumb:hover,
+*.dark::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, .4) !important;
 }
 
+body.dark pre::-webkit-scrollbar-thumb:active,
 body.dark select::-webkit-scrollbar-thumb:active,
 body.dark textarea::-webkit-scrollbar-thumb:active,
-body.dark::-webkit-scrollbar-thumb:active {
+body.dark::-webkit-scrollbar-thumb:active,
+*.dark::-webkit-scrollbar-thumb:active {
     background: rgba(255, 255, 255, .5) !important;
 }
 
@@ -192,11 +207,42 @@ body.dark {
     color: rgb(200, 200, 200) !important;
 }
 
-textarea {
+blockquote,
+body.dark blockquote {
+    opacity: .5 !important;
+}
+
+pre,
+code {
+    background: rgb(225, 225, 225) !important;
+    color: rgb(53, 115, 212) !important;
+    border-color: transparent !important;
+}
+
+body.dark pre,
+body.dark code {
+    background: rgb(30, 30, 30) !important;
+    color: rgb(53, 115, 212) !important;
+    border-color: transparent !important;
+}
+
+textarea,
+body.dark textarea {
     cursor: auto !important;
     resize: none !important;
     min-height: 6em !important;
     max-height: 24em !important;
+    transition: .2s !important;
+}
+
+.custom-textarea,
+body.dark .custom-textarea {
+    opacity: .25 !important;
+}
+
+.custom-textarea:focus,
+body.dark .custom-textarea:focus {
+    opacity: 1 !important;
 }
 
 .custom-textarea {
@@ -656,6 +702,7 @@ body.dark footer {
 }
 
 .sidebar-item {
+    min-height: 10em !important;
     line-height: 1.5 !important;
     transition: .2s color ease-in-out !important;
 }
@@ -728,6 +775,11 @@ body.dark .card-link {
     transition: .2s color ease-in-out !important;
 }
 
+.card-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(150, 150, 150, .25) !important;
+}
+
 .custom-card-header {
     padding: 5px 10px !important;
     position: relative !important;
@@ -793,12 +845,24 @@ body.dark .card .category-link:hover {
     text-align: justify !important;
 }
 
-.card-body {
+.card-body,
+.card-body div {
     color: rgb(0, 0, 0) !important;
 }
 
-body.dark .card-body {
+body.dark .card-body,
+body.dark .card-body div {
     color: rgb(255, 255, 255) !important;
+}
+
+.single-card .card-body a,
+body.dark .single-card .card-body a {
+    color: rgb(53, 115, 212) !important;
+}
+
+.card-body a:hover,
+body.dark .card-body a:hover {
+    color: rgba(53, 115, 212, .7) !important;
 }
 
 .custom-card {
@@ -821,7 +885,9 @@ body.dark .card-body {
 }
 
 .single-card .card-img-top {
-    object-fit: cover !important;
+    object-fit: contain !important;
+    border-radius: 6px !important;
+    transition: .5s !important;
 }
 
 .custom-card-title {
@@ -965,9 +1031,27 @@ body.dark .unused-page-link:hover {
     background: rgba(255, 255, 255, .5) !important;
 }
 
+.btn-custom {
+    color: rgb(5, 5, 5) !important;
+    border-color: rgba(5, 5, 5, .5) !important;
+}
+
+.btn-custom:hover {
+    background: rgba(255, 255, 255, .4) !important;
+}
+
 /* dark */
 body.dark .modal-bg {
     background: rgba(30, 30, 30, .7) !important;
+}
+
+body.dark .btn-custom {
+    color: rgb(255, 255, 255) !important;
+    border-color: rgba(255, 255, 255, .5) !important;
+}
+
+body.dark .btn-custom:hover {
+    background: rgba(5, 5, 5, .4) !important;
 }
 
 .no-border-modal-footer,

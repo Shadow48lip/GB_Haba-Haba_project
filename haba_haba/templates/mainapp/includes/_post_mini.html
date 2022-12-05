@@ -20,7 +20,7 @@
                     </a>
 
                     <p class="card-text">
-                        {{ p.content|striptags|truncatewords:'50'|safe }}
+                        {{ p.content|striptags|truncatewords:50 }}
                         <br>
                         <a href="{{ p.get_absolute_url }}" class="trans-color-02">Читать далее...</a>
                     </p>
@@ -48,7 +48,7 @@
 
                 <small class="text-muted">
                     <span>
-                        <a href="{% url 'user:user_profile' p.author.slug %}">
+                        <a href="{% url 'user:user_profile' p.author.slug %}" class="trans-color-02">
                             {{ p.author.username }}
                         </a>
                     </span>

@@ -13,28 +13,26 @@ class MainappHome(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        queryset = super(MainappHome, self).get_queryset()
+        queryset = super().get_queryset()
         return queryset.filter(is_published=True, is_blocked=False).order_by('time_update')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Статьи'
         context['news'] = Post.get_new_post()
-        context['single_page'] = False
         return context
 
 
 class ShowPost(DetailView):
     model = Post
-    template_name = 'mainapp/post.html'
+    template_name = 'mainapp/includes/_post_single.html'
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Статья'
+        context['title'] = Post.objects.get(slug=self.kwargs['slug'])
         context['news'] = Post.get_new_post()
-        context['single_page'] = True
         return context
 
 
