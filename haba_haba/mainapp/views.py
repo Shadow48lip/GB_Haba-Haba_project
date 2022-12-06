@@ -20,7 +20,6 @@ class MainappHome(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Статьи'
-        context['news'] = Post.get_new_post()
         return context
 
 
@@ -33,7 +32,6 @@ class ShowPost(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = Post.objects.get(slug=self.kwargs['slug'])
-        context['news'] = Post.get_new_post()
         return context
 
 
