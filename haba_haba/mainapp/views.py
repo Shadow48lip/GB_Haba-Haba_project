@@ -26,13 +26,13 @@ class MainappHome(DataMixin, ListView):
 
 class ShowPost(DetailView):
     model = Post
-    template_name = 'mainapp/post_single.html'
+    template_name = 'mainapp/includes/_post_single.html'
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Статья'
+        context['title'] = Post.objects.get(slug=self.kwargs['slug'])
         context['news'] = Post.get_new_post()
         return context
 
