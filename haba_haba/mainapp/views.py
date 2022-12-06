@@ -5,6 +5,7 @@ from mainapp.models import Post, Category, Comment
 from mainapp.utils import DataMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 
 
 class MainappHome(DataMixin, ListView):
@@ -32,6 +33,7 @@ class ShowPost(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = Post.objects.get(slug=self.kwargs['slug'])
+        context['read_post'] = True
         return context
 
 
@@ -53,11 +55,12 @@ class PostCategory(DataMixin, ListView):
         return Post.objects.filter(cat__slug=self.kwargs['slug']).select_related('cat')
 
 
-class ShowComments(DataMixin, ListView):
+class ShowComments(ListView):
     model = Post
-    template_name = 'mainapp/comments.html'
+    template_name = 'mainapp/includes/_post_single.html'
     context_object_name = 'comments'
-    allow_empty = False
+
+    # allow_empty = False
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,10 +68,26 @@ class ShowComments(DataMixin, ListView):
         context['title'] = 'Комментарии к статье - ' + str(post.title)
         context['post'] = post
         context['comm_count'] = Comment.get_count(post)
+        context['read_post'] = False
         return context
 
     def get_queryset(self):
-        return Comment.objects.filter(post=Post.objects.get(slug=self.kwargs['slug']), is_published=True)
+        return Comment.objects.filter(post=Post.objects.get(slug=self.kwargs['slug']), is_published=True).order_by(
+            '-time_update')
+
+
+def add_comment(request):
+    if request.method == 'POST':
+        comment = request.POST['comment_text']
+        post = request.POST['post']
+        user = request.user
+        new_comment = Comment()
+        new_comment.user = user
+        new_comment.post = get_object_or_404(Post, id=int(post))
+        new_comment.is_published = True
+        new_comment.text = comment
+        new_comment.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def delete_comment(request, pk):

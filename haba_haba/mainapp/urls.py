@@ -9,5 +9,6 @@ urlpatterns = [
     path('cat/<slug:slug>', PostCategory.as_view(), name='category'),
     path('comments/<slug:slug>', ShowComments.as_view(), name='comment'),
     path('comment/delete/<int:pk>', delete_comment, name='delete_comment'),
+    path('comment/add/', add_comment, name='add_comment'),
 ]
 
