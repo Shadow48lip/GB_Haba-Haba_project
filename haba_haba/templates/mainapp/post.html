@@ -7,13 +7,5 @@
 {% endblock %}
 
 {% block content %}
-    <div class="custom-card-bg card border border-secondary border-opacity-25">
-
-        {% post_mini post user %}
-
-        {% block pagination %}
-            {% include 'mainapp/includes/_pagination.html' %}
-        {% endblock %}
-
-    </div>
+    {% post_mini p user %}
 {% endblock %}
