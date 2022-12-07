@@ -1,5 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
+from django.views.generic import ListView, DetailView, CreateView
+from slugify import slugify
+from .models import Post
+from .forms import PostForm
 from django.views.generic import ListView, DetailView, CreateView, FormView
 from mainapp.models import Post, Category, Comment
 from mainapp.utils import DataMixin
@@ -95,6 +98,12 @@ def delete_comment(request, pk):
     comment.is_published = False
     comment.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'mainapp/create_post.html'
 
 
 def show_post(request, slug):
