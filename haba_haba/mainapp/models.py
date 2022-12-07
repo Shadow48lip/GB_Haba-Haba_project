@@ -83,7 +83,7 @@ class Comment(models.Model):
 
     @staticmethod
     def get_count(post):
-        return Comment.objects.filter(post=post).count()
+        return Comment.objects.filter(post=post, is_published=True).count()
 
     class Meta:
         verbose_name = 'Комментарий'
