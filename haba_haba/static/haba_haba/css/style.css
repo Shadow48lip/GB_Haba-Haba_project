@@ -1165,3 +1165,10 @@ body.dark .theme .theme-wrapper i.sun {
 body.dark .theme .theme-wrapper i.moon {
     opacity: 0 !important;
 }
+
+
+/* auth_errors */
+
+.error-auth {
+
+}

@@ -68,3 +68,51 @@ $(function () {
         }
     });
 });
+
+
+// мозги для модального окна (почему-то не работает одна функция на две модалки...)
+$(document).ready(function () {
+    $(function ($) {
+        $('#login_form_modal').submit(function (e) {
+            e.preventDefault()
+            // console.log('this: ', this)
+            $.ajax({
+                type: this.method,
+                url: this.action,
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    // console.log('ok: ', response)
+                    if (response.status === 201) {
+                        window.location.reload()
+                    } else if (response.status === 400) {
+                        $('.error-auth').text(response.error).removeClass('d-none')
+                    }
+                },
+            })
+        })
+    })
+})
+
+$(document).ready(function () {
+    $(function ($) {
+        $('#register_form_modal').submit(function (e) {
+            e.preventDefault()
+            // console.log('this: ', this)
+            $.ajax({
+                type: this.method,
+                url: this.action,
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    // console.log('ok: ', response)
+                    if (response.status === 201) {
+                        window.location.reload()
+                    } else if (response.status === 400) {
+                        $('.error-auth').text(response.error).removeClass('d-none')
+                    }
+                },
+            })
+        })
+    })
+});
