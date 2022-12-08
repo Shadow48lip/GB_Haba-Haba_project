@@ -33,12 +33,13 @@
             {% post_mini post user %}
         {% endfor %}
 
+
         {% block pagination %}
             {% include 'mainapp/includes/_pagination.html' %}
         {% endblock %}
     </div>
 {% endblock %}
 
-{#{% block sidebar %}#}
-{#    {% include 'mainapp/includes/_sidebar.html' %}#}
-{#{% endblock %}#}
+{% block sidebar %}
+    {% include 'userapp/includes/_sidebar.html' %}
+{% endblock %}
