@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, CreateView
 
 from mainapp.models import Post
 from .models import HabaUser
@@ -15,12 +15,15 @@ def redirect_2_profile(request):
 
 
 def my_profile_edit(request):
-    """Редактирование пользователем данных о себе"""
+    """Редактирование пользователем данных о себе."""
+
     content = {'title': 'кабинет пользователя'}
     return render(request, 'userapp/user_edit.html', content)
 
 
 class MyProfile(LoginRequiredMixin, DataMixin, ListView):
+    """Просмотр своего профиля пользователя. Доступен только авторизованным."""
+
     model = Post
     template_name = 'userapp/user_cabinet.html'
     context_object_name = 'object'
@@ -36,9 +39,12 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
 
 
 class UserProfile(DetailView):
+    """Публичный просмотр чужого профиля пользователя."""
+
     model = HabaUser
     template_name = 'userapp/user_profile.html'
     context_object_name = 'object'
+    # form_class = AddPostForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
