@@ -1,4 +1,5 @@
 {% block sidebar %}
+
 <ul class="list-group sidebar-sticky-top sticky-top">
 
     <a href="#"
@@ -20,5 +21,6 @@
     </a>
 
 
+    <a href="{% url 'user:my_profile_edit' %}">редактировать профиль</a>
 </ul>
 {% endblock %}
