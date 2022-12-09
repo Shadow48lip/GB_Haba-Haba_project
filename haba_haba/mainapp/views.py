@@ -1,6 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView, DetailView, CreateView
-from slugify import slugify
 from .models import Post
 from .forms import PostForm
 from django.views.generic import ListView, DetailView, CreateView, FormView
