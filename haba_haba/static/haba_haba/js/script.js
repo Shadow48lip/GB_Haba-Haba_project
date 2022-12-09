@@ -19,7 +19,7 @@ window.onscroll = function () {
 }
 
 
-// сохраненить/полученить данные о пользовательской теме (light/dark)
+// сохранить/получить данные о пользовательской теме (light/dark)
 toggleTheme.addEventListener('click', () => {
     body.classList.toggle('dark');
     localStorage.setItem('theme', body.classList);
@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', function () {
 function auto_grow(element) {
     element.style.height = "6em";
     element.style.height = (element.scrollHeight) + "px";
-};
+}
 
 
 // кнопка меню Burger (мобильные устройства)
@@ -71,48 +71,111 @@ $(function () {
 
 
 // мозги для модального окна (почему-то не работает одна функция на две модалки...)
-$(document).ready(function () {
-    $(function ($) {
-        $('#login_form_modal').submit(function (e) {
+function ajaxRegister() {
+    $('#register_form_modal').submit(function (e) {
+        e.preventDefault()
+        // console.log('this: ', this)
+        $.ajax({
+            type: this.method,
+            url: this.action,
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                // console.log('ok: ', response)
+                if (response.status === 201) {
+                    window.location.reload()
+                } else if (response.status === 400) {
+                    $('.error-auth').text(response.error).removeClass('d-none')
+                }
+            },
+        })
+    })
+}
+
+function ajaxLogin() {
+    $('#login_form_modal').submit(function (e) {
+        e.preventDefault()
+        // console.log('this: ', this)
+        $.ajax({
+            type: this.method,
+            url: this.action,
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                // console.log('ok: ', response)
+                if (response.status === 201) {
+                    window.location.reload()
+                } else if (response.status === 400) {
+                    $('.error-auth').text(response.error).removeClass('d-none')
+                }
+            },
+        })
+    })
+}
+
+function ajaxLogout() {
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    $('#logout').on('click', function (e) {
+        e.preventDefault()
+        // console.log('this: ', this)
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('href'),
+            dataType: 'json',
+            headers: {'X-CSRFToken': csrftoken},
+            success: function (data) {
+                // console.log('ok: ', data)
+                window.location.reload()
+            },
+        })
+    })
+}
+
+
+// пагинация через ajax
+function ajaxPagination() {
+    $('#pagination a.page-link').each((index, el) => {
+        $(el).click((e) => {
             e.preventDefault()
-            // console.log('this: ', this)
+            let page_url = $(el).attr('href')
+            console.log(page_url)
             $.ajax({
-                type: this.method,
-                url: this.action,
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function (response) {
-                    // console.log('ok: ', response)
-                    if (response.status === 201) {
-                        window.location.reload()
-                    } else if (response.status === 400) {
-                        $('.error-auth').text(response.error).removeClass('d-none')
-                    }
-                },
+                url: page_url,
+                type: 'GET',
+                success: (data) => {
+                    $('#cards').empty().append($(data).find('#cards').html())
+                    $('#pagination').empty().append($(data).find('#pagination').html())
+                }
             })
         })
     })
-})
+}
 
 $(document).ready(function () {
-    $(function ($) {
-        $('#register_form_modal').submit(function (e) {
-            e.preventDefault()
-            // console.log('this: ', this)
-            $.ajax({
-                type: this.method,
-                url: this.action,
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function (response) {
-                    // console.log('ok: ', response)
-                    if (response.status === 201) {
-                        window.location.reload()
-                    } else if (response.status === 400) {
-                        $('.error-auth').text(response.error).removeClass('d-none')
-                    }
-                },
-            })
-        })
-    })
-});
+    ajaxRegister()
+    ajaxLogin()
+    ajaxLogout()
+    ajaxPagination()
+})
+$(document).ajaxStop(function () {
+    ajaxRegister()
+    ajaxLogin()
+    ajaxLogout()
+    ajaxPagination()
+})

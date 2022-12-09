@@ -1,3 +1,4 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView, DetailView, CreateView, FormView
@@ -8,9 +9,11 @@ class MainappHome(ListView):
     model = Post
     template_name = 'mainapp/index.html'
     context_object_name = 'posts'
-    allow_empty = False  # Будет генерироваться ошибка, если записей в таблице нет.
+    # Будет генерироваться ошибка, если записей в таблице нет.
     # Если мы вручную в строке браузера напишем не существующий путь
-    paginate_by = 5
+    allow_empty = False
+
+    # paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -20,6 +23,18 @@ class MainappHome(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Статьи'
         context['news'] = Post.get_new_post()
+
+        context['posts'] = Post.objects.all()
+        paginator = Paginator(context['posts'], 5)
+        page = self.request.GET.get('page')
+
+        try:
+            context['posts'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['posts'] = paginator.page(1)
+        except EmptyPage:
+            context['posts'] = paginator.page(paginator.num_pages)
+
         return context
 
 

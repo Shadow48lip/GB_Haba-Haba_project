@@ -1,14 +1,10 @@
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
-
-from django.contrib.auth.views import LoginView
-from django.http import JsonResponse
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView
+from django.http import JsonResponse
+from django.shortcuts import render
 
-from authapp.forms import UserLoginForm, UserRegisterForm
-from userapp.models import HabaUser
+from authapp.forms import UserRegisterForm
 
 
 def is_ajax(request):
@@ -120,6 +116,18 @@ class LoginAjaxView(LoginView):
                 data={
                     'error': 'Введите логин и пароль!',
                     'status': 400,
+                },
+                status=200,
+            )
+
+
+class LogoutAjaxView(LogoutView):
+    def post(self, request, *args, **kwargs):
+        if is_ajax(request):
+            logout(request)
+            return JsonResponse(
+                data={
+                    'status': 201,
                 },
                 status=200,
             )
