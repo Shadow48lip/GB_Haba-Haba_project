@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import datetime
 
+from django.urls import reverse
 from django.utils.text import slugify
 
 
@@ -31,6 +32,9 @@ class HabaUser(AbstractUser):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.username)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('user:user_profile', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Пользователь'
