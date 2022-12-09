@@ -92,8 +92,7 @@
                                 {% if user.is_authenticated %}
 
                                     <span class="d-flex justify-content-center">
-                                        Привет,
-                                        <span class="welcome-block">{{ user.username }}</span>
+                                        <a href="{% url 'user:my_profile_edit' %}">Редактировать <span class="welcome-block">{{ user.username|title }}</span></a>
                                     </span>
 
                                     <hr class="text-muted">

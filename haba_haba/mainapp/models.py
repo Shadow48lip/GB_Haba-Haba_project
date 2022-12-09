@@ -60,6 +60,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('main:post', kwargs={'slug': self.slug})
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Post, self).save(*args, **kwargs)
+
     @staticmethod
     def get_new_post():
         return Post.objects.filter(is_published=True, is_blocked=False).order_by('time_update')[:5]
@@ -83,7 +87,7 @@ class Comment(models.Model):
 
     @staticmethod
     def get_count(post):
-        return Comment.objects.filter(post=post).count()
+        return Comment.objects.filter(post=post, is_published=True).count()
 
     class Meta:
         verbose_name = 'Комментарий'
