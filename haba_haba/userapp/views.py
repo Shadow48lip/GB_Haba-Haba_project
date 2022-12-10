@@ -1,11 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView, UpdateView
-from django.core.paginator import Paginator
+from django.views.generic import DetailView, ListView, CreateView
 
+from mainapp.models import Post
 from .models import HabaUser
-from .services import get_user_posts
+from .utils import DataMixin
 
 
 def redirect_2_profile(request):
@@ -14,35 +14,37 @@ def redirect_2_profile(request):
     return response
 
 
-@login_required
-def my_profile_view(request):
-    """Выводит профиль авторизованного пользователя"""
-
-    posts = get_user_posts(request.user)
-
-    paginator = Paginator(posts, 1)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    content = {
-        'title': 'кабинет пользователя',
-        'page_obj': page_obj,
-    }
-
-    # переменная user есть во всех шаблонах и содержит авторизованного пользователя
-    return render(request, 'userapp/user_cabinet.html', context=content)
-
-
 def my_profile_edit(request):
-    """Редактирование пользователем данных о себе"""
+    """Редактирование пользователем данных о себе."""
+
     content = {'title': 'кабинет пользователя'}
     return render(request, 'userapp/user_edit.html', content)
 
 
+class MyProfile(LoginRequiredMixin, DataMixin, ListView):
+    """Просмотр своего профиля пользователя. Доступен только авторизованным."""
+
+    model = Post
+    template_name = 'userapp/user_cabinet.html'
+    context_object_name = 'object'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=f'Кабинет {self.request.user}')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user)
+
+
 class UserProfile(DetailView):
+    """Публичный просмотр чужого профиля пользователя."""
+
     model = HabaUser
     template_name = 'userapp/user_profile.html'
     context_object_name = 'object'
+    # form_class = AddPostForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,6 +52,4 @@ class UserProfile(DetailView):
         return context
 
 
-
-
-""" https://ru.stackoverflow.com/questions/1103341/Как-получить-текущего-пользователя-в-models-py """
+""" Полезности https://proproprogs.ru/django/mixins-ubiraem-dublirovanie-koda """

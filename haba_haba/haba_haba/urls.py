@@ -28,6 +28,9 @@ urlpatterns = [
     path('moderator/', include('moderatorapp.urls', namespace='moderator')),
 
     path('accounts/', include('authapp.urls', namespace='auth')),
+    path('create_post/', include('mainapp.urls', namespace='create_post')),
+    # path('update_post/', include('mainapp.urls', namespace='update_post')),
+
 ]
 
 if settings.DEBUG:
