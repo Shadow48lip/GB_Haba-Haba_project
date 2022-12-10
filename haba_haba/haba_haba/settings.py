@@ -157,7 +157,7 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 AUTH_USER_MODEL = 'userapp.HabaUser'
 
 # для декоратора в контроллерах @login_required, позволяет перекидывать не авторизованных пользователей
-LOGIN_URL = '/__accounts/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
