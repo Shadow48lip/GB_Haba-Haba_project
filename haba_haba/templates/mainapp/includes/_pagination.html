@@ -18,10 +18,15 @@
 
                 {#  отображаем кнопку "предыдущая страница"  #}
                 <li class="page-item">
-                    <a class="page-link " href="?page={{ posts.previous_page_number }}"
-                       aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
+                    {% if posts.previous_page_number == 1 %}
+                        <a class="page-link " href="/" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    {% else %}
+                        <a class="page-link " href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    {% endif %}
                 </li>
             {% endif %}
 
