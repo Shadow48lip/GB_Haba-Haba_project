@@ -27,7 +27,7 @@ urlpatterns = [
     path('user/', include('userapp.urls', namespace='user')),
     path('moderator/', include('moderatorapp.urls', namespace='moderator')),
 
-    path('__accounts/', include('authapp.urls', namespace='auth')),
+    path('accounts/', include('authapp.urls', namespace='auth')),
 ]
 
 if settings.DEBUG:
