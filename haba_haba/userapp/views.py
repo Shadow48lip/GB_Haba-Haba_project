@@ -1,11 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views.generic import DetailView, ListView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, UpdateView
 
 from mainapp.models import Post
 from .models import HabaUser
 from .utils import DataMixin
+from .forms import EditUserForm
 
 
 def redirect_2_profile(request):
@@ -36,6 +38,25 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
 
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user)
+
+
+class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
+    """Редактирование профиля своего пользователя."""
+
+    model = HabaUser
+    template_name = 'userapp/user_edit.html'
+    form_class = EditUserForm
+    success_url = reverse_lazy('user:my_profile_view')
+    # success_message = 'update success'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=f'Редактирование {self.request.user}')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
+
+    def get_object(self):
+        return HabaUser.objects.get(pk=self.request.user.pk)
 
 
 class UserProfile(DetailView):
