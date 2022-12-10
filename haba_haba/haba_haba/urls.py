@@ -27,10 +27,7 @@ urlpatterns = [
     path('user/', include('userapp.urls', namespace='user')),
     path('moderator/', include('moderatorapp.urls', namespace='moderator')),
 
-    path('accounts/', include('authapp.urls', namespace='auth')),
-    path('create_post/', include('mainapp.urls', namespace='create_post')),
-    # path('update_post/', include('mainapp.urls', namespace='update_post')),
-
+    path('__accounts/', include('authapp.urls', namespace='auth')),
 ]
 
 if settings.DEBUG:
