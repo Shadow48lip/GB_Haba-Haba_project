@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from authapp.forms import UserRegisterForm
+from authapp.forms import UserLoginForm, UserRegisterForm
 
 
 def is_ajax(request):
@@ -15,9 +15,7 @@ class RegisterAjaxView(CreateView):
     template_name = 'mainapp/includes/_modal_registration.html'
 
     def get(self, request, **kwargs):
-        context = {
-            'form': UserRegisterForm()
-        }
+        context = {'form': UserRegisterForm()}
         return render(
             request=request,
             template_name=self.template_name,
@@ -36,10 +34,7 @@ class RegisterAjaxView(CreateView):
                 )
 
                 if user:
-                    login(
-                        request=request,
-                        user=user,
-                    )
+                    login(request, user)
                     return JsonResponse(
                         data={
                             'status': 201,
@@ -85,14 +80,22 @@ class RegisterAjaxView(CreateView):
 class LoginAjaxView(LoginView):
     template_name = 'mainapp/includes/_modal_login.html'
 
-    def post(self, request, **kwargs):
+    def get(self, request, **kwargs):
+        context = {'form': UserLoginForm()}
+        return render(
+            request=request,
+            template_name=self.template_name,
+            context=context,
+        )
+
+    def post(self, request, **kwarg):
+        form = UserLoginForm(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         if is_ajax(request):
             if username and password:
                 user = authenticate(
-                    request,
                     username=username,
                     password=password
                 )
@@ -119,6 +122,12 @@ class LoginAjaxView(LoginView):
                 },
                 status=200,
             )
+        context = {'form': form}
+        return render(
+            request=request,
+            template_name=self.template_name,
+            context=context,
+        )
 
 
 class LogoutAjaxView(LogoutView):
