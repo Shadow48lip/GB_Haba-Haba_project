@@ -47,7 +47,6 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
     template_name = 'userapp/user_edit.html'
     form_class = EditUserForm
     success_url = reverse_lazy('user:my_profile_view')
-
     # success_message = 'update success'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -60,13 +59,13 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         return HabaUser.objects.get(pk=self.request.user.pk)
 
     def form_valid(self, form):
-        print('qqqqqqqqqqqqqqqqqwwwwwwwwwwww')
-        print(form.cleaned_data.get('password2'))
+        # замена пароля
+        password1 = form.cleaned_data.get('password1')
+        password2 = form.cleaned_data.get('password2')
+        if password1 and password1 and password1 == password2:
+            self.object.set_password(password1)
+            print('пароль изменен')
 
-        self.object.set_password('12345')
-        # pbkdf2_sha256$390000$anmb6NAplVQhjTGiIOePZI$FUOU/2tmfDea7ywzXDwg3Rgl878jyj66Z9hEBET+4ys=
-
-        # self.object = form.save()
         return super().form_valid(form)
 
 
