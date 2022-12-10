@@ -7,7 +7,7 @@ from .models import HabaUser
 class EditUserForm(forms.ModelForm):
     """Изменение своих данных пользователем."""
 
-    password2 = forms.CharField(max_length=128, label='Подтверждение пароля',
+    password2 = forms.CharField(max_length=128, label='Подтверждение пароля', required=False,
                                 widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': ' '})
                                 )
 
@@ -15,7 +15,7 @@ class EditUserForm(forms.ModelForm):
 
         model = HabaUser
         # fields = '__all__'
-        fields = ['username', 'email', 'first_name', 'gender', 'last_name', 'age', 'about', 'password', 'password2']
+        fields = ['username', 'email', 'first_name', 'gender', 'last_name', 'age', 'about']
         # стили оформления и атрибуты каждого поля формы можно описать тут
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ' '}),
@@ -25,7 +25,7 @@ class EditUserForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'age': forms.TextInput(attrs={'class': 'form-control'}),
             'about': forms.Textarea(attrs={'class': 'form-control', 'cols': 60, 'rows': 5}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': ' '}),
+            # 'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': ' '}),
         }
 
     def clean_first_name(self):
@@ -36,5 +36,4 @@ class EditUserForm(forms.ModelForm):
 
         return first_name
 
-    def clean_password(self):
-        password
+
