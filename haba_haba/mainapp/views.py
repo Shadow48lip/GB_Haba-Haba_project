@@ -1,3 +1,5 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Post
@@ -17,12 +19,25 @@ class MainappHome(DataMixin, ListView):
     allow_empty = False
 
     def get_queryset(self):
-        queryset = super(MainappHome, self).get_queryset()
+        queryset = super().get_queryset()
         return queryset.filter(is_published=True, is_blocked=False).order_by('time_update')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Статьи'
+        context['news'] = Post.get_new_post()
+
+        context['posts'] = Post.objects.all()
+        paginator = Paginator(context['posts'], 5)
+        page = self.request.GET.get('page')
+
+        try:
+            context['posts'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['posts'] = paginator.page(1)
+        except EmptyPage:
+            context['posts'] = paginator.page(paginator.num_pages)
+
         return context
 
 

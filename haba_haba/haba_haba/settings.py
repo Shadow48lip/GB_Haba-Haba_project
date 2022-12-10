@@ -83,6 +83,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # для передачи формы авторизации на всех страницах в виде модального окна
+                'haba_haba.context_processor.get_context_data',
             ],
         },
     },
@@ -105,18 +108,18 @@ DATABASES = {
 
 # TODO: НЕ ЗАБУДЬ РАСКОММЕНТИРОВАТЬ ПОСЛЕ ЭТАПА РАЗРАБОТКИ
 AUTH_PASSWORD_VALIDATORS = [
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 # Internationalization
@@ -154,9 +157,9 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 AUTH_USER_MODEL = 'userapp.HabaUser'
 
 # для декоратора в контроллерах @login_required, позволяет перекидывать не авторизованных пользователей
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/__accounts/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Summernote
 SUMMERNOTE_THEME = 'bs4'

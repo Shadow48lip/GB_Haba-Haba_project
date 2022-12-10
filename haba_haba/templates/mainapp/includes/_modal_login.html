@@ -7,41 +7,31 @@
                 <h2 class="modal-title fs-5" id="staticBackdropLabel">Авторизация</h2>
             </div>
 
-            <form method="post">
-                {% csrf_token %}
+            {% include 'mainapp/includes/_alerts.html' %}
 
-                {{ form.non_field_errors }}
+            <form method="post" action="{% url 'auth:login' %}" id="login_form_modal">
+                {% csrf_token %}
+                {{ login_ajax.non_field_errors }}
 
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="id_username"
-                               placeholder="Username">
+                        {{ login_ajax.username }}
                         <label for="id_username">Имя пользователя</label>
-
-                        <div class="invalid-feedback">
-                            {{ form.username.errors }}
-                        </div>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="id_password"
-                               placeholder="Password">
+                        {{ login_ajax.password }}
                         <label for="id_password">Пароль</label>
-
-                        <div class="invalid-feedback">
-                            {{ form.password.errors }}
-                        </div>
                     </div>
                 </div>
 
                 <div class="modal-footer no-border-modal-footer">
-                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                    <button type="submit" class="btn btn-outline-primary btn-sm" id="liveAlertBtn">
                         Войти
                     </button>
                     <button type="button" class="btn btn-outline-light btn-custom btn-sm" data-bs-dismiss="modal">
                         Отмена
                     </button>
                 </div>
-
             </form>
 
         </div>

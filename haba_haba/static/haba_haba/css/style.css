@@ -703,7 +703,7 @@ body.dark footer {
 
 .sidebar-item {
     min-height: 10em !important;
-    line-height: 1.5 !important;
+    line-height: 1.25 !important;
     transition: .2s color ease-in-out !important;
 }
 
@@ -721,9 +721,7 @@ body.dark .sidebar-item {
 }
 
 body.dark .sidebar-item:hover {
-    color: rgb(53, 115, 212) !important;
     background: rgba(255, 255, 255, .03) !important;
-    transition: .2s color ease-in-out !important;
 }
 
 

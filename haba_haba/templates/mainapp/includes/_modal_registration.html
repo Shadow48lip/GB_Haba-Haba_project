@@ -7,54 +7,47 @@
                 <h2 class="modal-title fs-5" id="staticBackdropLabel">Регистрация</h2>
             </div>
 
-            <form method="post">
-                {% csrf_token %}
+            {% include 'mainapp/includes/_alerts.html' %}
 
-                {{ form.non_field_errors }}
+            <form method="post" action="{% url 'auth:register' %}" id="register_form_modal">
+                {% csrf_token %}
+                {{ register_ajax.non_field_errors }}
 
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="id_username"
-                               placeholder="Username">
+                        {{ register_ajax.username }}
                         <label for="id_username">Имя пользователя</label>
-
-                        <div class="invalid-feedback">
-                            {{ form.username.errors }}
-                        </div>
                     </div>
+
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="floatingPassword"
-                               placeholder="Password">
-                        <label for="floatingPassword">Пароль</label>
-
-                        <div class="invalid-feedback">
-                            {{ form.password1.errors }}
-                        </div>
+                        {{ register_ajax.email }}
+                        <label for="id_email">Электронная почта</label>
                     </div>
+
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="floatingPassword"
-                               placeholder="Password">
-                        <label for="floatingPassword">Подтвердите пароль</label>
-
-                        <div class="invalid-feedback">
-                            {{ form.password2.errors }}
-                        </div>
+                        {{ register_ajax.password1 }}
+                        <label for="id_password1">Пароль</label>
                     </div>
+
+                    <div class="form-floating mb-3">
+                        {{ register_ajax.password2 }}
+                        <label for="id_password2">Подтвердите пароль</label>
+                    </div>
+
                     <div class="mb-3 form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label mt-1" for="exampleCheck1">Я даю своё согласие...</label>
+                        {{ register_ajax.check }}
+                        <label class="form-check-label mt-1" for="id_check">Я даю своё согласие...</label>
                     </div>
-
                 </div>
+
                 <div class="modal-footer no-border-modal-footer">
-                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                    <button type="submit" class="btn btn-outline-primary btn-sm" id="liveAlertBtn">
                         Зарегистрироваться
                     </button>
-                    <button type="button" class="btn btn-outline-light btn-custom btn-sm" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-light btn-custom btn-sm" data-bs-dismiss="modal" id="cancelBtn">
                         Отмена
                     </button>
                 </div>
-
             </form>
 
         </div>
