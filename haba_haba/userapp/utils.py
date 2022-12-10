@@ -1,7 +1,7 @@
 from mainapp.models import Post, Comment, AuthorLike, PostLike, CommentLike
 
 class DataMixin:
-    """Примиси для пользовательских разделов сайт"""
+    """Примиси для пользовательских разделов сайта"""
     paginate_by = 5
 
     def get_user_context(self, **kwargs):
@@ -12,6 +12,5 @@ class DataMixin:
         like_posts = PostLike.objects.filter(post__author=self.request.user).count()
         like_comment = CommentLike.objects.filter(comment__user=self.request.user).count()
         context['like_receive_count'] = like_author + like_posts + like_comment
-
 
         return context
