@@ -10,7 +10,7 @@
 
                     {#  отображаем кнопку "первая страница"  #}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First">
+                        <a class="page-link" href="/" aria-label="First">
                             <span aria-hidden="true">На первую</span>
                         </a>
                     </li>
@@ -37,7 +37,11 @@
                     {#  вывод на экран соседних от "active" страниц  #}
                 {% elif page > posts.number|add:-3 and page < posts.number|add:3 %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                        {% if page == 1 %}
+                            <a class="page-link" href="/">{{ page }}</a>
+                        {% else %}
+                            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                        {% endif %}
                     </li>
 
                     {#  вывод индикации о скрытых страницах  #}

@@ -149,33 +149,33 @@ function ajaxLogout() {
 
 
 // пагинация через ajax
-function ajaxPagination() {
-    $('#pagination a.page-link').each((index, el) => {
-        $(el).click((e) => {
-            e.preventDefault()
-            let page_url = $(el).attr('href')
-            console.log(page_url)
-            $.ajax({
-                url: page_url,
-                type: 'GET',
-                success: (data) => {
-                    $('#cards').empty().append($(data).find('#cards').html())
-                    $('#pagination').empty().append($(data).find('#pagination').html())
-                }
-            })
-        })
-    })
-}
+// function ajaxPagination() {
+//     $('#pagination a.page-link').each((index, el) => {
+//         $(el).click((e) => {
+//             e.preventDefault()
+//             let page_url = $(el).attr('href')
+//             console.log(page_url)
+//             $.ajax({
+//                 url: page_url,
+//                 type: 'GET',
+//                 success: (data) => {
+//                     $('#cards').empty().append($(data).find('#cards').html())
+//                     $('#pagination').empty().append($(data).find('#pagination').html())
+//                 }
+//             })
+//         })
+//     })
+// }
 
 $(document).ready(function () {
     ajaxRegister()
     ajaxLogin()
     ajaxLogout()
-    ajaxPagination()
+    // ajaxPagination()
 })
 $(document).ajaxStop(function () {
     ajaxRegister()
     ajaxLogin()
     ajaxLogout()
-    ajaxPagination()
+    // ajaxPagination()
 })
