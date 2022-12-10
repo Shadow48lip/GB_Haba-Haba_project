@@ -1,6 +1,6 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Post
 from .forms import PostForm
@@ -8,8 +8,9 @@ from django.views.generic import ListView, DetailView, CreateView, FormView
 from mainapp.models import Post, Category, Comment
 from mainapp.utils import DataMixin
 from django.shortcuts import redirect, get_object_or_404
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.forms.models import model_to_dict
+from django.template.loader import render_to_string
 
 
 class MainappHome(DataMixin, ListView):
@@ -94,24 +95,32 @@ class ShowComments(ListView):
 
 
 def add_comment(request):
-    if request.method == 'POST':
-        comment = request.POST['comment_text']
-        post = request.POST['post']
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    comment = request.POST.get('text', None)
+    article = request.POST.get('post', None)
+    if is_ajax and article and comment:
         user = request.user
         new_comment = Comment()
-        new_comment.user = user
-        new_comment.post = get_object_or_404(Post, id=int(post))
-        new_comment.is_published = True
         new_comment.text = comment
+        new_comment.user = request.user
+        new_comment.post = get_object_or_404(Post, id=article)
+        new_comment.is_published = True
         new_comment.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return JsonResponse(
+            {'data': render_to_string('mainapp/includes/_comment_text.html', {'c': new_comment, 'user': request.user})})
 
 
-def delete_comment(request, pk):
-    comment = get_object_or_404(Comment, id=pk)
-    comment.is_published = False
-    comment.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def delete_comment(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    comment_id = request.POST.get('comment_id', None)
+    print(comment_id)
+    print('dsdsdffd')
+    if is_ajax and comment_id:
+        comment = get_object_or_404(Comment, id=comment_id)
+        comment.is_published = False
+        comment.save()
+        print(comment)
+        return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
 
 
 class PostCreateView(CreateView):

@@ -1,0 +1,88 @@
+<div id="commentList_{{c.id}}" class="card-body">
+    <h6 class="card-title">
+        <small class="text-muted">
+            <span>{{c.user}}</span>
+            <span class="separ">|</span>
+            <span>{{c.time_update}}</span>
+        </small>
+    </h6>
+    <p class="card-text">
+        {{ c.text }}
+    </p>
+</div>
+
+<div id="commentListFooter_{{c.id}}" class="card-footer no-border-modal-footer d-flex justify-content-between align-items-center">
+    <small class="text-muted">
+        <span class="ms-2"><i class="bi bi-heart"></i></span>
+        <span>542</span>
+
+        {% if user.is_authenticated %}
+        <a href="{{ post.get_absolute_url }}#floatingTextarea" class="trans-color-02">
+            <span class="ms-2"><i class="bi bi-reply"></i></span>
+            <span>Ответить</span>
+        </a>
+
+        {% if user == c.user %}
+        <span class="ms-3"><button type="button" onclick="delete_com('{% url 'main:delete_comment' %}', '{{c.id}}')" id="comment_delete_button" class="close-button-comment"><i class="bi bi-trash"></i></button></span>
+        <span class="ms-3"><a href="#"><i class="bi bi-pencil"></i></a></span>
+        {% endif %}
+        {% endif %}
+
+    </small>
+    <small>
+        {% if user.is_authenticated %}
+        {% if user.username == 'admin' %}
+
+        <button class="btn btn-sm complaint ms-3">
+            <i class="bi bi-x-circle"></i>
+        </button>
+
+        {% else %}
+
+        <button class="btn btn-sm complaint ms-3">
+            <i class="bi bi-exclamation-circle "></i>
+        </button>
+
+        {% endif %}
+        {% endif %}
+    </small>
+
+</div>
+
+<script>
+function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+ const csrftoken = getCookie('csrftoken');
+
+ function delete_com(_url, _comment) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        'comment_id': _comment
+                    },
+                    success:
+                        function callback(response) {
+                            document.getElementById("commentList_"+response.comment_id).remove();
+                            document.getElementById("commentListFooter_"+response.comment_id).remove();
+                        }
+                }
+            )
+            ;
+        }
+</script>
