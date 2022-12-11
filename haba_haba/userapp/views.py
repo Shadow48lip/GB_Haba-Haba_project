@@ -18,6 +18,9 @@ def redirect_2_profile(request):
 class MyProfile(LoginRequiredMixin, DataMixin, ListView):
     """Просмотр пользователем своего профиля. Доступен только авторизованным."""
 
+    # LoginRequiredMixin отправит сюда пользователя без авторизации
+    login_url = reverse_lazy('main:home')
+
     model = Post
     template_name = 'userapp/user_cabinet.html'
     context_object_name = 'object'
@@ -34,6 +37,9 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
 
 class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
     """Редактирование пользователем данных о себе."""
+
+    # LoginRequiredMixin отправит сюда пользователя без авторизации
+    login_url = reverse_lazy('main:home')
 
     model = HabaUser
     template_name = 'userapp/user_edit.html'
