@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView
+from django.conf import settings
 
 from mainapp.models import Post
 from .models import HabaUser
@@ -17,9 +18,6 @@ def redirect_2_profile(request):
 
 class MyProfile(LoginRequiredMixin, DataMixin, ListView):
     """Просмотр пользователем своего профиля. Доступен только авторизованным."""
-
-    # LoginRequiredMixin отправит сюда пользователя без авторизации
-    login_url = reverse_lazy('main:home')
 
     model = Post
     template_name = 'userapp/user_cabinet.html'
@@ -37,9 +35,6 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
 
 class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
     """Редактирование пользователем данных о себе."""
-
-    # LoginRequiredMixin отправит сюда пользователя без авторизации
-    login_url = reverse_lazy('main:home')
 
     model = HabaUser
     template_name = 'userapp/user_edit.html'
