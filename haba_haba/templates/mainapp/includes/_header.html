@@ -51,34 +51,34 @@
                                 </div>
                             </li>
 
-{#                            <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->#}
-{#                            <li class="nav-item dropdown">#}
-{#                                <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"#}
-{#                                   data-bs-toggle="dropdown" aria-expanded="false">#}
-{#                                    <i class="bi bi-bell-fill text-danger"></i>#}
-{#                                </a>#}
-{#                                <div class="dropdown-menu dropdown-menu-end">#}
-{#    #}
-{#                                    <div class="notify-card card mt-1">#}
-{#                                        <div class="card-body">#}
-{#                                            Какое-то Уведомление 1#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#    #}
-{#                                    <div class="notify-card card mt-1">#}
-{#                                        <div class="card-body">#}
-{#                                            Какое-то Уведомление 2#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#    #}
-{#                                    <div class="notify-card card mt-1">#}
-{#                                        <div class="card-body">#}
-{#                                            Какое-то Уведомление 3#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#    #}
-{#                                </div>#}
-{#                            </li>#}
+                            {#                            <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->#}
+                            {#                            <li class="nav-item dropdown">#}
+                            {#                                <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"#}
+                            {#                                   data-bs-toggle="dropdown" aria-expanded="false">#}
+                            {#                                    <i class="bi bi-bell-fill text-danger"></i>#}
+                            {#                                </a>#}
+                            {#                                <div class="dropdown-menu dropdown-menu-end">#}
+                            {#    #}
+                            {#                                    <div class="notify-card card mt-1">#}
+                            {#                                        <div class="card-body">#}
+                            {#                                            Какое-то Уведомление 1#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#    #}
+                            {#                                    <div class="notify-card card mt-1">#}
+                            {#                                        <div class="card-body">#}
+                            {#                                            Какое-то Уведомление 2#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#    #}
+                            {#                                    <div class="notify-card card mt-1">#}
+                            {#                                        <div class="card-body">#}
+                            {#                                            Какое-то Уведомление 3#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#    #}
+                            {#                                </div>#}
+                            {#                            </li>#}
 
                         {% endif %}
 
@@ -92,7 +92,10 @@
                                 {% if user.is_authenticated %}
 
                                     <span class="d-flex justify-content-center">
-                                        <a href="{% url 'user:my_profile_edit' %}">Редактировать <span class="welcome-block">{{ user.username|title }}</span></a>
+                                        <span>
+                                            Привет,
+                                            <a href="{% url 'user:my_profile_edit' %}">{{ user.username|title }}</a>
+                                        </span>
                                     </span>
 
                                     <hr class="text-muted">
@@ -120,7 +123,7 @@
                                 {% else %}
 
                                     <span class="d-flex justify-content-center">
-                                        Привет
+                                        Привет, Гость
                                     </span>
 
                                     <hr class="text-muted">

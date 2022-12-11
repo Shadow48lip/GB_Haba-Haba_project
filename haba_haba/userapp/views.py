@@ -55,14 +55,14 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         return HabaUser.objects.get(pk=self.request.user.pk)
 
     def form_valid(self, form):
         # замена пароля
         password1 = form.cleaned_data.get('password1')
         password2 = form.cleaned_data.get('password2')
-        if password1 and password1 and password1 == password2:
+        if password1 and password2 and password1 == password2:
             self.object.set_password(password1)
             print('пароль изменен')
 

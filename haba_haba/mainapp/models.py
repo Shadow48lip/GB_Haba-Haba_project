@@ -66,12 +66,12 @@ class Post(models.Model):
 
     @staticmethod
     def get_new_post():
-        return Post.objects.filter(is_published=True, is_blocked=False).order_by('time_update')[:5]
+        return Post.objects.filter(is_published=True, is_blocked=False).order_by('-time_update')[:5]
 
     class Meta:
         verbose_name = 'Статья(ю)'
         verbose_name_plural = 'Статьи'
-        ordering = ['time_create', 'title']
+        ordering = ['-time_create', 'title']
 
 
 class Comment(models.Model):

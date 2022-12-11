@@ -35,10 +35,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 // автоматическое изменение высоты Textarea
-function auto_grow(element) {
-    element.style.height = "6em";
-    element.style.height = (element.scrollHeight) + "px";
-}
+$(document).on("input", "textarea", function () {
+    $(this).outerHeight(38).outerHeight(this.scrollHeight);
+});
 
 
 // кнопка меню Burger (мобильные устройства)

@@ -1,15 +1,11 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView, DetailView, CreateView
-from .models import Post
-from .forms import PostForm
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+
+from mainapp.forms import PostForm
 from mainapp.models import Post, Category, Comment
 from mainapp.utils import DataMixin
-from django.shortcuts import redirect, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
 
 
 class MainappHome(DataMixin, ListView):
@@ -90,7 +86,8 @@ class ShowComments(ListView):
 
     def get_queryset(self):
         return Comment.objects.filter(post=Post.objects.get(slug=self.kwargs['slug']), is_published=True).order_by(
-            '-time_update')
+            '-time_update'
+        )
 
 
 def add_comment(request):
