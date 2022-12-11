@@ -4,7 +4,7 @@
 <a id="a_comment_tag"></a>
 {% endif %}
 <div id="comment" class="single-card card text-center mt-3 border border-secondary border-opacity-25">
-    <div class="card-header">
+    <div id="comment_count_id" class="card-header">
         Комментарии ({{comment_count}})
     </div>
     {% for c in comments %}
@@ -68,6 +68,7 @@
                         function callback(response) {
                             $("#comment").append(response.data);
                             send_text.value = '';
+                            document.getElementById('comment_count_id').innerHTML = 'Комментарии ('+response.result+')';
                         }
                 }
             )

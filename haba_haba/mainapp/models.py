@@ -126,6 +126,24 @@ class PostLike(models.Model):
     def get_count(post):
         return PostLike.objects.filter(post=post).count()
 
+    @staticmethod
+    def post_liked(post, user):
+        obj = PostLike.objects.filter(post=post, user=user).first()
+        if obj:
+            return 'bi-heart-fill'
+        else:
+            return 'bi-heart'
+
+    @staticmethod
+    def set_like(post, user):
+        obj = PostLike.objects.filter(post=post, user=user).first()
+        if obj:
+            obj.delete()
+            return 0
+        else:
+            PostLike.objects.create(post=post, user=user)
+            return 1
+
     class Meta:
         verbose_name = 'Лайк к статье'
         verbose_name_plural = 'Лайки к статье'
@@ -143,6 +161,24 @@ class CommentLike(models.Model):
     @staticmethod
     def get_count(comment):
         return CommentLike.objects.filter(comment=comment).count()
+
+    @staticmethod
+    def comment_liked(comment, user):
+        obj = CommentLike.objects.filter(comment=comment, user=user).first()
+        if obj:
+            return 'bi-heart-fill'
+        else:
+            return 'bi-heart'
+
+    @staticmethod
+    def set_like(comment, user):
+        obj = CommentLike.objects.filter(comment=comment, user=user).first()
+        if obj:
+            obj.delete()
+            return 0
+        else:
+            CommentLike.objects.create(comment=comment, user=user)
+            return 1
 
     class Meta:
         verbose_name = 'Лайк к комментарию'
