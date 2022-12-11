@@ -457,6 +457,7 @@ body.dark .cancelBtn:focus {
 
 .nav-link.active {
     color: rgb(0, 0, 0) !important;
+    cursor: default;
 }
 
 .nav-link:hover {
@@ -470,6 +471,7 @@ body.dark .nav-link {
 
 body.dark .nav-link.active {
     color: rgb(255, 255, 255) !important;
+    cursor: default;
 }
 
 body.dark .nav-link:hover {

@@ -102,10 +102,11 @@ function ajaxLogin() {
             data: $(this).serialize(),
             dataType: 'json',
             success: function (response) {
-                // console.log('ok: ', response)
                 if (response.status === 201) {
+                    // console.log('ok: ', response)
                     window.location.reload()
                 } else if (response.status === 400) {
+                    // console.log('err: ', response)
                     $('.error-auth').text(response.error).removeClass('d-none')
                 }
             },
