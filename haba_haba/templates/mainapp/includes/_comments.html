@@ -4,60 +4,11 @@
 <a id="a_comment_tag"></a>
 {% endif %}
 <div id="comment" class="single-card card text-center mt-3 border border-secondary border-opacity-25">
-    <div class="card-header">
+    <div id="comment_count_id" class="card-header">
         Комментарии ({{comment_count}})
     </div>
     {% for c in comments %}
-    <div class="card-body">
-        <h6 class="card-title">
-            <small class="text-muted">
-                <span>{{c.user}}</span>
-                <span class="separ">|</span>
-                <span>{{c.time_update}}</span>
-            </small>
-        </h6>
-        <p class="card-text">
-            {{ c.text }}
-        </p>
-    </div>
-
-    <div class="card-footer no-border-modal-footer d-flex justify-content-between align-items-center">
-        <small class="text-muted">
-            <span class="ms-2"><i class="bi bi-heart"></i></span>
-            <span>542</span>
-
-            {% if user.is_authenticated %}
-            <a href="{{ post.get_absolute_url }}#floatingTextarea" class="trans-color-02">
-                <span class="ms-2"><i class="bi bi-reply"></i></span>
-                <span>Ответить</span>
-            </a>
-
-            {% if user == c.user %}
-            <span class="ms-3"><a href="{% url 'main:delete_comment' c.pk %}"><i class="bi bi-trash"></i></a></span>
-            <span class="ms-3"><a href="#"><i class="bi bi-pencil"></i></a></span>
-            {% endif %}
-            {% endif %}
-
-        </small>
-        <small>
-            {% if user.is_authenticated %}
-            {% if user.username == 'admin' %}
-
-            <button class="btn btn-sm complaint ms-3">
-                <i class="bi bi-x-circle"></i>
-            </button>
-
-            {% else %}
-
-            <button class="btn btn-sm complaint ms-3">
-                <i class="bi bi-exclamation-circle "></i>
-            </button>
-
-            {% endif %}
-            {% endif %}
-        </small>
-
-    </div>
+    {% include "mainapp/includes/_comment_text.html"  %}
     {% endfor %}
 </div>
 
@@ -65,18 +16,17 @@
 
     {% if user.is_authenticated %}
 
-    <form action="{% url 'main:add_comment' %}" method="post" enctype="multipart/form-data">
+    <form data-url="{% url 'main:add_comment' %}" id="createTaskForm" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="card-body">
             <div class="form-floating">
-                <textarea name="post" hidden="true">{{post.id}}</textarea>
                 <textarea name="comment_text" class="form-control custom-textarea" placeholder="Leave a comment here"
                           id="floatingTextarea" oninput="auto_grow(this)"></textarea>
                 <label for="floatingTextarea">Ваш комментарий</label>
             </div>
         </div>
         <div class="card-footer no-border-modal-footer mb-2 d-flex justify-content-end">
-            <button type="submit" class="btn btn-outline-primary btn-sm">Опубликовать</button>
+            <button id="createButton" type="button" class="btn btn-outline-primary btn-sm">Опубликовать</button>
         </div>
     </form>
 
@@ -93,3 +43,37 @@
 
     {% endif %}
 </div>
+
+<script>
+        $(document).ready(function(){
+
+            $("#createButton").click(send_comment)
+
+        });
+
+        function send_comment(_url) {
+
+            var send_text = document.getElementById('floatingTextarea');
+
+            $.ajax({
+                    type: "post",
+                    dataType: 'json',
+                    url: $("#createTaskForm").data('url'),
+                    data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    'text': send_text.value,
+                    'post': '{{ post.id }}'
+                    },
+                    success:
+                        function callback(response) {
+                            $("#comment").append(response.data);
+                            send_text.value = '';
+                            document.getElementById('comment_count_id').innerHTML = 'Комментарии ('+response.result+')';
+                        }
+                }
+            )
+            ;
+        }
+
+
+</script>
