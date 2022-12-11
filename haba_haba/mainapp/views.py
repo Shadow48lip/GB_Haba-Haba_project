@@ -109,7 +109,8 @@ def add_comment(request):
         new_comment.is_published = True
         new_comment.save()
         return JsonResponse(
-            {'result': Comment.get_count(post), 'data': render_to_string('mainapp/includes/_comment_text.html', {'c': new_comment, 'user': user})})
+            {'result': Comment.get_count(post),
+             'data': render_to_string('mainapp/includes/_comment_text.html', {'c': new_comment, 'user': user})})
 
 
 def delete_comment(request):
@@ -119,7 +120,17 @@ def delete_comment(request):
         comment = get_object_or_404(Comment, id=comment_id)
         comment.is_published = False
         comment.save()
-        print(comment)
+        return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
+
+
+def edit_comment(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    comment_id = request.POST.get('comment_id', None)
+    comment_text = request.POST.get('comment_text', None)
+    if is_ajax and comment_id and comment_text:
+        comment = get_object_or_404(Comment, id=comment_id)
+        comment.text = comment_text
+        comment.save()
         return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
 
 
