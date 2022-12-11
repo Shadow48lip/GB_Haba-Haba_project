@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView
+from django.conf import settings
 
 from mainapp.models import Post
 from .models import HabaUser
@@ -55,7 +56,7 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         # замена пароля
         password1 = form.cleaned_data.get('password1')
         password2 = form.cleaned_data.get('password2')
-        if password1 and password1 and password1 == password2:
+        if password1 and password2 and password1 == password2:
             self.object.set_password(password1)
             print('пароль изменен')
 
