@@ -12,7 +12,7 @@
                             <img src="{{ p.photo.url|post_photo_process }}" alt="{{ p.title }}" class="card-img-bottom">
                         </div>
                         <div class="col-md-custom">
-                            <h6 class="sidebar-item-title card-text">{{ p.title }}</h6>
+                            <span class="sidebar-item-title card-text">{{ p.title }}</span>
                         </div>
                     </div>
 
@@ -23,9 +23,12 @@
                             <span>5088</span>
                         </span>
                         </small>
-                        <small class="text-muted">
-                            <span>
+                        <small class="text-muted d-flex flex-column justify-content-between">
+                            <span class="d-flex justify-content-end">
                                 {{ p.time_update|date:'d.m.Y' }}
+                            </span>
+                            <span class="author-hidden d-flex justify-content-end">
+                                {{ p.author }}
                             </span>
                         </small>
                     </div>
