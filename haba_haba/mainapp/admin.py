@@ -13,7 +13,7 @@ class PostAdmin(SummernoteModelAdmin):
     list_editable = ('is_published',)
     list_filter = ('is_published', 'time_create')
 
-    prepopulated_fields = {'slug': ('title',)}
+    # prepopulated_fields = {'slug': ('title',)}
     # Подключаем виджет к админке
     summernote_fields = ('content',)
 

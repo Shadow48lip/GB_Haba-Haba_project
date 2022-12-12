@@ -6,7 +6,7 @@
         <div class="row">
 
             <div class="col-md-4">
-                <a href="{{ p.get_absolute_url }}" class="text-decoration-none">
+                <a href="{{ p.get_absolute_url }}" class="self-decoration-none">
                     <img src="{{ p.photo.url|post_photo_process }}" alt="{{ p.title }}" class="card-img-top">
                 </a>
             </div>
@@ -14,13 +14,13 @@
             <div class="col-md-8">
                 <div class="card-body pt-0">
 
-                    <a href="{{ p.get_absolute_url }}" class="card-link text-decoration-none">
+                    <a href="{{ p.get_absolute_url }}" class="card-link self-decoration-none">
                         <h5 class="fw-bold custom-card-header">
                             <span>{{ p.title }}</span>
                         </h5>
                     </a>
 
-                    <p class="card-text">
+                    <p class="card-self">
                         {{ p.content|striptags|truncatewords:50 }}
                         <br>
                         <a href="{{ p.get_absolute_url }}" class="trans-color-02">Читать далее...</a>
@@ -29,10 +29,10 @@
                 </div>
             </div>
 
-            <hr class="text-muted mt-2">
+            <hr class="self-muted mt-2">
 
             <div class="card-footer no-border-modal-footer d-flex justify-content-between align-items-center mb-5">
-                <small class="text-muted">
+                <small class="self-muted">
 
                     <span class="ms-2"><i class="bi bi-eye"></i></span>
                     <span>5088</span>
@@ -47,7 +47,7 @@
                     </a>
                 </small>
 
-                <small class="text-muted">
+                <small class="self-muted">
                     <span>
                         <a href="{% url 'user:user_profile' p.author.slug %}" class="trans-color-02">
                             {{ p.author.username }}

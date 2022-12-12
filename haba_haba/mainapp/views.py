@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Post, PostLike, CommentLike
 from .forms import PostForm
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from mainapp.models import Post, Category, Comment
 from mainapp.utils import DataMixin
 from django.shortcuts import redirect, get_object_or_404
@@ -56,11 +56,24 @@ class ShowPost(DetailView):
         return context
 
 
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'mainapp/create_post.html'
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = 'mainapp/post_edit.html'
+    fields = ['title', 'body']
+
+
 class PostCategory(DataMixin, ListView):
     model = Post
     template_name = 'mainapp/index.html'
     context_object_name = 'posts'
     allow_empty = False
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -133,11 +146,6 @@ def edit_comment(request):
         comment.save()
         return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
 
-
-class PostCreateView(CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'mainapp/create_post.html'
 
 
 def like_pressed(request):

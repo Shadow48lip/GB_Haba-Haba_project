@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
@@ -44,7 +46,7 @@ class Post(models.Model):
     author = models.ForeignKey(HabaUser, on_delete=models.CASCADE,
                                verbose_name='Автор')
     title = models.CharField(max_length=255, verbose_name='Заголовок')
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url', default=uuid.uuid4)
     content = models.TextField(blank=True, verbose_name='Текст')
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Презентационная картинка', blank=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -63,6 +65,11 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super(Post, self).save(*args, **kwargs)
+
+    @property
+    def photo_url(self):
+        if self.photo and hasattr(self.photo, 'url'):
+            return self.photo.url
 
     @staticmethod
     def get_new_post():
