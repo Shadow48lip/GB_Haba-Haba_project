@@ -42,19 +42,13 @@
                     <span class="ms-2"><i class="bi bi-eye"></i></span>
                     <span>5088</span>
 
-
-                    <span class="ms-2"><i class="bi bi-heart"></i></span>
-                    <span>542</span>
+                   {% include 'mainapp/includes/_likes.html' %}
 
                     <a href="" class="trans-color-02">
                         <span class="ms-2"><i class="bi bi-chat"></i></span>
                         <span>{{comm_count}}</span>
                     </a>
 
-                    <a href="{{ post.get_absolute_url }}#floatingTextarea" class="trans-color-02">
-                        <span class="ms-2"><i class="bi bi-reply"></i></span>
-                        <span>Ответить</span>
-                    </a>
                 </small>
 
                 <small class="text-muted">
@@ -90,5 +84,5 @@
     </div>
 
     {% post_comments post user read_post %}
-
 {% endblock %}
+

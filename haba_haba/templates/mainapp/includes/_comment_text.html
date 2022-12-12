@@ -1,0 +1,155 @@
+{% load commenttags %}
+
+<div id="commentList_{{c.id}}" class="card-body">
+    <h6 class="card-title">
+        <small class="text-muted">
+            <span>{{c.user}}</span>
+            <span class="separ">|</span>
+            <span>{{c.time_update}}</span>
+        </small>
+    </h6>
+    <p id="text_area_{{c.id}}" contenteditable="false" class="card-text">
+        {{ c.text }}
+    </p>
+</div>
+
+<div id="commentListFooter_{{c.id}}"
+     class="card-footer no-border-modal-footer d-flex justify-content-between align-items-center">
+    <small class="text-muted">
+        {% comment_liked c user as liked %}
+        <button style="background-color: rgba(28,28,28,0)" class="btn-primary btn-medium btn-light"
+                onclick="like_pressed('{% url 'main:set_like' %}', '{{c.id}}')">
+            <span class="ms-2"><i id="comment_like_id_{{c.id}}" class={{ liked }}></i></span>
+        </button>
+        <span id="comment_count_id_{{c.id}}">{% comment_like_count c %}</span>
+
+        {% if user.is_authenticated %}
+        {% if user == c.user %}
+        <span class="ms-3"><button type="button" onclick="delete_com('{% url 'main:delete_comment' %}', '{{c.id}}')"
+                                   id="comment_delete_button" class="close-button-comment"><i
+                class="bi bi-trash"></i></button></span>
+        <span class="ms-3"><button type="button" onclick="edit_com('{{c.id}}')"
+                                   id="comment_edit_button_{{c.id}}" class="close-button-comment"><i id="icon_edit_{{c.id}}" class="bi bi-pencil"></i></button></span>
+        {% endif %}
+        {% endif %}
+
+    </small>
+    <small>
+        {% if user.is_authenticated %}
+        {% if user.username == 'admin' %}
+
+        <button class="btn btn-sm complaint ms-3">
+            <i class="bi bi-x-circle"></i>
+        </button>
+
+        {% else %}
+
+        <button class="btn btn-sm complaint ms-3">
+            <i class="bi bi-exclamation-circle "></i>
+        </button>
+
+        {% endif %}
+        {% endif %}
+    </small>
+
+</div>
+
+<script>
+function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+ const csrftoken = getCookie('csrftoken');
+
+ function delete_com(_url, _comment) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        'comment_id': _comment
+                    },
+                    success:
+                        function callback(response) {
+                            document.getElementById("commentList_"+response.comment_id).remove();
+                            document.getElementById("commentListFooter_"+response.comment_id).remove();
+                        }
+                }
+            )
+            ;
+        }
+
+        function like_pressed(_url, _comment) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'comment': _comment
+                    },
+                    success:
+                        function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).classList.remove('bi-heart')
+                                document.getElementById(response.object).classList.add('bi-heart-fill')
+                                document.getElementById(response.odject_count).innerHTML = response.comment_count
+                            }
+                            else if (response.result === 0) {
+                                document.getElementById(response.object).classList.add('bi-heart')
+                                document.getElementById(response.object).classList.remove('bi-heart-fill')
+                                document.getElementById(response.odject_count).innerHTML = response.comment_count
+                            }
+                        }
+                }
+            )
+            ;
+        }
+
+        function edit_com(_id) {
+           var text_com = document.getElementById('text_area_'+_id);
+           text_com.contentEditable = true;
+           var button = document.getElementById('comment_edit_button_'+_id);
+           button.addEventListener('click', () => send_com('/comment/edit/',_id));
+           document.getElementById('icon_edit_'+_id).classList.add('bi-pencil-fill');
+           document.getElementById('icon_edit_'+_id).classList.remove('bi-pencil');
+        }
+
+        function send_com(_url, _id) {
+              var text_com = document.getElementById('text_area_'+_id);
+              $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'comment_id': _id,
+                        'comment_text': text_com.textContent
+                    },
+                    success:
+                        function callback(response) {
+                            var button = document.getElementById('comment_edit_button_'+_id);
+                            button.addEventListener('click', () => edit_com(_id));
+                            document.getElementById('icon_edit_'+_id).classList.remove('bi-pencil-fill');
+                            document.getElementById('icon_edit_'+_id).classList.add('bi-pencil');
+                            text_com.contentEditable = false;
+                        }
+                }
+            )
+            ;
+        }
+
+</script>
+

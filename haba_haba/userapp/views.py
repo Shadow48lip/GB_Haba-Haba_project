@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView
+from django.conf import settings
 
 from mainapp.models import Post
 from .models import HabaUser
@@ -16,15 +16,8 @@ def redirect_2_profile(request):
     return response
 
 
-def my_profile_edit(request):
-    """Редактирование пользователем данных о себе."""
-
-    content = {'title': 'кабинет пользователя'}
-    return render(request, 'userapp/user_edit.html', content)
-
-
 class MyProfile(LoginRequiredMixin, DataMixin, ListView):
-    """Просмотр своего профиля пользователя. Доступен только авторизованным."""
+    """Просмотр пользователем своего профиля. Доступен только авторизованным."""
 
     model = Post
     template_name = 'userapp/user_cabinet.html'
@@ -32,7 +25,7 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title=f'Кабинет {self.request.user}')
+        c_def = self.get_user_context(user=self.request.user, title=f'Кабинет {self.request.user}')
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
@@ -41,17 +34,18 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
 
 
 class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
-    """Редактирование профиля своего пользователя."""
+    """Редактирование пользователем данных о себе."""
 
     model = HabaUser
     template_name = 'userapp/user_edit.html'
     form_class = EditUserForm
     success_url = reverse_lazy('user:my_profile_view')
+
     # success_message = 'update success'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title=f'Редактирование {self.request.user}')
+        c_def = self.get_user_context(user=self.request.user, title=f'Редактирование {self.request.user}')
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
@@ -69,19 +63,28 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         return super().form_valid(form)
 
 
-class UserProfile(DetailView):
-    """Публичный просмотр чужого профиля пользователя."""
+class UserProfileList(DataMixin, ListView):
+    """Публичный профиль пользователя. Доступен всем."""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.user = None
 
-    model = HabaUser
+    model = Post
     template_name = 'userapp/user_profile.html'
-    context_object_name = 'object'
+    context_object_name = 'posts'
 
-    # form_class = AddPostForm
-
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Профиль пользователя'
+        c_def = self.get_user_context(user=self.user, title=f'Кабинет {self.user.username}', object_user=self.user)
+        context = dict(list(context.items()) + list(c_def.items()))
+
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.user = get_object_or_404(HabaUser, slug=self.kwargs['slug'])
+        return queryset.filter(is_published=True, is_blocked=False, author=HabaUser.objects.get(slug=self.user)) \
+            .order_by('time_update')
 
 
 """ Полезности https://proproprogs.ru/django/mixins-ubiraem-dublirovanie-koda """

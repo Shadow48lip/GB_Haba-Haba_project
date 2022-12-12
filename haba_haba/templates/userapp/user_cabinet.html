@@ -24,16 +24,27 @@
             <p>К сожалению вы пока не написали ни одной статьи.</p>
         {% endif %}
         {% for post in page_obj %}
+            {% if not post.is_published %}
+                <span>не опубликован</span>
+            {% endif %}
+
+            {% if post.is_blocked %}
+                <span>статься заблокирована</span>
+            {% endif %}
+
             {% post_mini post user %}
         {% endfor %}
 
 
         {% block pagination %}
-            {% include 'mainapp/includes/_pagination.html' %}
+            {% include 'userapp/includes/_pagination.html' %}
         {% endblock %}
     </div>
 {% endblock %}
 
 {% block sidebar %}
     {% include 'userapp/includes/_sidebar.html' %}
+    <div>
+    <a href="{% url 'user:my_profile_edit' %}">редактировать профиль</a>
+    </div>
 {% endblock %}

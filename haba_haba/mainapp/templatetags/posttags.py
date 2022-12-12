@@ -31,3 +31,10 @@ def post_photo_process(string):
 @register.simple_tag(name='post_like_count')
 def get_post_likes_count(post):
     return PostLike.objects.filter(post=post).count()
+
+
+@register.simple_tag(name='post_liked')
+def get_post_liked(post, user):
+    if not user.is_authenticated:
+        return 'bi-heart'
+    return PostLike.post_liked(post, user)
