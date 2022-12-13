@@ -51,21 +51,23 @@ class ShowPost(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.title
-        # context['title'] = Post.objects.get(slug=self.kwargs['slug'])
+        context['title'] = Post.objects.get(slug=self.kwargs['slug'])
         context['read_post'] = True
         return context
 
 
 class PostCreateView(CreateView):
+    """Создание статьи"""
     model = Post
     form_class = PostForm
     template_name = 'mainapp/create_post.html'
 
 
 class PostUpdateView(UpdateView):
+    """Изменение статьи"""
     model = Post
     template_name = 'mainapp/post_edit.html'
-    fields = ['title', 'body']
+    fields = ['title', 'content']
 
 
 class PostCategory(DataMixin, ListView):
@@ -73,7 +75,6 @@ class PostCategory(DataMixin, ListView):
     template_name = 'mainapp/index.html'
     context_object_name = 'posts'
     allow_empty = False
-
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

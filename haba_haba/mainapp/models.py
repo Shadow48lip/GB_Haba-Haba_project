@@ -62,10 +62,12 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('main:post', kwargs={'slug': self.slug})
 
+    # для сохранения slug
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super(Post, self).save(*args, **kwargs)
 
+    # для добавления фото
     @property
     def photo_url(self):
         if self.photo and hasattr(self.photo, 'url'):
