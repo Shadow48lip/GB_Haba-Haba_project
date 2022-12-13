@@ -49,7 +49,7 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         context = dict(list(context.items()) + list(c_def.items()))
         return context
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         return HabaUser.objects.get(pk=self.request.user.pk)
 
     def form_valid(self, form):
