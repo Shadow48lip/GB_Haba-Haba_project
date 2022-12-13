@@ -1,16 +1,12 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
-from django.views.generic import ListView, DetailView, CreateView
-from .models import Post, PostLike, CommentLike
-from .forms import PostForm
-from django.views.generic import ListView, DetailView, CreateView, FormView
-from mainapp.models import Post, Category, Comment
-from mainapp.utils import DataMixin
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.forms.models import model_to_dict
 from django.template.loader import render_to_string
+from django.views.generic import ListView, DetailView, CreateView
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
+from django.shortcuts import get_object_or_404
+
+from mainapp.models import CommentLike, Post, Category, Comment, PostLike
+from mainapp.forms import PostForm
+from mainapp.utils import DataMixin
 
 
 class MainappHome(DataMixin, ListView):

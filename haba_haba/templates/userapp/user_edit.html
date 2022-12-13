@@ -21,32 +21,37 @@
 
                 {% for f in form %}
 
-                    {% if f.html_name == 'username' or f.html_name == 'password1' %}
-                    <div class="row g-2">
-                    {% elif f.html_name == 'first_name' or f.html_name == 'last_name' or f.html_name == 'about' %}
-                    <div class="row g-2 mb-3">
-                    {% endif %}
+                    {% if f.html_name == 'username' or f.html_name == 'password1' or f.html_name == 'email' %}
 
                         {% if f.html_name == 'password1' %}
-                        <h4 class="text-center card-title mt-5">Поменять пароль</h4>
+                            <h4 class="text-center card-title mt-5">Поменять пароль</h4>
                         {% endif %}
 
-                        {% if f.html_name == 'first_name' or f.html_name == 'last_name' or f.html_name == 'about' %}
-                        <div class="col-md">
-                        {% elif f.html_name == 'gender' or f.html_name == 'age' %}
-                        <div class="col-md-3">
-                        {% else %}
-                        <div class="col-md mb-3">
+                        {% if f.errors %}
+                            <div class="alert alert-danger mt-3 error-auth" role="alert">{{ f.errors }}</div>
                         {% endif %}
-                                <div class="form-error">{{ f.errors }}</div>
-                                <div class="form-floating">
-                                    {{ f }}
-                                    <label for="{{ f.id_for_label }}">{{f.label}}</label>
-                               </div>
-                        </div>
-                    {% if f.html_name == 'email' or f.html_name == 'gender' or f.html_name == 'age' or f.html_name == 'about' or f.html_name == 'password2' %}
-                    </div>
+
+                        <div class="row g-2">
+                    {% elif f.html_name == 'first_name' or f.html_name == 'last_name' or f.html_name == 'about' %}
+                        <div class="row g-2 mb-3">
                     {% endif %}
+
+                    {% if f.html_name == 'first_name' or f.html_name == 'last_name' or f.html_name == 'about' %}
+                        <div class="col-md">
+                    {% elif f.html_name == 'gender' or f.html_name == 'age' %}
+                        <div class="col-md-3">
+                    {% else %}
+                        <div class="col-md mb-3">
+                    {% endif %}
+
+                <div class="form-floating">
+                    {{ f }}
+                    <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                </div>
+                </div>
+                {% if f.html_name == 'username' or f.html_name == 'email' or f.html_name == 'gender' or f.html_name == 'age' or f.html_name == 'about' or f.html_name == 'password2' %}
+                    </div>
+                {% endif %}
                 {% endfor %}
 
 
