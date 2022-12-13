@@ -7,9 +7,9 @@ from django.utils.text import slugify
 
 
 class HabaUser(AbstractUser):
-    HIDDEN = 'Не выбран'
-    MALE = 'Мужской'
-    FEMALE = 'Женский'
+    MALE = 'М'
+    FEMALE = 'Ж'
+    HIDDEN = 'НД'
 
     GENDER_CHOICES = (
         (HIDDEN, 'Не выбран'),
