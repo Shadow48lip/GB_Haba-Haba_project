@@ -45,6 +45,7 @@
 </div>
 
 <script>
+
         $(document).ready(function(){
 
             $("#createButton").click(send_comment)
@@ -69,6 +70,7 @@
                             $("#comment").append(response.data);
                             send_text.value = '';
                             document.getElementById('comment_count_id').innerHTML = 'Комментарии ('+response.result+')';
+                            document.getElementById('edit_comment_btn_'+response.id).addEventListener('click', edit, false);
                         }
                 }
             )

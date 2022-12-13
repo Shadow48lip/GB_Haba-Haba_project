@@ -109,7 +109,7 @@ def add_comment(request):
         new_comment.is_published = True
         new_comment.save()
         return JsonResponse(
-            {'result': Comment.get_count(post),
+            {'result': Comment.get_count(post), 'id': new_comment.id,
              'data': render_to_string('mainapp/includes/_comment_text.html', {'c': new_comment, 'user': user})})
 
 

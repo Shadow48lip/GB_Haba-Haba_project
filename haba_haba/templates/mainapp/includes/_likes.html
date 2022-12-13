@@ -1,9 +1,9 @@
 {% load posttags %}
 
 {% post_liked post user as liked %}
-
+{% if user.is_authenticated %}
 <button style="background-color: rgba(0,0,0,0)" class="btn-primary btn-medium btn-light"
-                            onclick="like_pressed_post('{% url 'main:set_like' %}', '{{post.id}}')">
+                            onclick="like_pressed_post('{% url 'main:set_like' %}', '{{post.id}}')">{% endif %}
 <span class="ms-2"><i id="post_like_id_{{post.id}}" class="{{ liked }}"></i></span>
 </button>
 
