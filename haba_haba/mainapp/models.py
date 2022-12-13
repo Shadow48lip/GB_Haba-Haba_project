@@ -62,7 +62,8 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        return super(Post, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
+
 
     @staticmethod
     def get_new_post():
