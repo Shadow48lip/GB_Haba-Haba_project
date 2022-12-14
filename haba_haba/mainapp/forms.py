@@ -1,6 +1,6 @@
 from django import forms
 from .models import Post
-from django_summernote.widgets import SummernoteWidget
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
 class PostForm(forms.ModelForm):
@@ -22,5 +22,6 @@ class PostForm(forms.ModelForm):
                     'width': '100%',
                     'height': '500',
                 }}),
+            # 'content': SummernoteInplaceWidget(),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control', }),
         }

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse, reverse_lazy
-from django.utils.text import slugify
+# from django.utils.text import slugify
+from pytils.translit import slugify
 
 from userapp.models import HabaUser
 import datetime
