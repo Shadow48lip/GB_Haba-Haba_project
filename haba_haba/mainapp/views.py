@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView, CreateView
@@ -87,7 +88,9 @@ class ShowComments(ListView):
         return context
 
     def get_queryset(self):
-        return Comment.objects.filter(post=Post.objects.get(slug=self.kwargs['slug']), is_published=True).order_by(
+        return Comment.objects.filter(
+            post=Post.objects.get(slug=self.kwargs['slug']), is_published=True
+        ).order_by(
             '-time_update'
         )
 
@@ -108,6 +111,7 @@ def add_comment(request):
         return JsonResponse(
             data={
                 'comment_likes_count': Comment.get_count(post),
+                'id': new_comment.id,
                 'data': render_to_string(
                     'mainapp/includes/_comment_text.html',
                     {'c': new_comment, 'user': user}
@@ -137,10 +141,17 @@ def edit_comment(request):
         return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'mainapp/create_post.html'
+
+    # Добавляем автора к публикации в момент сохранения
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.save()
+        return super().form_valid(form)
 
 
 def like_pressed(request):
@@ -153,7 +164,8 @@ def like_pressed(request):
         return JsonResponse(
             {
                 'result': comment_add, 'object': f'comment_like_id_{comment.id}',
-                'object_count': f'comment_count_id_{comment.id}', 'comment_likes_count': str(CommentLike.get_count(comment)),
+                'object_count': f'comment_count_id_{comment.id}',
+                'comment_likes_count': str(CommentLike.get_count(comment)),
                 'data': render_to_string(
                     'mainapp/includes/_comments.html',
                     {

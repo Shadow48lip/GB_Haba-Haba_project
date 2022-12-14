@@ -1,4 +1,3 @@
-{% load static %}
 {% load commenttags %}
 
 {% if read_post == False %}
@@ -55,3 +54,34 @@
         </div>
     {% endif %}
 </div>
+
+{#<script>#}
+{#        $(document).ready(function(){#}
+{#            $("#createButton").click(send_comment)#}
+{#        });#}
+{##}
+{#        function send_comment(_url) {#}
+{##}
+{#            var send_text = document.getElementById('floatingTextarea');#}
+{##}
+{#            $.ajax({#}
+{#                    type: "post",#}
+{#                    dataType: 'json',#}
+{#                    url: $("#createTaskForm").data('url'),#}
+{#                    data: {#}
+{#                    csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{#                    'text': send_text.value,#}
+{#                    'post': '{{ post.id }}'#}
+{#                    },#}
+{#                    success:#}
+{#                        function callback(response) {#}
+{#                            $("#comment").append(response.data);#}
+{#                            send_text.value = '';#}
+{#                            document.getElementById('comment_count_id').innerHTML = 'Комментарии ('+response.result+')';#}
+{#                            document.getElementById('edit_comment_btn_'+response.id).addEventListener('click', edit, false);#}
+{#                        }#}
+{#                }#}
+{#            )#}
+{#            ;#}
+{#        }#}
+{#</script>#}

@@ -33,7 +33,7 @@
                         {% if user.is_authenticated %}
 
                             <li class="nav-item">
-                                <a class="nav-link" href="new_post.html" role="button">
+                                <a class="nav-link" href="{% url 'main:create_post' %}" role="button">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                             </li>

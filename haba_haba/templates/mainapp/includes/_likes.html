@@ -3,8 +3,17 @@
 {% post_liked post user as liked %}
 {% post_like_count post as post_like_count %}
 
+{#    <button class="btn-primary btn-medium btn-light"#}
+{#            onclick="like_pressed_post('{% url 'main:set_like' %}', '{{ post.id }}')">#}
+{#<span class="ms-2"><i id="post_like_id_{{ post.id }}" class="{{ liked }}"></i></span>#}
+{#</button>#}
+
+
+{% if user.is_authenticated %}
 
 <span id="like" class="ms-2" onclick="ajaxLikePressedPost('{% url 'main:set_like' %}', '{{ post.id }}')">
     <i id="post_like_id_{{ post.id }}" class="{{ liked }}"></i>
     <span id="post_count_id_{{ post.id }}">{{ post_like_count }}</span>
 </span>
+
+{% endif %}
