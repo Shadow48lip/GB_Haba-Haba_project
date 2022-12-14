@@ -88,7 +88,8 @@ class ShowComments(ListView):
 
     def get_queryset(self):
         return Comment.objects.filter(post=Post.objects.get(slug=self.kwargs['slug']), is_published=True).order_by(
-            '-time_update')
+            '-time_update'
+        )
 
 
 def add_comment(request):
@@ -105,8 +106,14 @@ def add_comment(request):
         new_comment.is_published = True
         new_comment.save()
         return JsonResponse(
-            {'result': Comment.get_count(post),
-             'data': render_to_string('mainapp/includes/_comment_text.html', {'c': new_comment, 'user': user})})
+            data={
+                'comment_likes_count': Comment.get_count(post),
+                'data': render_to_string(
+                    'mainapp/includes/_comment_text.html',
+                    {'c': new_comment, 'user': user}
+                )
+            }
+        )
 
 
 def delete_comment(request):
@@ -144,19 +151,35 @@ def like_pressed(request):
         comment = Comment.objects.get(id=int(comment))
         comment_add = CommentLike.set_like(comment, request.user)
         return JsonResponse(
-            {'result': comment_add, 'object': f'comment_like_id_{comment.id}',
-             'odject_count': f'comment_count_id_{comment.id}', 'comment_count': str(CommentLike.get_count(comment)),
-             'data': render_to_string('mainapp/includes/_comments.html',
-                                      {'comment': comment.id, 'user': request.user, })})
+            {
+                'result': comment_add, 'object': f'comment_like_id_{comment.id}',
+                'object_count': f'comment_count_id_{comment.id}', 'comment_likes_count': str(CommentLike.get_count(comment)),
+                'data': render_to_string(
+                    'mainapp/includes/_comments.html',
+                    {
+                        'comment': comment.id,
+                        'user': request.user,
+                    }
+                )
+            }
+        )
     if is_ajax and post:
         post = Post.objects.get(id=int(post))
         post_add = PostLike.set_like(post, request.user)
         return JsonResponse(
-            {'result': post_add, 'object': f'post_like_id_{post.id}',
-             'odject_count': f'post_count_id_{post.id}', 'post_like_count': str(PostLike.get_count(post)),
-             'data': render_to_string('mainapp/includes/_likes.html',
-                                      {'post': post, 'user': request.user,
-                                       'post_like_count': str(PostLike.get_count(post))})})
+            {
+                'result': post_add, 'object': f'post_like_id_{post.id}',
+                'object_count': f'post_count_id_{post.id}', 'post_like_count': str(PostLike.get_count(post)),
+                'data': render_to_string(
+                    'mainapp/includes/_likes.html',
+                    {
+                        'post': post,
+                        'user': request.user,
+                        'post_like_count': str(PostLike.get_count(post))
+                    }
+                )
+            }
+        )
 
 
 def show_post(request, slug):
