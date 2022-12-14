@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView, CreateView
@@ -24,6 +25,8 @@ class MainappHome(DataMixin, ListView):
         context['title'] = 'Статьи'
         context['news'] = Post.get_new_post()
 
+        # Тут косяк!!! Тут повторно перезапрашиваются все статьи. И без фильтров на публикацию и блокировку
+        # Либо надо пользоваться пагинацией из CBV ListView, либо переписывать на Функцию FBV
         context['posts'] = Post.objects.all()
         paginator = Paginator(context['posts'], 5)
         page = self.request.GET.get('page')
@@ -130,10 +133,17 @@ def edit_comment(request):
         return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'mainapp/create_post.html'
+
+    # Добавляем автора к публикации в момент сохранения
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.save()
+        return super().form_valid(form)
 
 
 def like_pressed(request):
