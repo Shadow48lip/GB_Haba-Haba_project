@@ -20,36 +20,20 @@
 
         <span id="like" class="ms-2" onclick="ajaxLikePressedComment('{% url 'main:set_like' %}', '{{ c.id }}')">
             <i id="comment_like_id_{{ c.id }}" class={{ liked }}></i>
-            <span id="comment_count_id_{{ c.id }}">{% comment_like_count c %}</span>
+            <span id="comment_likes_count_id_{{ c.id }}">{% comment_like_count c %}</span>
         </span>
-        {#        {% comment_liked c user as liked %}#}
-        {#        <button style="background-color: rgba(28,28,28,0)" class="btn-primary btn-medium btn-light"#}
-        {#                onclick="like_pressed('{% url 'main:set_like' %}', '{{ c.id }}')">#}
-        {#            <span class="ms-2"><i id="comment_like_id_{{ c.id }}" class={{ liked }}></i></span>#}
-        {#        </button>#}
-        {#        <span id="comment_count_id_{{ c.id }}">{% comment_like_count c %}</span>#}
-        {##}
-        {#        {% if user.is_authenticated %}#}
-        {#            {% if user == c.user %}#}
-        {#                <span class="ms-3"><button type="button"#}
-        {#                                           onclick="delete_com('{% url 'main:delete_comment' %}', '{{ c.id }}')"#}
-        {#                                           id="comment_delete_button" class="close-button-comment"><i#}
-        {#                        class="bi bi-trash"></i></button></span>#}
-        {#                <span class="ms-3"><button type="button" onclick="edit_com('{{ c.id }}')"#}
-        {#                                           id="comment_edit_button_{{ c.id }}" class="close-button-comment"><i#}
-        {#                        id="icon_edit_{{ c.id }}" class="bi bi-pencil"></i></button></span>#}
-        {#            {% endif %}#}
-        {#        {% endif %}#}
-
     </small>
 
     <small>
         {% if user.is_authenticated %}
             {% if user == c.user %}
-                <span onclick="ajaxEditComment('{{ c.id }}')" id="comment_edit_button_{{ c.id }}"
-                      class="ms-3 edit-comment close-button-comment">
-                        <i id="icon_edit_{{ c.id }}" class="bi bi-pencil"></i>
+                <span id="edit_comment_btn_{{ c.id }}"
+                      class="ms-3 edit-comment close-button-comment"
+                      data-id
+                      data-url="/comment/edit/">
+                    <i id="icon_edit_{{ c.id }}" class="bi bi-pencil"></i>
                 </span>
+
                 <span onclick="ajaxDeleteComment('{% url 'main:delete_comment' %}', '{{ c.id }}')"
                       id="comment_delete_button" class="ms-3 me-3 edit-comment close-button-comment">
                         <i class="bi bi-trash3"></i>
@@ -67,140 +51,4 @@
             {% endif %}
         {% endif %}
     </small>
-
 </div>
-
-<script>
-
- function set_clik() {
-        let buttons = document.querySelectorAll('button');
-        buttons.forEach((button) => {
-        if (String(button.id).startsWith('edit_comment_btn_')) {
-            button.addEventListener('click', edit, false);
-            }
-        })
-    };
-
-function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
- const csrftoken = getCookie('csrftoken');
-
-
-        function get_id_num(id) {
-            return id.substring(17, 50)
-        }
-
-        function like_pressed(_url, _comment) {
-            $.ajax({
-                    type: "POST",
-                    dataType: 'json',
-                    url: _url,
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        'comment': _comment
-                    },
-                    success:
-                        function callback(response) {
-                            if (response.result === 1) {
-                                set_class(document.getElementById(response.object), 'bi-heart-fill', 'bi-heart')
-                                document.getElementById(response.odject_count).innerHTML = response.comment_count
-                            }
-                            else if (response.result === 0) {
-                                set_class(document.getElementById(response.object), 'bi-heart', 'bi-heart-fill')
-                                document.getElementById(response.odject_count).innerHTML = response.comment_count
-                            }
-                        }
-                }
-            )
-            ;
-        }
-
-        function set_class(el, add_class, remove_class) {
-            el.classList.remove(remove_class);
-            el.classList.add(add_class);
-        }
-
-        function edit(event) {
-            let id = get_id_num(this.id)
-            let text_com = document.getElementById('text_area_'+id);
-            text_com.contentEditable = true;
-            set_class(document.getElementById('icon_edit_'+id), 'bi-pencil-fill', 'bi-pencil');
-            this.addEventListener('click',send,false);
-        }
-
-        function send(event) {
-            let id = get_id_num(this.id)
-            let text_com = document.getElementById('text_area_'+id);
-            text_com.contentEditable = false;
-            $.ajax({
-                    type: "POST",
-                    dataType: 'json',
-                    url: "/comment/edit/",
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        'comment_id': id,
-                        'comment_text': text_com.textContent
-                    },
-                    success:
-                        function callback(response) {
-                            set_class(document.getElementById('icon_edit_'+id), 'bi-pencil', 'bi-pencil-fill');
-                            text_com.contentEditable = false;
-                        }
-                }
-            )
-            ;
-
-            this.removeEventListener('click', send);
-            set_class(document.getElementById('icon_edit_'+id), 'bi-pencil', 'bi-pencil-fill');
-       }
-
-       set_clik();
-
-</script>
-
-{#    function ajaxEditComment(_id) {#}
-{#        var text_com = document.getElementById('text_area_' + _id);#}
-{#        text_com.contentEditable = true;#}
-{#        var button = document.getElementById('comment_edit_button_' + _id);#}
-{#        button.addEventListener('click', () => send_com('/comment/edit/', _id));#}
-{#        document.getElementById('icon_edit_' + _id).classList.add('bi-pencil-fill');#}
-{#        document.getElementById('icon_edit_' + _id).classList.remove('bi-pencil');#}
-{#        document.getElementById('commentList_' + _id).classList.remove('edit-comment-text');#}
-{##}
-{#    }#}
-{##}
-{#    function send_com(_url, _id) {#}
-{#        var text_com = document.getElementById('text_area_' + _id);#}
-{#        $.ajax({#}
-{#            type: "POST",#}
-{#            dataType: 'json',#}
-{#            url: _url,#}
-{#            data: {#}
-{#                csrfmiddlewaretoken: '{{ csrf_token }}',#}
-{#                'comment_id': _id,#}
-{#                'comment_text': text_com.textContent#}
-{#            },#}
-{#            success: function callback(response) {#}
-{#                var button = document.getElementById('comment_edit_button_' + _id);#}
-{#                button.addEventListener('click', () => ajaxEditComment(_id));#}
-{#                document.getElementById('icon_edit_' + _id).classList.remove('bi-pencil-fill');#}
-{#                document.getElementById('icon_edit_' + _id).classList.add('bi-pencil');#}
-{#                text_com.contentEditable = false;#}
-{#            }#}
-{#        })#}
-{#    }#}
-
-

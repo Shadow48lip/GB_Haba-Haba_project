@@ -30,6 +30,7 @@ if (iconMenu) {
     });
 }
 
+
 // ??? что это должно делать и где?
 $(function () {
     document.getElementById('a_comment_tag').scrollIntoView({
@@ -37,3 +38,10 @@ $(function () {
         block: 'start'
     })
 })
+
+
+// удалить/добавить класс
+function toggle_class(el, add_class, remove_class) {
+    el.classList.remove(remove_class);
+    el.classList.add(add_class);
+}

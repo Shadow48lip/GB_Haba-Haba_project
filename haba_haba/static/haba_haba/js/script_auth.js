@@ -39,7 +39,7 @@ function ajaxLogin() {
 function ajaxLogout() {
     const csrftoken = getCookie('csrftoken');
 
-    $('#logout').on('click', function (e) {
+    $('#logout').submit(function (e) {
         e.preventDefault()
         $.ajax({
             type: 'POST',

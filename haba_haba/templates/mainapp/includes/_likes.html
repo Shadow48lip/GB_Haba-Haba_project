@@ -3,11 +3,6 @@
 {% post_liked post user as liked %}
 {% post_like_count post as post_like_count %}
 
-{#    <button class="btn-primary btn-medium btn-light"#}
-{#            onclick="like_pressed_post('{% url 'main:set_like' %}', '{{ post.id }}')">#}
-{#<span class="ms-2"><i id="post_like_id_{{ post.id }}" class="{{ liked }}"></i></span>#}
-{#</button>#}
-
 
 {% if user.is_authenticated %}
 
@@ -17,3 +12,85 @@
 </span>
 
 {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+ function ajaxEditComment(_id) {
+     let comment_text = document.getElementById('text_area_' + _id);
+     comment_text.contentEditable = true;
+     let button = document.getElementById('comment_edit_btn_' + _id);
+     button.addEventListener('click', () => send_com('/comment/edit/', _id));
+     document.getElementById('icon_edit_' + _id).classList.add('bi-pencil-fill');
+     document.getElementById('icon_edit_' + _id).classList.remove('bi-pencil');
+     document.getElementById('commentList_' + _id).classList.remove('edit-comment-text');
+
+     toggle_class(document.getElementById('icon_edit_' + _id), 'bi-pencil-fill', 'bi-pencil');
+     this.addEventListener('click', send, false);
+
+ }
+
+ function send(_url, _id) {
+     const csrftoken = getCookie('csrftoken');
+     let comment_text = document.getElementById('text_area_' + _id);
+
+     $.ajax({
+         type: "POST",
+         url: _url,
+         dataType: 'json',
+         data: {
+             'comment_id': _id,
+             'comment_text': comment_text.textContent
+         },
+         headers: {'X-CSRFToken': csrftoken},
+         success: function callback() {
+             toggle_class(document.getElementById('icon_edit_' + _id), 'bi-pencil', 'bi-pencil-fill');
+             comment_text.contentEditable = false;
+         }
+     })
+     this.removeEventListener('click', send);
+     toggle_class(document.getElementById('icon_edit_' + _id), 'bi-pencil', 'bi-pencil-fill');
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
