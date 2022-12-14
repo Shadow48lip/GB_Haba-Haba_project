@@ -1,9 +1,5 @@
 {% load commenttags %}
 
-{% if read_post == False %}
-    <a id="a_comment_tag"></a>
-{% endif %}
-
 <div id="comment" class="single-card card text-center mt-3 border border-secondary border-opacity-25 pb-3">
     <h4 id="comment_count_id" class="card-header mt-3 d-flex justify-content-end">
         Комментарии ({{ comment_count }})
@@ -54,34 +50,3 @@
         </div>
     {% endif %}
 </div>
-
-{#<script>#}
-{#        $(document).ready(function(){#}
-{#            $("#createButton").click(send_comment)#}
-{#        });#}
-{##}
-{#        function send_comment(_url) {#}
-{##}
-{#            var send_text = document.getElementById('floatingTextarea');#}
-{##}
-{#            $.ajax({#}
-{#                    type: "post",#}
-{#                    dataType: 'json',#}
-{#                    url: $("#createTaskForm").data('url'),#}
-{#                    data: {#}
-{#                    csrfmiddlewaretoken: '{{ csrf_token }}',#}
-{#                    'text': send_text.value,#}
-{#                    'post': '{{ post.id }}'#}
-{#                    },#}
-{#                    success:#}
-{#                        function callback(response) {#}
-{#                            $("#comment").append(response.data);#}
-{#                            send_text.value = '';#}
-{#                            document.getElementById('comment_count_id').innerHTML = 'Комментарии ('+response.result+')';#}
-{#                            document.getElementById('edit_comment_btn_'+response.id).addEventListener('click', edit, false);#}
-{#                        }#}
-{#                }#}
-{#            )#}
-{#            ;#}
-{#        }#}
-{#</script>#}

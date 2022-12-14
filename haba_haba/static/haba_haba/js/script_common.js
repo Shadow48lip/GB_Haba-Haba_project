@@ -33,7 +33,7 @@ if (iconMenu) {
 
 // ??? что это должно делать и где?
 $(function () {
-    document.getElementById('a_comment_tag').scrollIntoView({
+    document.getElementById('comment_count_id').scrollIntoView({
         behavior: 'smooth',
         block: 'start'
     })
