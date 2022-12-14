@@ -1,5 +1,9 @@
 {% load commenttags %}
 
+{% if read_post == False %}
+    <a id="a_comment_tag">123</a>
+{% endif %}
+
 <div id="comment" class="single-card card text-center mt-3 border border-secondary border-opacity-25 pb-3">
     <h4 id="comment_count_id" class="card-header mt-3 d-flex justify-content-end">
         Комментарии ({{ comment_count }})

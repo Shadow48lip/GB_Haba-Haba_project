@@ -7,7 +7,7 @@
 {% if user.is_authenticated %}
 
     <span id="like" class="ms-2" onclick="ajaxLikePressedPost('{% url 'main:set_like' %}', '{{ post.id }}')">
-    <i id="post_like_id_{{ post.id }}" class="{{ liked }}"></i>
+        <i id="post_like_id_{{ post.id }}" class="{{ liked }}"></i>
     <span id="post_count_id_{{ post.id }}">{{ post_like_count }}</span>
 </span>
 
