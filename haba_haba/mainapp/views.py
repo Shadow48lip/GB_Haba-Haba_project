@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from mainapp.models import CommentLike, Post, Category, Comment, PostLike
 from mainapp.forms import PostForm
 from mainapp.utils import DataMixin
+from django.shortcuts import render
 
 
 class MainappHome(DataMixin, ListView):
@@ -168,6 +169,9 @@ def like_pressed(request):
                                       {'post': post, 'user': request.user,
                                        'post_like_count': str(PostLike.get_count(post))})})
 
+
+def about(request):
+    return render(request, 'mainapp/about.html', {'title': 'О сайте'})
 
 def show_post(request, slug):
     return HttpResponse('<h1>Статья</h1>')

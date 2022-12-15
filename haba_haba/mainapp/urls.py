@@ -14,6 +14,7 @@ urlpatterns = [
     path('cat/<slug:slug>/', PostCategory.as_view(), name='category'),
     path('create_post/', PostCreateView.as_view(), name='create_post'),
     path('likepress/', like_pressed, name='set_like'),
+    path('about/', about, name='about'),
     # path('update_post/<str:pk>', views.update_post, name='update_post'),
 ]
 
