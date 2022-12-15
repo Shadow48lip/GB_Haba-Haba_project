@@ -26,8 +26,6 @@ class MainappHome(DataMixin, ListView):
         context['title'] = 'Статьи'
         context['news'] = Post.get_new_post()
 
-        # Тут косяк!!! Тут повторно перезапрашиваются все статьи. И без фильтров на публикацию и блокировку
-        # Либо надо пользоваться пагинацией из CBV ListView, либо переписывать на Функцию FBV
         context['posts'] = Post.objects.all()
         paginator = Paginator(context['posts'], 5)
         page = self.request.GET.get('page')
@@ -91,8 +89,11 @@ class ShowComments(ListView):
         return context
 
     def get_queryset(self):
-        return Comment.objects.filter(post=Post.objects.get(slug=self.kwargs['slug']), is_published=True).order_by(
-            '-time_update')
+        return Comment.objects.filter(
+            post=Post.objects.get(slug=self.kwargs['slug']), is_published=True
+        ).order_by(
+            '-time_update'
+        )
 
 
 def add_comment(request):
@@ -109,8 +110,15 @@ def add_comment(request):
         new_comment.is_published = True
         new_comment.save()
         return JsonResponse(
-            {'result': Comment.get_count(post), 'id': new_comment.id,
-             'data': render_to_string('mainapp/includes/_comment_text.html', {'c': new_comment, 'user': user})})
+            data={
+                'comment_likes_count': Comment.get_count(post),
+                'id': new_comment.id,
+                'data': render_to_string(
+                    'mainapp/includes/_comment_text.html',
+                    {'c': new_comment, 'user': user}
+                )
+            }
+        )
 
 
 def delete_comment(request):
@@ -155,19 +163,36 @@ def like_pressed(request):
         comment = Comment.objects.get(id=int(comment))
         comment_add = CommentLike.set_like(comment, request.user)
         return JsonResponse(
-            {'result': comment_add, 'object': f'comment_like_id_{comment.id}',
-             'odject_count': f'comment_count_id_{comment.id}', 'comment_count': str(CommentLike.get_count(comment)),
-             'data': render_to_string('mainapp/includes/_comments.html',
-                                      {'comment': comment.id, 'user': request.user, })})
+            {
+                'result': comment_add, 'object': f'comment_like_id_{comment.id}',
+                'object_count': f'comment_count_id_{comment.id}',
+                'comment_likes_count': str(CommentLike.get_count(comment)),
+                'data': render_to_string(
+                    'mainapp/includes/_comments.html',
+                    {
+                        'comment': comment.id,
+                        'user': request.user,
+                    }
+                )
+            }
+        )
     if is_ajax and post:
         post = Post.objects.get(id=int(post))
         post_add = PostLike.set_like(post, request.user)
         return JsonResponse(
-            {'result': post_add, 'object': f'post_like_id_{post.id}',
-             'odject_count': f'post_count_id_{post.id}', 'post_like_count': str(PostLike.get_count(post)),
-             'data': render_to_string('mainapp/includes/_likes.html',
-                                      {'post': post, 'user': request.user,
-                                       'post_like_count': str(PostLike.get_count(post))})})
+            {
+                'result': post_add, 'object': f'post_like_id_{post.id}',
+                'object_count': f'post_count_id_{post.id}', 'post_like_count': str(PostLike.get_count(post)),
+                'data': render_to_string(
+                    'mainapp/includes/_likes.html',
+                    {
+                        'post': post,
+                        'user': request.user,
+                        'post_like_count': str(PostLike.get_count(post))
+                    }
+                )
+            }
+        )
 
 
 def about(request):

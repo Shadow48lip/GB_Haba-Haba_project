@@ -1,43 +1,14 @@
+{% load static %}
 {% load posttags %}
-
 {% post_liked post user as liked %}
-{% if user.is_authenticated %}
-<button style="background-color: rgba(0,0,0,0)" class="btn-primary btn-medium btn-light"
-                            onclick="like_pressed_post('{% url 'main:set_like' %}', '{{post.id}}')">{% endif %}
-<span class="ms-2"><i id="post_like_id_{{post.id}}" class="{{ liked }}"></i></span>
-</button>
-
 {% post_like_count post as post_like_count %}
 
-<span  id="post_count_id_{{post.id}}">{{ post_like_count }}</span>
 
-<script>
-        function like_pressed_post(_url, _post) {
-            console.log(_post)
-            $.ajax({
-                    type: "POST",
-                    dataType: 'json',
-                    url: _url,
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        'post': _post
-                    },
-                    success:
-                        function callback(response) {
-                            if (response.result === 1) {
-                                document.getElementById(response.object).classList.remove('bi-heart')
-                                document.getElementById(response.object).classList.add('bi-heart-fill')
-                                document.getElementById(response.odject_count).innerHTML = response.post_like_count
-                            }
-                            else if (response.result === 0) {
-                                document.getElementById(response.object).classList.add('bi-heart')
-                                document.getElementById(response.object).classList.remove('bi-heart-fill')
-                                document.getElementById(response.odject_count).innerHTML = response.post_like_count
-                            }
-                        }
-                }
-            )
-            ;
-        }
+{% if user.is_authenticated %}
 
-</script>
+    <span id="like" class="ms-2" onclick="ajaxLikePressedPost('{% url 'main:set_like' %}', '{{ post.id }}')">
+        <i id="post_like_id_{{ post.id }}" class="{{ liked }}"></i>
+    <span id="post_count_id_{{ post.id }}">{{ post_like_count }}</span>
+</span>
+
+{% endif %}

@@ -42,13 +42,17 @@
                     <span class="ms-2"><i class="bi bi-eye"></i></span>
                     <span>5088</span>
 
-                   {% include 'mainapp/includes/_likes.html' %}
+                    {% include 'mainapp/includes/_likes.html' %}
 
-                    <a href="" class="trans-color-02">
+                    <a href="{% url 'main:comment' post.slug %}" class="trans-color-02">
                         <span class="ms-2"><i class="bi bi-chat"></i></span>
-                        <span>{{comm_count}}</span>
+                        <span>{{ comm_count }}</span>
                     </a>
 
+                    <a href="#postReply" class="trans-color-02">
+                        <span class="ms-2"><i class="bi bi-reply"></i></span>
+                        <span>Ответить</span>
+                    </a>
                 </small>
 
                 <small class="text-muted">

@@ -1,81 +1,56 @@
 {% load commenttags %}
 
 {% if read_post == False %}
-<a id="a_comment_tag"></a>
+    <a id="a_comment_tag">123</a>
 {% endif %}
-<div id="comment" class="single-card card text-center mt-3 border border-secondary border-opacity-25">
-    <div id="comment_count_id" class="card-header">
-        Комментарии ({{comment_count}})
-    </div>
+
+<div id="comment" class="single-card card text-center mt-3 border border-secondary border-opacity-25 pb-3">
+    <h4 id="comment_count_id" class="card-header mt-3 d-flex justify-content-end">
+        Комментарии ({{ comment_count }})
+    </h4>
+
+    <hr>
+
     {% for c in comments %}
-    {% include "mainapp/includes/_comment_text.html"  %}
+        {% include "mainapp/includes/_comment_text.html" %}
     {% endfor %}
 </div>
 
 <div class="single-card card mt-3 border border-secondary border-opacity-25">
 
     {% if user.is_authenticated %}
-
-    <form data-url="{% url 'main:add_comment' %}" id="createTaskForm" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="card-body">
-            <div class="form-floating">
+        <form id="add_comment_form"
+              method="post"
+              action="{% url 'main:add_comment' %}"
+              data-post-id="{{ post.id }}"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body">
+                <div class="form-floating">
                 <textarea name="comment_text" class="form-control custom-textarea" placeholder="Leave a comment here"
-                          id="floatingTextarea" oninput="auto_grow(this)"></textarea>
-                <label for="floatingTextarea">Ваш комментарий</label>
+                          id="postReply"></textarea>
+                    <label for="postReply">Ваш комментарий</label>
+                </div>
             </div>
-        </div>
-        <div class="card-footer no-border-modal-footer mb-2 d-flex justify-content-end">
-            <button id="createButton" type="button" class="btn btn-outline-primary btn-sm">Опубликовать</button>
-        </div>
-    </form>
+
+            <div class="card-footer no-border-modal-footer mb-2 d-flex justify-content-end">
+                <button id="send_new_comment_btn" type="submit" class="btn btn-outline-primary btn-sm">
+                    Опубликовать
+                </button>
+            </div>
+        </form>
 
     {% else %}
 
-    <div class="card-body">
-
-        <a href="#" class="auth" data-bs-toggle="modal"
-           data-bs-target="#staticBackdropRegister">Зарегистрируйтесь</a>
-        или
-        <a href="#" class="auth" data-bs-toggle="modal"
-           data-bs-target="#staticBackdropLogin">Авторизуйтесь</a>, чтобы оставить комментарий!
-    </div>
-
+        <div class="card-body">
+            <a href="#" class="auth" data-bs-toggle="modal" data-bs-target="#staticBackdropRegister">
+                Зарегистрируйтесь
+            </a>
+            или
+            <a href="#" class="auth" data-bs-toggle="modal" data-bs-target="#staticBackdropLogin">
+                Авторизуйтесь
+            </a>
+            , чтобы оставить комментарий!
+        </div>
     {% endif %}
 </div>
-
-<script>
-
-        $(document).ready(function(){
-
-            $("#createButton").click(send_comment)
-
-        });
-
-        function send_comment(_url) {
-
-            var send_text = document.getElementById('floatingTextarea');
-
-            $.ajax({
-                    type: "post",
-                    dataType: 'json',
-                    url: $("#createTaskForm").data('url'),
-                    data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    'text': send_text.value,
-                    'post': '{{ post.id }}'
-                    },
-                    success:
-                        function callback(response) {
-                            $("#comment").append(response.data);
-                            send_text.value = '';
-                            document.getElementById('comment_count_id').innerHTML = 'Комментарии ('+response.result+')';
-                            document.getElementById('edit_comment_btn_'+response.id).addEventListener('click', edit, false);
-                        }
-                }
-            )
-            ;
-        }
-
-
-</script>
