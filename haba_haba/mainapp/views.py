@@ -187,7 +187,7 @@ def like_pressed(request):
         return JsonResponse(
             {
                 'result': comment_add, 'object': f'comment_like_id_{comment.id}',
-                'object_count': f'comment_count_id_{comment.id}',
+                'object_count': f'comment_likes_count_id_{comment.id}',
                 'comment_likes_count': str(CommentLike.get_count(comment)),
                 'data': render_to_string(
                     'mainapp/includes/_comments.html',
