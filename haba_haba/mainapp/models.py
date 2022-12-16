@@ -196,12 +196,34 @@ class UserComplaints(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Статья')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='Комментарий')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    moderator = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Модератор',
+    moderator = models.ForeignKey(HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
                                   related_name='moderator_complaint_set')
-    moderated_time = models.DateTimeField(default=datetime.date(2000, 1, 1), verbose_name='Время создания')
+    moderated_time = models.DateTimeField(default=datetime.datetime(2000, 1, 1, 0, 0, 0), verbose_name='Время создания')
 
     def __str__(self):
         return f'{self.user} / {self.bad_user} / {self.post}'
+
+    @staticmethod
+    def set_сomplaint(post, user, comment):
+        obj = UserComplaints.objects.filter(post=post, user=user, comment=comment).first()
+        if obj:
+            obj.delete()
+            return 0
+        else:
+            UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
+            return 1
+
+    @staticmethod
+    def get_сomplaint(post, user, comment):
+        obj = UserComplaints.objects.filter(post=post, user=user, comment=comment).first()
+        if obj:
+            return 'bi bi-exclamation-circle-fill'
+        else:
+            return 'bi bi-exclamation-circle'
+
+    @staticmethod
+    def get_new_complaints():
+        return UserComplaints.objects.filter(moderator=None).count()
 
     class Meta:
         verbose_name = 'Жалоба пользователя'

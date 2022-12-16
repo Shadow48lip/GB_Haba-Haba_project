@@ -26,29 +26,31 @@
 
     <small>
         {% if user.is_authenticated %}
-            {% if user == c.user %}
-                <span id="edit_comment_btn_{{ c.id }}"
-                      class="ms-3 edit-comment close-button-comment"
-                      data-id
-                      data-url="/comment/edit/">
+        {% if user == c.user %}
+        <span id="edit_comment_btn_{{ c.id }}"
+              class="ms-3 edit-comment close-button-comment"
+              data-id
+              data-url="/comment/edit/">
                     <i id="icon_edit_{{ c.id }}" class="bi bi-pencil"></i>
                 </span>
 
-                <span onclick="ajaxDeleteComment('{% url 'main:delete_comment' %}', '{{ c.id }}')"
-                      id="comment_delete_button" class="ms-3 me-3 edit-comment close-button-comment">
+        <span onclick="ajaxDeleteComment('{% url 'main:delete_comment' %}', '{{ c.id }}')"
+              id="comment_delete_button" class="ms-3 me-3 edit-comment close-button-comment">
                         <i class="bi bi-trash3"></i>
                 </span>
-            {% endif %}
+        {% endif %}
 
-            {% if user.username == 'admin' %}
-                <span class="complaint ms-3">
+        {% if user.username == 'admin' %}
+        <span class="complaint ms-3">
                     <i class="bi bi-x-circle"></i>
                 </span>
-            {% else %}
-                <span class="complaint ms-3">
-                    <i class="bi bi-exclamation-circle "></i>
-                </span>
-            {% endif %}
+        {% else %}
+        <span onclick="ajaxBadComment('{% url 'main:bad_comment' %}', '{{ c.id }}', '{{ post.id }}')"
+              class="complaint ms-3">
+            {% get_user_complaint c post user as complaint %}
+            <i id="bad_comment_{{ c.id }}" class="{{ complaint }}"></i>
+        </span>
+        {% endif %}
         {% endif %}
     </small>
 </div>

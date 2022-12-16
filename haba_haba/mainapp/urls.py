@@ -15,6 +15,8 @@ urlpatterns = [
     path('create_post/', PostCreateView.as_view(), name='create_post'),
     path('likepress/', like_pressed, name='set_like'),
     path('about/', about, name='about'),
+    path('badcomment/', bad_comment, name='bad_comment'),
+    path('newcomplaints/', new_complaints, name='new_complaints'),
     # path('update_post/<str:pk>', views.update_post, name='update_post'),
 ]
 

@@ -1,6 +1,6 @@
 from django import template
 
-from mainapp.models import Comment,CommentLike
+from mainapp.models import Comment,CommentLike, UserComplaints
 
 register = template.Library()
 
@@ -27,3 +27,8 @@ def get_comment_liked(comment, user):
     if not user.is_authenticated:
         return 'bi-heart'
     return CommentLike.comment_liked(comment, user)
+
+
+@register.simple_tag(name='get_user_complaint')
+def get_user_complaint(comment, post, user):
+    return UserComplaints.get_сomplaint(post, user, comment)

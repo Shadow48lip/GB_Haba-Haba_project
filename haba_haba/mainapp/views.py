@@ -4,8 +4,9 @@ from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.shortcuts import get_object_or_404
+from pytils.translit import slugify
 
-from mainapp.models import CommentLike, Post, Category, Comment, PostLike
+from mainapp.models import CommentLike, Post, Category, Comment, PostLike, UserComplaints
 from mainapp.forms import PostForm
 from mainapp.utils import DataMixin
 from django.shortcuts import render
@@ -165,7 +166,7 @@ def like_pressed(request):
         return JsonResponse(
             {
                 'result': comment_add, 'object': f'comment_like_id_{comment.id}',
-                'object_count': f'comment_count_id_{comment.id}',
+                'object_count': f'comment_likes_count_id_{comment.id}',
                 'comment_likes_count': str(CommentLike.get_count(comment)),
                 'data': render_to_string(
                     'mainapp/includes/_comments.html',
@@ -197,6 +198,33 @@ def like_pressed(request):
 
 def about(request):
     return render(request, 'mainapp/about.html', {'title': 'О сайте'})
+
+
+def bad_comment(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    comment = request.POST.get('comment_id', None)
+    post = request.POST.get('post_id', None)
+    if is_ajax and comment and post:
+        post = get_object_or_404(Post, id=post)
+        comment = get_object_or_404(Comment, id=comment)
+        сomplaint_add = UserComplaints.set_сomplaint(post, request.user, comment)
+        return JsonResponse({'object': str(comment.id), 'complaint': сomplaint_add,
+                             'data': render_to_string(
+                                 'mainapp/includes/_comment_text.html',
+                                 {
+                                     'user': request.user,
+                                     'post': post,
+                                     'c': comment
+                                 }
+                             )}, status=200)
+
+
+def new_complaints(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        new_complaint_count = UserComplaints.get_new_complaints()
+        return JsonResponse({'object': new_complaint_count}, status=200)
+
 
 def show_post(request, slug):
     return HttpResponse('<h1>Статья</h1>')
