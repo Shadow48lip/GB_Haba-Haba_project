@@ -1,7 +1,7 @@
 const wrapper = document.querySelector('.wrapper')
 const iconMenu = document.querySelector('.menu-icon');
 
-const minOffset = 100;
+const minOffset = 50;
 
 // показать/спрятать Header при скролле
 window.onscroll = function () {

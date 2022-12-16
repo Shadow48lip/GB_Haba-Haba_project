@@ -9,19 +9,13 @@
 {% block content %}
     <div class="single-card card border border-secondary border-opacity-25">
 
-        <h1 class="text-center fw-bold card-title mt-3 mb-3">
-            Информация о {{ object_user.username }}
-        </h1>
-        {% if object_user.about %}
-            {{ object_user.about }}
-        {% endif %}
-            <hr class="text-muted mt-2">
-
         {% if page_obj %}
-            <h5>Статьи написанные {{ object_user.username }}</h5>
+            <h1 class="text-center fw-bold card-title mt-3 mb-3">Статьи <span class="text-primary">{{ object_user.username }}</span></h1>
         {% else %}
-            <p><i>К сожалению {{ object_user.username }} пока не написал ни одной статьи</i> 😞</p>
+            <h2><i>К сожалению, {{ object_user.username }} пока не написал ни одной статьи</i> 😞</h2>
         {% endif %}
+
+        <hr class="text-muted mt-2 mb-5">
 
         {% for post in page_obj %}
             {% post_mini post user %}
@@ -33,19 +27,11 @@
         {% endblock %}
 
 
-
     </div>
 {% endblock %}
 
 {% block sidebar %}
-    <div>
-        <p>Краткая информация</p>
-        <ul>
-            <li>Логин: {{ object_user.username }}</li>
-            <li>Имя: {{ object_user.first_name }} {{ object_user.last_name }}</li>
-            <li>Возраст: {{ object_user.age }}</li>
-            <li>Пол: {{ object_user.gender }}</li>
-        </ul>
-    </div>
+    {% include 'mainapp/includes/_create_new_post_button.html' %}
     {% include 'userapp/includes/_sidebar.html' %}
+    {% include 'mainapp/includes/_sidebar.html' %}
 {% endblock %}

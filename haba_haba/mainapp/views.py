@@ -19,12 +19,11 @@ class MainappHome(DataMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(is_published=True, is_blocked=False).order_by('time_update')
+        return queryset.filter(is_published=True, is_blocked=False).order_by('-time_create')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['posts'] = Post.objects.all()
         paginator = Paginator(context['posts'], 5)
         page = self.request.GET.get('page')
 
