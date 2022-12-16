@@ -1,9 +1,10 @@
 from django import forms
-from .models import Post
+from .models import Post, Tag
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
 class PostForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cat'].empty_label = "выберите категорию"
@@ -23,5 +24,5 @@ class PostForm(forms.ModelForm):
                     'height': '500',
                 }}),
             # 'content': SummernoteInplaceWidget(),
-            'tags': forms.SelectMultiple(attrs={'class': 'form-control', }),
+            'tags': forms.CheckboxSelectMultiple(attrs={'class': 'check-box', }),
         }

@@ -6,7 +6,6 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-
         <div class="d-grid mt-4">
             <button type="submit" class="btn btn-outline-primary">Добавить статью</button>
         </div>
