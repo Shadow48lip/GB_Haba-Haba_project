@@ -52,7 +52,9 @@ class Post(models.Model):
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     is_published = models.BooleanField(default=False, verbose_name='Публикация')
     is_blocked = models.BooleanField(default=False, verbose_name='Заблокирована')
-    tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='tags')
+    # related_name указывает обратный вызов из таблицы Tags. tag.posts.all
+    tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='posts')
+    total_views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -64,7 +66,6 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
-
 
     @staticmethod
     def get_new_post():
