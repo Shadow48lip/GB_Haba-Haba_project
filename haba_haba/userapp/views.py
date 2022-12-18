@@ -25,8 +25,9 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(user=self.request.user, title=f'Кабинет {self.request.user}')
-        context = dict(list(context.items()) + list(c_def.items()))
+        extra_context = self.get_user_context(user=self.request.user, title=f'Кабинет {self.request.user}')
+
+        context = context | extra_context
         return context
 
     def get_queryset(self):
@@ -45,8 +46,9 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(user=self.request.user, title=f'Редактирование {self.request.user}')
-        context = dict(list(context.items()) + list(c_def.items()))
+        extra_context = self.get_user_context(user=self.request.user, title=f'Редактирование {self.request.user}')
+
+        context = context | extra_context
         return context
 
     def get_object(self, **kwargs):
@@ -65,6 +67,7 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
 
 class UserProfileList(DataMixin, ListView):
     """Публичный профиль пользователя. Доступен всем."""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.user = None
@@ -75,8 +78,13 @@ class UserProfileList(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(user=self.user, title=f'Кабинет {self.user.username}', object_user=self.user)
-        context = dict(list(context.items()) + list(c_def.items()))
+        extra_context = self.get_user_context(
+            user=self.user,
+            title=f'Кабинет {self.user.username}',
+            object_user=self.user
+        )
+
+        context = context | extra_context
 
         return context
 
@@ -86,8 +94,11 @@ class UserProfileList(DataMixin, ListView):
         # подстановка вместо сокращенного наименования "М" полного "Мужской"
         self.user.gender = next(filter(lambda x: x[0] == self.user.gender, self.user.GENDER_CHOICES))[1]
 
-        return queryset.filter(is_published=True, is_blocked=False, author=HabaUser.objects.get(slug=self.user)) \
-            .order_by('time_update')
+        return queryset.filter(
+            is_published=True,
+            is_blocked=False,
+            author=HabaUser.objects.get(slug=self.user)
+        ).order_by('-time_update')
 
 
 """ Полезности https://proproprogs.ru/django/mixins-ubiraem-dublirovanie-koda """

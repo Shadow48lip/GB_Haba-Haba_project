@@ -54,7 +54,7 @@ class Post(models.Model):
     is_blocked = models.BooleanField(default=False, verbose_name='Заблокирована')
     # related_name указывает обратный вызов из таблицы Tags. tag.posts.all
     tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='posts')
-    total_views = models.IntegerField(default=0)
+    total_views = models.IntegerField(default=0, verbose_name='Просмотры')
 
     def __str__(self):
         return self.title

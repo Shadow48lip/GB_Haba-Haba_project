@@ -1,5 +1,6 @@
 {% load maintags %}
 {% load notificationtags %}
+{% get_new_complaint_count as note %}
 
 <header class="header blurred-container sticky-top">
 
@@ -21,7 +22,7 @@
                 <ul class="navbar-nav">
                     <span class="d-flex justify-content-between">
 
-                        <li class="nav-item me-4 btn-search-i">
+                        <li class="nav-item me-3 btn-search-i">
                             <form class="d-flex justify-content-end" role="search">
                                 <input class="form-control form-search custom-search-input" type="search"
                                        placeholder="Поиск..."
@@ -36,50 +37,56 @@
 
                             {% if user.is_superuser %}
                                 <!-- КОГДА НЕТ УВЕДОМЛЕНИЙ -->
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
+                                <li class="nav-item dropdown me-2">
+                                    <a class="nav-link position-relative" href="#" role="button"
+                                       data-bs-auto-close="outside"
                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-bell"></i>
-                                    {% get_new_complaint_count as note %}
+
+
                                         {% if note > 0 %}
-                                            <span id="notification_id">({{ note }})</span>
-                                        {% endif %}</a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <div class="notify-nothing card-body m-1">
-                                            Ничего нет...
+                                            <i id="notification_id"
+                                               class="bi bi-bell-fill notif text-danger">
+                                                <small class="position-absolute badge fw-semibold custom-badge">
+                                                    {{ note }}
+                                                </small>
+                                            </i>
+                                        {% else %}
+                                            <i class="bi bi-bell"></i>
+                                        {% endif %}
+
+                                    </a>
+
+                                    {% if note > 0 %}
+
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <div class="notify-card card mt-1">
+                                                <div class="card-body">
+                                                    Какое-то Уведомление 1
+                                                </div>
+                                            </div>
+
+                                            <div class="notify-card card mt-1">
+                                                <div class="card-body">
+                                                    Какое-то Уведомление 2
+                                                </div>
+                                            </div>
+
+                                            <div class="notify-card card mt-1">
+                                                <div class="card-body">
+                                                    Какое-то Уведомление 3
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    {% else %}
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <div class="notify-nothing card-body m-1">
+                                                Ничего нет...
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
                                 </li>
                             {% endif %}
-
-                            {#                            <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->#}
-                            {#                            <li class="nav-item dropdown">#}
-                            {#                                <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"#}
-                            {#                                   data-bs-toggle="dropdown" aria-expanded="false">#}
-                            {#                                    <i class="bi bi-bell-fill text-danger"></i>#}
-                            {#                                </a>#}
-                            {#                                <div class="dropdown-menu dropdown-menu-end">#}
-                            {#    #}
-                            {#                                    <div class="notify-card card mt-1">#}
-                            {#                                        <div class="card-body">#}
-                            {#                                            Какое-то Уведомление 1#}
-                            {#                                        </div>#}
-                            {#                                    </div>#}
-                            {#    #}
-                            {#                                    <div class="notify-card card mt-1">#}
-                            {#                                        <div class="card-body">#}
-                            {#                                            Какое-то Уведомление 2#}
-                            {#                                        </div>#}
-                            {#                                    </div>#}
-                            {#    #}
-                            {#                                    <div class="notify-card card mt-1">#}
-                            {#                                        <div class="card-body">#}
-                            {#                                            Какое-то Уведомление 3#}
-                            {#                                        </div>#}
-                            {#                                    </div>#}
-                            {#    #}
-                            {#                                </div>#}
-                            {#                            </li>#}
 
                         {% endif %}
 
@@ -149,7 +156,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item me-2">
                             <a class="nav-link" href="{% url 'main:about' %}" role="button">
                                 <i class="bi bi-question-circle"></i>
                             </a>

@@ -9,23 +9,27 @@
 {% block content %}
     <div class="single-card card border border-secondary border-opacity-25">
 
-        <h1 class="text-center fw-bold card-title mt-3 mb-3">
-            <div class="d-flex flex-column">
-                <span>Личный кабинет пользователя</span>
-                <span>
-                    {% if user.first_name and user.last_name %}
-                        {{ user.first_name }} {{ user.last_name }}
-                    {% else %}
-                        {{ user.username }}
-                    {% endif %}
-                </span>
-            </div>
+        <h1 class="text-center fw-bold card-title mt-3 d-flex flex-column">
+
+            <span>Личный кабинет пользователя</span>
+            <span>
+                {% if user.first_name and user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    {{ user.username }}
+                {% endif %}
+            </span>
+
         </h1>
+        <hr class="text-muted">
 
         {% if page_obj %}
-            <h4>Статьи написанные вами</h4>
+            <div>
+                <h4>Статьи написанные вами</h4>
+                <hr class="text-muted w-50 mt-3">
+            </div>
         {% else %}
-            <p>К сожалению вы пока не написали ни одной статьи.</p>
+            <h4>К сожалению вы пока не написали ни одной статьи.</h4>
         {% endif %}
         {% for post in page_obj %}
             {% if not post.is_published %}
@@ -47,5 +51,6 @@
 {% endblock %}
 
 {% block sidebar %}
+    {% include 'mainapp/includes/_create_new_post_button.html' %}
     {% include 'userapp/includes/_sidebar.html' %}
 {% endblock %}

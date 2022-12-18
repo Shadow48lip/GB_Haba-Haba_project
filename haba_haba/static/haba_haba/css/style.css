@@ -417,6 +417,23 @@ body.dark .cancelBtn:focus {
 
 /* ========== HEADER ========== */
 
+.custom-badge {
+    color: rgba(255, 255, 255, .85) !important;
+    background: rgba(255,100,100,.95) !important;
+    border: 1px solid rgb(255,255,255) !important;
+    padding: 1px 5px 2px 3px !important;
+    left: 15px !important;
+    bottom: 15px !important;
+    transition: .2s !important;
+}
+body.dark .custom-badge {
+    border: 1px solid rgb(5,5,5) !important;
+
+}
+.notif:hover .custom-badge {
+    /*color: rgb(255,255,255) !important;*/
+}
+
 .header {
     padding: .5em 0 !important;
     background: rgba(255, 255, 255, .5) !important;
@@ -572,11 +589,11 @@ body.dark .dropdown-menu {
 
 /* search */
 .form-search {
-    width: 1.75rem !important;
+    width: 17rem !important;
     position: relative !important;
     padding-right: 1.75rem !important;
     line-height: 1 !important;
-    transition: 1s all ease-in-out !important;
+    transition: .2s all ease-in-out !important;
 }
 
 .form-search::placeholder {
@@ -584,12 +601,20 @@ body.dark .dropdown-menu {
     opacity: .8 !important;
 }
 
-.btn-search-i:hover .form-search,
-.form-search:hover,
-.form-search:focus {
-    width: 17rem !important;
-    transition: .3s all ease-in-out !important;
+.btn-search-i:hover .btn-search {
+    color: rgb(5, 5, 5) !important;
 }
+
+body.dark .btn-search-i:hover .btn-search {
+    color: rgb(255, 255, 255) !important;
+}
+
+/*.btn-search-i:hover .form-search,*/
+/*.form-search:hover,*/
+/*.form-search:focus {*/
+/*    width: 17rem !important;*/
+/*    transition: .3s all ease-in-out !important;*/
+/*}*/
 
 .btn-search {
     position: absolute !important;
@@ -1025,8 +1050,8 @@ body.dark .card-body a:hover {
     color: rgba(0, 0, 0, 0.55) !important;
     background: rgba(255, 255, 255, .75) !important;
     position: absolute !important;
-    width: 100% !important;
-    padding: 10px 5px !important;
+    width: 97% !important;
+    padding: 1% 5% !important;
     cursor: default !important;
     border-radius: 5px 5px 0 0 !important;
     transition: .2s color ease-in-out,

@@ -1,5 +1,8 @@
 <div class="pt-3 pb-3 list-group sidebar-btn-sticky-top sticky-top mb-1">
-    <a class="btn btn-outline-primary btn-lg create-post-btn" href="{% url 'main:create_post' %}" role="button">
+    <a class="btn btn-outline-primary btn-lg create-post-btn {% if not user.is_authenticated %}disabled{% endif %}"
+       title="{% if not user.is_authenticated %}Чтобы опубликовать статью необходимо авторизоваться!{% endif %}"
+       href="{% url 'main:create_post' %}"
+       role="button">
         <span><i class="bi bi-pencil custom-pencil"></i>Написать статью</span>
     </a>
 </div>

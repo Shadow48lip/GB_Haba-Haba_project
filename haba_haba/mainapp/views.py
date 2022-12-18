@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
@@ -7,11 +6,11 @@ from django.shortcuts import get_object_or_404
 
 from mainapp.models import CommentLike, Post, Category, Comment, PostLike, Tag, UserComplaints
 from mainapp.forms import PostForm
-from mainapp.utils import DataMixin
+from mainapp.utils import DataMixin, PaginatorMixin
 from django.shortcuts import render
 
 
-class MainappHome(DataMixin, ListView):
+class MainappHome(DataMixin, PaginatorMixin, ListView):
     model = Post
     template_name = 'mainapp/index.html'
     context_object_name = 'posts'
@@ -23,19 +22,12 @@ class MainappHome(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        extra_context = self.get_extra_context(title='Все категории')
+        paginate_context = self.get_paginate_context()
+        # оператор | объединяет словари (для python 3.9+)
+        context = context | extra_context | paginate_context
 
-        paginator = Paginator(context['posts'], 5)
-        page = self.request.GET.get('page')
-
-        try:
-            context['posts'] = paginator.page(page)
-        except PageNotAnInteger:
-            context['posts'] = paginator.page(1)
-        except EmptyPage:
-            context['posts'] = paginator.page(paginator.num_pages)
-
-        c_def = self.get_user_context(title='Статьи')
-        context = dict(list(context.items()) + list(c_def.items()))
+        print('main:\n', context)
         return context
 
 
@@ -45,36 +37,42 @@ class ShowPost(DataMixin, DetailView):
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['read_post'] = True
-        c_def = self.get_user_context(title=self.object.title)
-        context = dict(list(context.items()) + list(c_def.items()))
+        extra_context = self.get_extra_context(title=self.object.title)
+
+        context = context | extra_context
         # counter
         self.object.total_views += 1
         self.object.save()
+
+        print('showpost:\n', context)
         return context
 
 
-class PostCategory(DataMixin, ListView):
+class PostCategory(DataMixin, PaginatorMixin, ListView):
     model = Post
     template_name = 'mainapp/index.html'
     context_object_name = 'posts'
     allow_empty = False
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(cat__slug=self.kwargs['slug'], is_published=True, is_blocked=False).select_related('cat')
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c = Category.objects.get(slug=self.kwargs['slug'])
         context['cat_selected'] = c.slug
-        c_def = self.get_user_context(title='Категория - ' + str(c.name))
-        context = dict(list(context.items()) + list(c_def.items()))
+        extra_context = self.get_extra_context(title=f'Статьи категории "{c.name}"')
+        paginate_context = self.get_paginate_context()
+
+        context = context | extra_context | paginate_context
         return context
 
-    def get_queryset(self):
-        return Post.objects.filter(cat__slug=self.kwargs['slug']).select_related('cat')
 
-
-class PostTags(DataMixin, ListView):
+class PostTags(DataMixin, PaginatorMixin, ListView):
     """ Вывод статей по тегам """
 
     model = Post
@@ -82,15 +80,18 @@ class PostTags(DataMixin, ListView):
     context_object_name = 'posts'
     allow_empty = False
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(tags__slug=self.kwargs['slug'])
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         tag = Tag.objects.get(slug=self.kwargs['slug'])
-        c_def = self.get_user_context(title='Статьи по тегу - #' + str(tag.name))
-        context = dict(list(context.items()) + list(c_def.items()))
-        return context
+        extra_context = self.get_extra_context(title=f'Статьи по тегу #{tag.name}')
+        paginate_context = self.get_paginate_context()
 
-    def get_queryset(self):
-        return Post.objects.filter(tags__slug=self.kwargs['slug'])
+        context = context | extra_context | paginate_context
+        return context
 
 
 class ShowComments(ListView):
@@ -99,6 +100,10 @@ class ShowComments(ListView):
     context_object_name = 'comments'
 
     # allow_empty = False
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        post = Post.objects.get(slug=self.kwargs['slug'])
+        return queryset.filter(post=post, is_published=True).order_by('-time_update')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -108,13 +113,6 @@ class ShowComments(ListView):
         context['comm_count'] = Comment.get_count(post)
         context['read_post'] = False
         return context
-
-    def get_queryset(self):
-        return Comment.objects.filter(
-            post=Post.objects.get(slug=self.kwargs['slug']), is_published=True
-        ).order_by(
-            '-time_update'
-        )
 
 
 def add_comment(request):
@@ -224,15 +222,21 @@ def bad_comment(request):
         post = get_object_or_404(Post, id=post)
         comment = get_object_or_404(Comment, id=comment)
         сomplaint_add = UserComplaints.set_сomplaint(post, request.user, comment)
-        return JsonResponse({'object': str(comment.id), 'complaint': сomplaint_add,
-                             'data': render_to_string(
-                                 'mainapp/includes/_comment_text.html',
-                                 {
-                                     'user': request.user,
-                                     'post': post,
-                                     'c': comment
-                                 }
-                             )}, status=200)
+        return JsonResponse(
+            {
+                'object': str(comment.id),
+                'complaint': сomplaint_add,
+                'data': render_to_string(
+                    'mainapp/includes/_comment_text.html',
+                    {
+                        'user': request.user,
+                        'post': post,
+                        'c': comment
+                    }
+                )
+            },
+            status=200
+        )
 
 
 def new_complaints(request):
