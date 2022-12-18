@@ -3,7 +3,7 @@ const iconMenu = document.querySelector('.menu-icon');
 
 const minOffset = 50;
 
-// показать/спрятать Header при скролле
+// изменить стили Header при скролле
 window.onscroll = function () {
     let is_scrolled = wrapper.classList.contains("is_scrolled");
 
@@ -32,12 +32,12 @@ if (iconMenu) {
 
 
 // ??? что это должно делать и где?
-$(function () {
-    document.getElementById('a_comment_tag').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-    })
-})
+// $(function () {
+//     document.getElementById('a_comment_tag').scrollIntoView({
+//         behavior: 'smooth',
+//         block: 'start'
+//     })
+// })
 
 
 // удалить/добавить класс

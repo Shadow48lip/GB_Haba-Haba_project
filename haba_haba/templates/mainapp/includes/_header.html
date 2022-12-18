@@ -42,11 +42,10 @@
                                        data-bs-auto-close="outside"
                                        data-bs-toggle="dropdown" aria-expanded="false">
 
-
                                         {% if note > 0 %}
-                                            <i id="notification_id"
-                                               class="bi bi-bell-fill notif text-danger">
-                                                <small class="position-absolute badge fw-semibold custom-badge">
+                                            <i class="bi bi-bell-fill notif text-danger">
+                                                <small id="notification_id"
+                                                       class="position-absolute fw-semibold badge custom-badge">
                                                     {{ note }}
                                                 </small>
                                             </i>
