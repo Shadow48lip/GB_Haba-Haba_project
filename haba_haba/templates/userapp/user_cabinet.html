@@ -23,7 +23,7 @@
         </h1>
         <hr class="text-muted">
 
-        {% if page_obj %}
+        {% if posts %}
             <div>
                 <h4>Статьи написанные вами</h4>
                 <hr class="text-muted w-50 mt-3">
@@ -31,7 +31,7 @@
         {% else %}
             <h4>К сожалению вы пока не написали ни одной статьи.</h4>
         {% endif %}
-        {% for post in page_obj %}
+        {% for post in posts %}
             {% if not post.is_published %}
                 <span>не опубликован</span>
             {% endif %}
@@ -43,10 +43,6 @@
             {% post_mini post user %}
         {% endfor %}
 
-
-        {% block pagination %}
-            {% include 'userapp/includes/_pagination.html' %}
-        {% endblock %}
     </div>
 {% endblock %}
 

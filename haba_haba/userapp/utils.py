@@ -1,9 +1,7 @@
 from mainapp.models import Post, Comment, AuthorLike, PostLike, CommentLike
 
-class DataMixin:
-    """Примеси для пользовательских разделов сайта"""
-    paginate_by = 2
 
+class DataMixin:
     @staticmethod
     def get_user_context(user, **kwargs):
         context = kwargs

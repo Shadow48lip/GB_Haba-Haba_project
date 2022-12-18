@@ -16,7 +16,7 @@ class PaginatorMixin:
     def get_paginate_context(self, object_list=None, **kwargs):
         context = kwargs
 
-        # пагинация для ajax # object_list if object_list is not None else
+        # пагинация для ajax
         context['posts'] = self.object_list
         context['posts'].filter(is_published=True, is_blocked=False).order_by('-time_create')
         paginator = Paginator(context['posts'], per_page=5, orphans=1)
@@ -29,5 +29,5 @@ class PaginatorMixin:
         except EmptyPage:
             context['posts'] = paginator.page(paginator.num_pages)
 
-        print('mainmixin:\n', context)
+        print('paginatemixin:\n', context)
         return context

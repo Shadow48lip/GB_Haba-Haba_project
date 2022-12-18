@@ -47,6 +47,10 @@
             <div id="cards" class="col-md-9 row g-4">
                 {% block content %}
                 {% endblock %}
+
+                {% block pagination %}
+                    {% include 'mainapp/includes/_pagination.html' %}
+                {% endblock %}
             </div>
 
             <!-- сайдбар -->

@@ -3,29 +3,23 @@
 {% load posttags %}
 
 {% block title %}
-    {{ title|title }} :: {{ block.super }}
+    {{ title }} :: {{ block.super }}
 {% endblock %}
 
 {% block content %}
     <div class="single-card card border border-secondary border-opacity-25">
 
-        {% if page_obj %}
+        {% if posts %}
             <h1 class="text-center fw-bold card-title mt-3 mb-3">Статьи <span class="text-primary">{{ object_user.username }}</span></h1>
         {% else %}
-            <h2><i>К сожалению, {{ object_user.username }} пока не написал ни одной статьи</i> 😞</h2>
+            <h2>К сожалению, {{ object_user.username }} пока не написал ни одной статьи 😞</h2>
         {% endif %}
 
         <hr class="text-muted mt-2 mb-5">
 
-        {% for post in page_obj %}
+        {% for post in posts %}
             {% post_mini post user %}
         {% endfor %}
-
-
-        {% block pagination %}
-            {% include 'userapp/includes/_pagination.html' %}
-        {% endblock %}
-
 
     </div>
 {% endblock %}

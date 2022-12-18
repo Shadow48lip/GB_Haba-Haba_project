@@ -5,6 +5,7 @@ from django.views.generic import DetailView, ListView, UpdateView
 from django.conf import settings
 
 from mainapp.models import Post
+from mainapp.utils import PaginatorMixin
 from .models import HabaUser
 from .utils import DataMixin
 from .forms import EditUserForm
@@ -16,7 +17,7 @@ def redirect_2_profile(request):
     return response
 
 
-class MyProfile(LoginRequiredMixin, DataMixin, ListView):
+class MyProfile(LoginRequiredMixin, DataMixin, PaginatorMixin, ListView):
     """Просмотр пользователем своего профиля. Доступен только авторизованным."""
 
     model = Post
@@ -26,8 +27,10 @@ class MyProfile(LoginRequiredMixin, DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         extra_context = self.get_user_context(user=self.request.user, title=f'Кабинет {self.request.user}')
+        paginate_context = self.get_paginate_context()
 
-        context = context | extra_context
+        context = context | extra_context | paginate_context
+        print('profile:\n', context)
         return context
 
     def get_queryset(self):
@@ -65,7 +68,7 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         return super().form_valid(form)
 
 
-class UserProfileList(DataMixin, ListView):
+class UserProfileList(DataMixin, PaginatorMixin, ListView):
     """Публичный профиль пользователя. Доступен всем."""
 
     def __init__(self, **kwargs):
@@ -83,9 +86,11 @@ class UserProfileList(DataMixin, ListView):
             title=f'Кабинет {self.user.username}',
             object_user=self.user
         )
+        paginate_context = self.get_paginate_context()
 
-        context = context | extra_context
+        context = context | extra_context | paginate_context
 
+        print('user:\n', context)
         return context
 
     def get_queryset(self):
