@@ -10,12 +10,16 @@
     <div class="single-card card border border-secondary border-opacity-25">
 
         <h1 class="text-center fw-bold card-title mt-3 mb-3">
-            Личный кабинет пользователя<br/>
-            {% if user.first_name and user.last_name %}
-                {{ user.first_name }} {{ user.last_name }}
-            {% else %}
-                {{ user.username }}
-            {% endif %}
+            <div class="d-flex flex-column">
+                <span>Личный кабинет пользователя</span>
+                <span>
+                    {% if user.first_name and user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+                </span>
+            </div>
         </h1>
 
         {% if page_obj %}
@@ -44,7 +48,4 @@
 
 {% block sidebar %}
     {% include 'userapp/includes/_sidebar.html' %}
-    <div>
-    <a href="{% url 'user:my_profile_edit' %}">редактировать профиль</a>
-    </div>
 {% endblock %}

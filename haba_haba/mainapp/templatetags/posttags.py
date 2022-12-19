@@ -1,6 +1,7 @@
 """Теги для шаблонов, относящиеся к публикации статей"""
 from django import template
 from django.template.defaultfilters import stringfilter
+from django.conf import settings
 
 from mainapp.models import PostLike
 
@@ -23,9 +24,9 @@ def post_photo_process(string):
     Если нет фото, то вставляет заглушку. В будущем можно добавить еще проверки.
     """
     if not string:
-        string = 'https://img.freepik.com/free-vector/tiny-characters-sitting-laptop-with-lorem-ipsum-title_74855-20389.jpg?w=1480&t=st=1665865814~exp=1665866414~hmac=0dfaf49fe1350925106e58bf01a6d184411e0f59751204fabe0edcd6c2ffda63'
+        return f'/{settings.NO_IMAGE_URL}'
 
-    return f'{string}'
+    return f'{settings.MEDIA_URL}{string}'
 
 
 @register.simple_tag(name='post_like_count')

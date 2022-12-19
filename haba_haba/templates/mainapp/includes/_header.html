@@ -1,4 +1,5 @@
 {% load maintags %}
+{% load notificationtags %}
 
 <header class="header blurred-container sticky-top">
 
@@ -33,7 +34,7 @@
                         {% if user.is_authenticated %}
 
                             <li class="nav-item">
-                                <a class="nav-link" href="new_post.html" role="button">
+                                <a class="nav-link" href="{% url 'main:create_post' %}" role="button">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                             </li>
@@ -43,6 +44,10 @@
                                 <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-bell"></i>
+                                    {% get_new_complaint_count as note %}
+                                    {% if note > 0 %}
+                                    <span id="notification_id">({{note}})</span>
+                                    {% endif %}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <div class="notify-nothing card-body m-1">
@@ -51,34 +56,34 @@
                                 </div>
                             </li>
 
-{#                            <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->#}
-{#                            <li class="nav-item dropdown">#}
-{#                                <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"#}
-{#                                   data-bs-toggle="dropdown" aria-expanded="false">#}
-{#                                    <i class="bi bi-bell-fill text-danger"></i>#}
-{#                                </a>#}
-{#                                <div class="dropdown-menu dropdown-menu-end">#}
-{#    #}
-{#                                    <div class="notify-card card mt-1">#}
-{#                                        <div class="card-body">#}
-{#                                            Какое-то Уведомление 1#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#    #}
-{#                                    <div class="notify-card card mt-1">#}
-{#                                        <div class="card-body">#}
-{#                                            Какое-то Уведомление 2#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#    #}
-{#                                    <div class="notify-card card mt-1">#}
-{#                                        <div class="card-body">#}
-{#                                            Какое-то Уведомление 3#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#    #}
-{#                                </div>#}
-{#                            </li>#}
+                            {#                            <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->#}
+                            {#                            <li class="nav-item dropdown">#}
+                            {#                                <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"#}
+                            {#                                   data-bs-toggle="dropdown" aria-expanded="false">#}
+                            {#                                    <i class="bi bi-bell-fill text-danger"></i>#}
+                            {#                                </a>#}
+                            {#                                <div class="dropdown-menu dropdown-menu-end">#}
+                            {#    #}
+                            {#                                    <div class="notify-card card mt-1">#}
+                            {#                                        <div class="card-body">#}
+                            {#                                            Какое-то Уведомление 1#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#    #}
+                            {#                                    <div class="notify-card card mt-1">#}
+                            {#                                        <div class="card-body">#}
+                            {#                                            Какое-то Уведомление 2#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#    #}
+                            {#                                    <div class="notify-card card mt-1">#}
+                            {#                                        <div class="card-body">#}
+                            {#                                            Какое-то Уведомление 3#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#    #}
+                            {#                                </div>#}
+                            {#                            </li>#}
 
                         {% endif %}
 
@@ -92,7 +97,10 @@
                                 {% if user.is_authenticated %}
 
                                     <span class="d-flex justify-content-center">
-                                        <a href="{% url 'user:my_profile_edit' %}">Редактировать <span class="welcome-block">{{ user.username|title }}</span></a>
+                                        <span>
+                                            Привет,
+                                            <a href="{% url 'user:my_profile_edit' %}">{{ user.username|title }}</a>
+                                        </span>
                                     </span>
 
                                     <hr class="text-muted">
@@ -112,7 +120,7 @@
                                     </li>
                                     <li>
                                         <a href="{% url 'auth:logout' %}" class="auth" id="logout">
-                                            <button class="btn w-100 btn-auth auth text-start">
+                                            <button type="submit" class="btn w-100 btn-auth auth text-start">
                                                 Выйти
                                             </button>
                                         </a>
@@ -120,7 +128,7 @@
                                 {% else %}
 
                                     <span class="d-flex justify-content-center">
-                                        Привет
+                                        Привет, Гость
                                     </span>
 
                                     <hr class="text-muted">
@@ -128,7 +136,7 @@
                                     <li>
                                         <a href="{% url 'auth:register' %}" class="auth" data-bs-toggle="modal"
                                            data-bs-target="#staticBackdropRegister">
-                                        <button class="btn w-100 btn-auth auth text-start">
+                                        <button type="submit" class="btn w-100 btn-auth auth text-start">
                                         Регистрация
                                         </button>
                                         </a>
@@ -136,7 +144,7 @@
                                     <li>
                                         <a href="{% url 'auth:login' %}" class="auth" data-bs-toggle="modal"
                                            data-bs-target="#staticBackdropLogin">
-                                        <button class="btn w-100 btn-auth auth text-start">
+                                        <button type="submit" class="btn w-100 btn-auth auth text-start">
                                         Войти
                                         </button>
                                         </a>
@@ -153,6 +161,12 @@
                                     <i class="bi bi-moon moon"></i>
                                 </span>
                             </label>
+                        </li>
+
+                        <li class="nav-item">
+                                <a class="nav-link" href="{% url 'main:about' %}" role="button">
+                                    <i class="bi bi-question-circle"></i>
+                                </a>
                         </li>
 
                     </span>

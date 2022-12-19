@@ -1,16 +1,17 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
+from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Post, PostLike, CommentLike
 from .forms import PostForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from mainapp.models import Post, Category, Comment
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
+from django.shortcuts import get_object_or_404
+from mainapp.models import CommentLike, Post, Category, Comment, PostLike, Tag, UserComplaints
+from mainapp.forms import PostForm
 from mainapp.utils import DataMixin
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.forms.models import model_to_dict
-from django.template.loader import render_to_string
+from django.shortcuts import render
 
 
 class MainappHome(DataMixin, ListView):
@@ -25,8 +26,6 @@ class MainappHome(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Статьи'
-        context['news'] = Post.get_new_post()
 
         context['posts'] = Post.objects.all()
         paginator = Paginator(context['posts'], 5)
@@ -39,10 +38,12 @@ class MainappHome(DataMixin, ListView):
         except EmptyPage:
             context['posts'] = paginator.page(paginator.num_pages)
 
+        c_def = self.get_user_context(title='Статьи')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 
-class ShowPost(DetailView):
+class ShowPost(DataMixin, DetailView):
     model = Post
     template_name = 'mainapp/includes/_post_single.html'
     slug_url_kwarg = 'slug'
@@ -50,9 +51,12 @@ class ShowPost(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.object.title
-        context['title'] = Post.objects.get(slug=self.kwargs['slug'])
         context['read_post'] = True
+        c_def = self.get_user_context(title=self.object.title)
+        context = dict(list(context.items()) + list(c_def.items()))
+        # counter
+        self.object.total_views += 1
+        self.object.save()
         return context
 
 
@@ -86,13 +90,32 @@ class PostCategory(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c = Category.objects.get(slug=self.kwargs['slug'])
-        context['title'] = 'Категория - ' + str(c.name)
         context['cat_selected'] = c.slug
-
+        c_def = self.get_user_context(title='Категория - ' + str(c.name))
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
     def get_queryset(self):
         return Post.objects.filter(cat__slug=self.kwargs['slug']).select_related('cat')
+
+
+class PostTags(DataMixin, ListView):
+    """ Вывод статей по тегам """
+
+    model = Post
+    template_name = 'mainapp/index.html'
+    context_object_name = 'posts'
+    allow_empty = False
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag = Tag.objects.get(slug=self.kwargs['slug'])
+        c_def = self.get_user_context(title='Статьи по тегу - #' + str(tag.name))
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
+
+    def get_queryset(self):
+        return Post.objects.filter(tags__slug=self.kwargs['slug'])
 
 
 class ShowComments(ListView):
@@ -112,8 +135,11 @@ class ShowComments(ListView):
         return context
 
     def get_queryset(self):
-        return Comment.objects.filter(post=Post.objects.get(slug=self.kwargs['slug']), is_published=True).order_by(
-            '-time_update')
+        return Comment.objects.filter(
+            post=Post.objects.get(slug=self.kwargs['slug']), is_published=True
+        ).order_by(
+            '-time_update'
+        )
 
 
 def add_comment(request):
@@ -130,8 +156,15 @@ def add_comment(request):
         new_comment.is_published = True
         new_comment.save()
         return JsonResponse(
-            {'result': Comment.get_count(post),
-             'data': render_to_string('mainapp/includes/_comment_text.html', {'c': new_comment, 'user': user})})
+            data={
+                'comment_likes_count': Comment.get_count(post),
+                'id': new_comment.id,
+                'data': render_to_string(
+                    'mainapp/includes/_comment_text.html',
+                    {'c': new_comment, 'user': user}
+                )
+            }
+        )
 
 
 def delete_comment(request):
@@ -156,6 +189,19 @@ def edit_comment(request):
 
 
 
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'mainapp/create_post.html'
+
+    # Добавляем автора к публикации в момент сохранения
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.save()
+        return super().form_valid(form)
+
+
 def like_pressed(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     comment = request.POST.get('comment', None)
@@ -164,19 +210,66 @@ def like_pressed(request):
         comment = Comment.objects.get(id=int(comment))
         comment_add = CommentLike.set_like(comment, request.user)
         return JsonResponse(
-            {'result': comment_add, 'object': f'comment_like_id_{comment.id}',
-             'odject_count': f'comment_count_id_{comment.id}', 'comment_count': str(CommentLike.get_count(comment)),
-             'data': render_to_string('mainapp/includes/_comments.html',
-                                      {'comment': comment.id, 'user': request.user, })})
+            {
+                'result': comment_add, 'object': f'comment_like_id_{comment.id}',
+                'object_count': f'comment_likes_count_id_{comment.id}',
+                'comment_likes_count': str(CommentLike.get_count(comment)),
+                'data': render_to_string(
+                    'mainapp/includes/_comments.html',
+                    {
+                        'comment': comment.id,
+                        'user': request.user,
+                    }
+                )
+            }
+        )
     if is_ajax and post:
         post = Post.objects.get(id=int(post))
         post_add = PostLike.set_like(post, request.user)
         return JsonResponse(
-            {'result': post_add, 'object': f'post_like_id_{post.id}',
-             'odject_count': f'post_count_id_{post.id}', 'post_like_count': str(PostLike.get_count(post)),
-             'data': render_to_string('mainapp/includes/_likes.html',
-                                      {'post': post, 'user': request.user,
-                                       'post_like_count': str(PostLike.get_count(post))})})
+            {
+                'result': post_add, 'object': f'post_like_id_{post.id}',
+                'object_count': f'post_count_id_{post.id}', 'post_like_count': str(PostLike.get_count(post)),
+                'data': render_to_string(
+                    'mainapp/includes/_likes.html',
+                    {
+                        'post': post,
+                        'user': request.user,
+                        'post_like_count': str(PostLike.get_count(post))
+                    }
+                )
+            }
+        )
+
+
+def bad_comment(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    comment = request.POST.get('comment_id', None)
+    post = request.POST.get('post_id', None)
+    if is_ajax and comment and post:
+        post = get_object_or_404(Post, id=post)
+        comment = get_object_or_404(Comment, id=comment)
+        сomplaint_add = UserComplaints.set_сomplaint(post, request.user, comment)
+        return JsonResponse({'object': str(comment.id), 'complaint': сomplaint_add,
+                             'data': render_to_string(
+                                 'mainapp/includes/_comment_text.html',
+                                 {
+                                     'user': request.user,
+                                     'post': post,
+                                     'c': comment
+                                 }
+                             )}, status=200)
+
+
+def new_complaints(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        new_complaint_count = UserComplaints.get_new_complaints()
+        return JsonResponse({'object': new_complaint_count}, status=200)
+
+
+def about(request):
+    return render(request, 'mainapp/about.html', {'title': 'О сайте'})
 
 
 def show_post(request, slug):

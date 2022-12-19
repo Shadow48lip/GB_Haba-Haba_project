@@ -2,7 +2,8 @@ import uuid
 
 from django.db import models
 from django.urls import reverse, reverse_lazy
-from django.utils.text import slugify
+# from django.utils.text import slugify
+from pytils.translit import slugify
 
 from userapp.models import HabaUser
 import datetime
@@ -53,7 +54,9 @@ class Post(models.Model):
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     is_published = models.BooleanField(default=False, verbose_name='Публикация')
     is_blocked = models.BooleanField(default=False, verbose_name='Заблокирована')
-    tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='tags')
+    # related_name указывает обратный вызов из таблицы Tags. tag.posts.all
+    tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='posts')
+    total_views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -65,7 +68,7 @@ class Post(models.Model):
     # для сохранения slug
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        return super(Post, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     # для добавления фото
     @property
@@ -75,12 +78,12 @@ class Post(models.Model):
 
     @staticmethod
     def get_new_post():
-        return Post.objects.filter(is_published=True, is_blocked=False).order_by('time_update')[:5]
+        return Post.objects.filter(is_published=True, is_blocked=False).order_by('-time_create')[:5]
 
     class Meta:
         verbose_name = 'Статья(ю)'
         verbose_name_plural = 'Статьи'
-        ordering = ['time_create', 'title']
+        ordering = ['-time_create', 'title']
 
 
 class Comment(models.Model):
@@ -203,12 +206,34 @@ class UserComplaints(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Статья')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='Комментарий')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    moderator = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Модератор',
+    moderator = models.ForeignKey(HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
                                   related_name='moderator_complaint_set')
-    moderated_time = models.DateTimeField(default=datetime.date(2000, 1, 1), verbose_name='Время создания')
+    moderated_time = models.DateTimeField(default=datetime.datetime(2000, 1, 1, 0, 0, 0), verbose_name='Время создания')
 
     def __str__(self):
         return f'{self.user} / {self.bad_user} / {self.post}'
+
+    @staticmethod
+    def set_сomplaint(post, user, comment):
+        obj = UserComplaints.objects.filter(post=post, user=user, comment=comment).first()
+        if obj:
+            obj.delete()
+            return 0
+        else:
+            UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
+            return 1
+
+    @staticmethod
+    def get_сomplaint(post, user, comment):
+        obj = UserComplaints.objects.filter(post=post, user=user, comment=comment).first()
+        if obj:
+            return 'bi bi-exclamation-circle-fill'
+        else:
+            return 'bi bi-exclamation-circle'
+
+    @staticmethod
+    def get_new_complaints():
+        return UserComplaints.objects.filter(moderator=None).count()
 
     class Meta:
         verbose_name = 'Жалоба пользователя'

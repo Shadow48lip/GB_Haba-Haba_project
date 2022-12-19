@@ -151,6 +151,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static/haba_haba/',
 ]
 
+# выводится когда нет фото к статье
+NO_IMAGE_URL = f'{STATIC_URL}img/no-image.jpeg'
+
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
