@@ -13,7 +13,8 @@ urlpatterns = [
     path('comment/edit/', edit_comment, name='edit_comment'),
     path('cat/<slug:slug>/', PostCategory.as_view(), name='category'),
     path('create_post/', PostCreateView.as_view(), name='create_post'),
-    path('post/<slug:slug>//', PostUpdateView.as_view(), name='post_edit'),
+    path('post/<slug:slug>', PostUpdateView.as_view(), name='post_edit'),
     path('likepress/', like_pressed, name='set_like'),
+    path('post_delete/<slug:slug>/', PostDeleteView.as_view(), name='post_delete'),
 ]
 

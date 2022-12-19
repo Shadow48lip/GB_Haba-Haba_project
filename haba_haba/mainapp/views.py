@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Post, PostLike, CommentLike
 from .forms import PostForm
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from mainapp.models import Post, Category, Comment
 from mainapp.utils import DataMixin
 from django.shortcuts import redirect, get_object_or_404
@@ -68,6 +68,13 @@ class PostUpdateView(UpdateView):
     model = Post
     template_name = 'mainapp/post_edit.html'
     fields = ['title', 'content']
+
+
+class PostDeleteView(DeleteView):
+    """Удаление статьи"""
+    model = Post
+    template_name = 'mainapp/post_delete.html'
+    success_url = reverse_lazy('main:home')
 
 
 class PostCategory(DataMixin, ListView):
