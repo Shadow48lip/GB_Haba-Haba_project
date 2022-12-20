@@ -173,6 +173,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         instance.save()
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Новая статья'
+        return context
+
 
 def like_pressed(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

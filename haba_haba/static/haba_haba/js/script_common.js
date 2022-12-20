@@ -45,3 +45,24 @@ function toggle_class(el, add_class, remove_class) {
     el.classList.remove(remove_class);
     el.classList.add(add_class);
 }
+
+
+// прикрутить стили к лейблам Тегов
+$('#custom-tags-labels label').each(function () {
+    $(this).addClass('btn btn-outline-primary btn-sm m-1')
+})
+// менять стили при выборе Тега
+$('.custom-btn-check').click(function () {
+    if ($(this).is(':checked')) {
+        $(this).parent().addClass('active');
+    } else {
+        $(this).parent().removeClass('active');
+    }
+});
+
+
+// customize input[file]
+$('.input-file input[type=file]').on('change', function () {
+    let file = this.files[0];
+    $(this).closest('.input-file').find('.input-file-text').html(file.name);
+});

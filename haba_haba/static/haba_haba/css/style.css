@@ -419,19 +419,20 @@ body.dark .cancelBtn:focus {
 
 .custom-badge {
     color: rgba(255, 255, 255, .85) !important;
-    background: rgba(255,100,100,.95) !important;
-    border: 1px solid rgb(255,255,255) !important;
-    padding: 1px 5px 2px 3px !important;
+    background: rgba(255, 100, 100, .95) !important;
+    border: 1px solid rgb(255, 255, 255) !important;
+    padding: .15em .3em .15em .25em !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     left: 15px !important;
     bottom: 15px !important;
     transition: .2s !important;
 }
-body.dark .custom-badge {
-    border: 1px solid rgb(5,5,5) !important;
 
-}
-.notif:hover .custom-badge {
-    /*color: rgb(255,255,255) !important;*/
+body.dark .custom-badge {
+    border: 1px solid rgb(5, 5, 5) !important;
+
 }
 
 .header {
@@ -1426,4 +1427,157 @@ body.dark .comment-footer {
     body.dark .blurred-container {
         background: rgba(5, 5, 5, 0.95) !important;
     }
+}
+
+.custom-btn-check {
+    display: none !important;
+}
+
+.h-floating {
+    height: 3.5rem !important;
+}
+
+input.h-floating[type="file"]:not(:disabled):not([readonly]) {
+    cursor: pointer !important;
+}
+
+
+/* INPUT [FILE] */
+
+.input-file {
+    width: 100%;
+    height: 3.5rem;
+    position: relative;
+    display: flex;
+}
+
+.input-file-text {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 1.625rem .75rem .625rem .75rem;
+    margin: 0;
+    cursor: pointer;
+    text-align: left;
+    float: right;
+    border-radius: 6px;
+    border: 1px solid rgba(5, 5, 5, .4);
+    white-space: nowrap;
+    overflow: hidden !important;
+    transition: .2s;
+}
+
+body.dark .input-file-text {
+    border: 1px solid rgba(255, 255, 255, .4);
+}
+
+.input-file-btn {
+    box-sizing: border-box;
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    border-radius: 6px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    top: 0;
+    left: 0;
+    padding: .5rem .75rem;
+    font-size: 90%;
+    color: rgba(5, 5, 5, .65);
+    transition: .2s;
+}
+
+body.dark .input-file-btn {
+    color: rgba(255, 255, 255, .65);
+}
+
+.input-file input[type=file] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+/* Hover/active */
+.input-file:active .input-file-btn,
+.input-file:hover .input-file-btn {
+    width: 35%;
+    padding: 1rem .75rem;
+    line-height: 1.25;
+    font-size: 100%;
+    color: rgba(255, 255, 255);
+    background-color: rgb(13, 110, 253);
+    border: 1px solid rgb(13, 110, 253);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-file:active .input-file-text,
+.input-file:hover .input-file-text {
+    padding-left: calc(.75rem + 35%);
+    border: 1px solid rgb(13, 110, 253);
+}
+
+/* Disabled */
+.input-file input[type=file]:disabled + .input-file-btn {
+    background-color: rgba(13, 110, 253, .25);
+}
+
+.form-check-input,
+.form-check-input + label {
+    cursor: pointer;
+}
+
+.form-check-input:focus, .btn:focus {
+    box-shadow: 0 0 2.5px 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+#custom-post-text-labels {
+    padding: 1.625rem .5rem .5rem .5rem;
+    border: 1px solid rgba(5, 5, 5, .4);
+    background: rgb(255, 255, 255);
+    border-radius: 6px;
+}
+
+.post-text-position {
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: .5rem .75rem;
+    font-size: 90%;
+    color: rgba(5, 5, 5, .65);
+    cursor: default;
+}
+
+#custom-tags-labels {
+    padding: 1.625rem .5rem .5rem .5rem;
+    border: 1px solid rgba(5, 5, 5, .4);
+    border-radius: 6px;
+}
+
+body.dark #custom-tags-labels {
+    border: 1px solid rgba(255, 255, 255, .4);
+}
+
+.tags-position {
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: .5rem .75rem;
+    font-size: 90%;
+    color: rgba(5, 5, 5, .65);
+    cursor: default;
+}
+
+body.dark .tags-position {
+    color: rgba(255, 255, 255, .65);
 }

@@ -27,9 +27,9 @@
                                 <input class="form-control form-search custom-search-input" type="search"
                                        placeholder="Поиск..."
                                        aria-label="Search">
-                                <button class="btn btn-search " type="submit">
+                                <span class="btn btn-search ">
                                     <i class="bi bi-search "></i>
-                                </button>
+                                </span>
                             </form>
                         </li>
 
@@ -122,7 +122,7 @@
                                     </li>
                                     <li>
                                         <a href="{% url 'auth:logout' %}" class="auth" id="logout">
-                                            <button type="submit" class="btn w-100 btn-auth auth text-start">
+                                            <button type="submit" class="btn w-100 btn-auth auth text-start" id="logout">
                                                 Выйти
                                             </button>
                                         </a>
