@@ -12,9 +12,14 @@ urlpatterns = [
     path('comment/add/', add_comment, name='add_comment'),
     path('comment/edit/', edit_comment, name='edit_comment'),
     path('cat/<slug:slug>/', PostCategory.as_view(), name='category'),
+    path('tag/<slug:slug>/', PostTags.as_view(), name='tag'),
     path('create_post/', PostCreateView.as_view(), name='create_post'),
     path('post_edit/<slug:slug>/', PostUpdateView.as_view(), name='post_edit'),
     path('likepress/', like_pressed, name='set_like'),
     path('post_delete/<slug:slug>/', PostDeleteView.as_view(), name='post_delete'),
+    path('about/', about, name='about'),
+    path('badcomment/', bad_comment, name='bad_comment'),
+    path('newcomplaints/', new_complaints, name='new_complaints'),
+    # path('update_post/<str:pk>', views.update_post, name='update_post'),
 ]
 

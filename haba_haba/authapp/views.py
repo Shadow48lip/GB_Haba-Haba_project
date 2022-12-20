@@ -29,6 +29,7 @@ class RegisterAjaxView(CreateView):
             if form.is_valid():
                 form.save()
                 user = authenticate(
+                    request=request,
                     username=form.cleaned_data.get('username'),
                     password=form.cleaned_data.get('password1'),
                 )
@@ -60,7 +61,7 @@ class RegisterAjaxView(CreateView):
                     status=200,
                 )
 
-            elif not request.POST.get('username') or request.POST.get('email'):
+            elif not request.POST.get('username') or not request.POST.get('email'):
                 return JsonResponse(
                     data={
                         'error': 'Необходимо заполнить все поля!',
@@ -68,6 +69,13 @@ class RegisterAjaxView(CreateView):
                     },
                     status=200,
                 )
+            return JsonResponse(
+                data={
+                    'error': 'Пользователь уже существует!',
+                    'status': 400,
+                },
+                status=200,
+            )
 
         context = {'form': form}
         return render(
@@ -96,6 +104,7 @@ class LoginAjaxView(LoginView):
         if is_ajax(request):
             if username and password:
                 user = authenticate(
+                    request=request,
                     username=username,
                     password=password
                 )

@@ -7,7 +7,7 @@
                 <h2 class="modal-title fs-5" id="staticBackdropLabel">Регистрация</h2>
             </div>
 
-            {% include 'mainapp/includes/_alerts.html' %}
+            <div class="alert alert-danger m-3 d-none error-auth" role="alert"></div>
 
             <form method="post" action="{% url 'auth:register' %}" id="register_form_modal">
                 {% csrf_token %}

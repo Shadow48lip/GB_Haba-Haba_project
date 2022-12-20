@@ -1,6 +1,6 @@
 from django import template
 
-from mainapp.models import Comment,CommentLike
+from mainapp.models import Comment,CommentLike, UserComplaints
 
 register = template.Library()
 
@@ -12,7 +12,7 @@ def get_comment_count(post):
 
 @register.inclusion_tag('mainapp/includes/_comments.html', name='post_comments')
 def show_comments(post, user, read_post):
-    comments = Comment.objects.filter(post=post, is_published=True).order_by('-time_update')
+    comments = Comment.objects.filter(post=post, is_published=True).order_by('time_create')
     comment_count = Comment.get_count(post)
     return {'comments': comments, 'user': user, 'comment_count': comment_count, 'post': post, 'read_post': read_post}
 
@@ -27,3 +27,8 @@ def get_comment_liked(comment, user):
     if not user.is_authenticated:
         return 'bi-heart'
     return CommentLike.comment_liked(comment, user)
+
+
+@register.simple_tag(name='get_user_complaint')
+def get_user_complaint(comment, post, user):
+    return UserComplaints.get_сomplaint(post, user, comment)
