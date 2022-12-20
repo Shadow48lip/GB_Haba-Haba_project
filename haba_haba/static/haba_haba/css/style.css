@@ -1483,7 +1483,7 @@ body.dark .input-file-text {
     cursor: pointer;
     outline: none;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 6px 15px 15px 6px;
     background-color: transparent;
     border: 1px solid transparent;
     top: 0;
