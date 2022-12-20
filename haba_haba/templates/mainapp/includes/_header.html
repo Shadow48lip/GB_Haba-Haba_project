@@ -1,5 +1,6 @@
 {% load maintags %}
 {% load notificationtags %}
+{% get_new_complaint_count as note %}
 
 <header class="header blurred-container sticky-top">
 
@@ -21,78 +22,79 @@
                 <ul class="navbar-nav">
                     <span class="d-flex justify-content-between">
 
-                        <li class="nav-item">
-                            <form class="d-flex" role="search">
-                                <input class="form-control form-search" type="search" placeholder="Search"
+                        <li class="nav-item me-3 btn-search-i">
+                            <form class="d-flex justify-content-end" role="search">
+                                <input class="form-control form-search custom-search-input" type="search"
+                                       placeholder="Поиск..."
                                        aria-label="Search">
-                                <button class="btn btn-search" type="submit">
-                                    <i class="bi bi-search"></i>
-                                </button>
+                                <span class="btn btn-search ">
+                                    <i class="bi bi-search "></i>
+                                </span>
                             </form>
                         </li>
 
                         {% if user.is_authenticated %}
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'main:create_post' %}" role="button">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                            </li>
+                            {% if user.is_superuser %}
+                                <!-- КОГДА НЕТ УВЕДОМЛЕНИЙ -->
+                                <li class="nav-item dropdown me-2">
+                                    <a class="nav-link position-relative" href="#" role="button"
+                                       data-bs-auto-close="outside"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
 
-                            <!-- КОГДА НЕТ УВЕДОМЛЕНИЙ -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
-                                   data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-bell"></i>
-                                    {% get_new_complaint_count as note %}
+                                        {% if note > 0 %}
+                                            <i class="bi bi-bell-fill notif text-danger">
+                                                <small id="notification_id"
+                                                       class="position-absolute fw-semibold badge custom-badge">
+                                                    {{ note }}
+                                                </small>
+                                            </i>
+                                        {% else %}
+                                            <i class="bi bi-bell"></i>
+                                        {% endif %}
+
+                                    </a>
+
                                     {% if note > 0 %}
-                                    <span id="notification_id">({{note}})</span>
-                                    {% endif %}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <div class="notify-nothing card-body m-1">
-                                        Ничего нет...
-                                    </div>
-                                </div>
-                            </li>
 
-                            {#                            <!-- КОГДА ЕСТЬ УВЕДОМЛЕНИЯ -->#}
-                            {#                            <li class="nav-item dropdown">#}
-                            {#                                <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"#}
-                            {#                                   data-bs-toggle="dropdown" aria-expanded="false">#}
-                            {#                                    <i class="bi bi-bell-fill text-danger"></i>#}
-                            {#                                </a>#}
-                            {#                                <div class="dropdown-menu dropdown-menu-end">#}
-                            {#    #}
-                            {#                                    <div class="notify-card card mt-1">#}
-                            {#                                        <div class="card-body">#}
-                            {#                                            Какое-то Уведомление 1#}
-                            {#                                        </div>#}
-                            {#                                    </div>#}
-                            {#    #}
-                            {#                                    <div class="notify-card card mt-1">#}
-                            {#                                        <div class="card-body">#}
-                            {#                                            Какое-то Уведомление 2#}
-                            {#                                        </div>#}
-                            {#                                    </div>#}
-                            {#    #}
-                            {#                                    <div class="notify-card card mt-1">#}
-                            {#                                        <div class="card-body">#}
-                            {#                                            Какое-то Уведомление 3#}
-                            {#                                        </div>#}
-                            {#                                    </div>#}
-                            {#    #}
-                            {#                                </div>#}
-                            {#                            </li>#}
+                                        <div class="dropdown-menu dropdown-menu-end blurred-container">
+                                            <div class="notify-card card mt-1">
+                                                <div class="card-body">
+                                                    Какое-то Уведомление 1
+                                                </div>
+                                            </div>
+
+                                            <div class="notify-card card mt-1">
+                                                <div class="card-body">
+                                                    Какое-то Уведомление 2
+                                                </div>
+                                            </div>
+
+                                            <div class="notify-card card mt-1">
+                                                <div class="card-body">
+                                                    Какое-то Уведомление 3
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="dropdown-menu dropdown-menu-end blurred-container">
+                                            <div class="notify-nothing card-body m-1">
+                                                Ничего нет...
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                </li>
+                            {% endif %}
 
                         {% endif %}
 
-                        <li class="nav-item dropdown me-1">
+                        <li class="nav-item dropdown custom-border">
                             <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end blurred-container">
 
                                 {% if user.is_authenticated %}
 
@@ -120,7 +122,7 @@
                                     </li>
                                     <li>
                                         <a href="{% url 'auth:logout' %}" class="auth" id="logout">
-                                            <button type="submit" class="btn w-100 btn-auth auth text-start">
+                                            <button type="submit" class="btn w-100 btn-auth auth text-start" id="logout">
                                                 Выйти
                                             </button>
                                         </a>
@@ -153,6 +155,12 @@
                             </ul>
                         </li>
 
+                        <li class="nav-item me-2">
+                            <a class="nav-link" href="{% url 'main:about' %}" role="button">
+                                <i class="bi bi-question-circle"></i>
+                            </a>
+                        </li>
+
                         <li class="nav-item mt-2 ms-1 me-3">
                             <label class="theme">
                                 <input class="theme-switch" type="checkbox">
@@ -161,12 +169,6 @@
                                     <i class="bi bi-moon moon"></i>
                                 </span>
                             </label>
-                        </li>
-
-                        <li class="nav-item">
-                                <a class="nav-link" href="{% url 'main:about' %}" role="button">
-                                    <i class="bi bi-question-circle"></i>
-                                </a>
                         </li>
 
                     </span>
