@@ -1,4 +1,4 @@
-<div class="modal fade modal-blur" id="staticBackdropRegister" data-bs-backdrop="static" data-bs-keyboard="false"
+<div class="modal fade blurred-container" id="staticBackdropRegister" data-bs-backdrop="static" data-bs-keyboard="false"
      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-bg">
@@ -16,7 +16,7 @@
                 <div class="modal-body">
                     <div class="form-floating mb-3">
                         {{ register_ajax.username }}
-                        <label for="id_username">Имя пользователя</label>
+                        <label for="id_username_r">Имя пользователя</label>
                     </div>
 
                     <div class="form-floating mb-3">
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="modal-footer no-border-modal-footer">
-                    <button type="submit" class="btn btn-outline-primary btn-sm" id="liveAlertBtn">
+                    <button type="submit" class="btn btn-outline-primary btn-sm" id="register">
                         Зарегистрироваться
                     </button>
                     <button type="button" class="btn btn-outline-light btn-custom btn-sm" data-bs-dismiss="modal" id="cancelBtn">

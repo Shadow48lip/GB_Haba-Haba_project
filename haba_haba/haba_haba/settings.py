@@ -106,7 +106,6 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
-# TODO: НЕ ЗАБУДЬ РАСКОММЕНТИРОВАТЬ ПОСЛЕ ЭТАПА РАЗРАБОТКИ
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

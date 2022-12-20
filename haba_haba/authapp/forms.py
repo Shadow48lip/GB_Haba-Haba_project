@@ -8,7 +8,7 @@ class UserRegisterForm(UserCreationForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'id': 'id_username',
+                'id': 'id_username_r',
                 'placeholder': 'Username',
                 "autofocus": True,
             }
@@ -75,7 +75,7 @@ class UserLoginForm(AuthenticationForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'id': 'id_username',
+                'id': 'id_username_l',
                 'placeholder': 'Username',
                 "autofocus": True,
             }

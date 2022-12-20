@@ -11,7 +11,8 @@ class PostAdmin(SummernoteModelAdmin):
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     list_editable = ('is_published',)
-    list_filter = ('is_published', 'time_create')
+    list_filter = ('is_published', 'time_create', 'cat')
+    readonly_fields = ('total_views',)
 
     prepopulated_fields = {'slug': ('title',)}
     # Подключаем виджет к админке
