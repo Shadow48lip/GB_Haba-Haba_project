@@ -13,7 +13,7 @@ class DataMixin:
 
 
 class PaginatorMixin:
-    def get_paginate_context(self, object_list=None, **kwargs):
+    def get_paginate_context(self, **kwargs):
         context = kwargs
 
         # пагинация для ajax

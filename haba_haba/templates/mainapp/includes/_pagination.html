@@ -10,7 +10,7 @@
 
                     {#  отображаем кнопку "первая страница"  #}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First">
+                        <a class="page-link" href="?{{ q }}page=1" aria-label="First">
                             <span aria-hidden="true">На первую</span>
                         </a>
                     </li>
@@ -19,7 +19,7 @@
                 {#  отображаем кнопку "предыдущая страница"  #}
                 <li class="page-item">
                     {% if posts.previous_page_number %}
-                        <a class="page-link " href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+                        <a class="page-link " href="?{{ q }}page={{ posts.previous_page_number }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     {% endif %}
@@ -38,7 +38,7 @@
                     {#  вывод на экран соседних от "active" страниц  #}
                 {% elif page > posts.number|add:-3 and page < posts.number|add:3 %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                        <a class="page-link" href="?{{ q }}page={{ page }}">{{ page }}</a>
                     </li>
 
                     {#  вывод индикации о скрытых страницах  #}
@@ -52,7 +52,7 @@
             {#  отображаем кнопку "следующая страница"  #}
             {% if posts.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ posts.next_page_number }}"
+                    <a class="page-link" href="?{{ q }}page={{ posts.next_page_number }}"
                        aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
@@ -63,7 +63,7 @@
 
                     {#  отображаем кнопку "последняя страница"  #}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ posts.paginator.num_pages }}"
+                        <a class="page-link" href="?{{ q }}page={{ posts.paginator.num_pages }}"
                            aria-label="Last">
                             <span aria-hidden="true">На последнюю</span>
                         </a>

@@ -27,6 +27,8 @@ urlpatterns = [
     path('user/', include('userapp.urls', namespace='user')),
     path('moderator/', include('moderatorapp.urls', namespace='moderator')),
 
+    path('search/', include('searchapp.urls', namespace='search')),
+
     path('accounts/', include('authapp.urls', namespace='auth')),
 ]
 

@@ -115,6 +115,24 @@ class ShowComments(ListView):
         return context
 
 
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'mainapp/create_post.html'
+
+    # Добавляем автора к публикации в момент сохранения
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Новая статья'
+        return context
+
+
 def add_comment(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     comment = request.POST.get('text', None)
@@ -159,24 +177,6 @@ def edit_comment(request):
         comment.text = comment_text
         comment.save()
         return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
-
-
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'mainapp/create_post.html'
-
-    # Добавляем автора к публикации в момент сохранения
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.author = self.request.user
-        instance.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Новая статья'
-        return context
 
 
 def like_pressed(request):
