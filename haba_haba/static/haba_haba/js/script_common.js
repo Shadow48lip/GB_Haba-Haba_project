@@ -59,9 +59,7 @@ $('.custom-btn-check').click(function () {
         $(this).parent().removeClass('active');
     }
 });
-
-
-// customize input[file]
+// вывод имени выбранного файла в input[file]
 $('.input-file input[type=file]').on('change', function () {
     let file = this.files[0];
     $(this).closest('.input-file').find('.input-file-text').html(file.name);
