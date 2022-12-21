@@ -1,0 +1,53 @@
+{% load maintags %}
+{% load notificationtags %}
+{% get_new_complaint_count as note %}
+
+<header class="header blurred-container sticky-top">
+
+    <nav class="navbar navbar-expand-lg position-relative">
+        <div class="container position-relative">
+            <a class="navbar-brand" href="{% url 'main:home' %}"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+                <div class="menu-icon">
+                    <span></span>
+                </div>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+
+                {% main_categories cat_selected %}
+
+                <ul class="navbar-nav">
+                    <span class="d-flex justify-content-between">
+
+                        {% include 'mainapp/includes/_menu_search.html' %}
+
+                        {% include 'mainapp/includes/_menu_notifications.html' %}
+
+                        {% include 'mainapp/includes/_menu_auth.html' %}
+
+                        <li class="nav-item me-2">
+                            <a class="nav-link" href="{% url 'main:about' %}" role="button">
+                                <i class="bi bi-question-circle"></i>
+                            </a>
+                        </li>
+
+                        <li class="nav-item mt-2 ms-1 me-3">
+                            <label class="theme">
+                                <input class="theme-switch" type="checkbox">
+                                <span class="theme-wrapper">
+                                    <i class="bi bi-sun sun"></i>
+                                    <i class="bi bi-moon moon"></i>
+                                </span>
+                            </label>
+                        </li>
+
+                    </span>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>

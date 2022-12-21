@@ -8,7 +8,7 @@ from mainapp.models import PostLike
 register = template.Library()
 
 
-@register.inclusion_tag('mainapp/includes/_post_mini.html', name='post_mini')
+@register.inclusion_tag('mainapp/includes/_content_post_mini.html', name='post_mini')
 def show_post_mini(post, user):
     """Формирует оформленный с html блок привью статьи.
     @post: статья

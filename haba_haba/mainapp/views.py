@@ -33,7 +33,7 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
 
 class ShowPost(DataMixin, DetailView):
     model = Post
-    template_name = 'mainapp/includes/_post_single.html'
+    template_name = 'mainapp/includes/_content_post_single.html'
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
 
@@ -96,7 +96,7 @@ class PostTags(DataMixin, PaginatorMixin, ListView):
 
 class ShowComments(ListView):
     model = Post
-    template_name = 'mainapp/includes/_post_single.html'
+    template_name = 'mainapp/includes/_content_post_single.html'
     context_object_name = 'comments'
 
     # allow_empty = False
@@ -112,6 +112,24 @@ class ShowComments(ListView):
         context['post'] = post
         context['comm_count'] = Comment.get_count(post)
         context['read_post'] = False
+        return context
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'mainapp/create_post.html'
+
+    # Добавляем автора к публикации в момент сохранения
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Новая статья'
         return context
 
 
@@ -133,7 +151,7 @@ def add_comment(request):
                 'comment_likes_count': Comment.get_count(post),
                 'id': new_comment.id,
                 'data': render_to_string(
-                    'mainapp/includes/_comment_text.html',
+                    'mainapp/includes/_post_comment_text.html',
                     {'c': new_comment, 'user': user}
                 )
             }
@@ -161,24 +179,6 @@ def edit_comment(request):
         return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'mainapp/create_post.html'
-
-    # Добавляем автора к публикации в момент сохранения
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.author = self.request.user
-        instance.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Новая статья'
-        return context
-
-
 def like_pressed(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     comment = request.POST.get('comment', None)
@@ -192,7 +192,7 @@ def like_pressed(request):
                 'object_count': f'comment_likes_count_id_{comment.id}',
                 'comment_likes_count': str(CommentLike.get_count(comment)),
                 'data': render_to_string(
-                    'mainapp/includes/_comments.html',
+                    'mainapp/includes/_post_comments.html',
                     {
                         'comment': comment.id,
                         'user': request.user,
@@ -208,7 +208,7 @@ def like_pressed(request):
                 'result': post_add, 'object': f'post_like_id_{post.id}',
                 'object_count': f'post_count_id_{post.id}', 'post_like_count': str(PostLike.get_count(post)),
                 'data': render_to_string(
-                    'mainapp/includes/_likes.html',
+                    'mainapp/includes/_post_likes.html',
                     {
                         'post': post,
                         'user': request.user,
@@ -232,7 +232,7 @@ def bad_comment(request):
                 'object': str(comment.id),
                 'complaint': сomplaint_add,
                 'data': render_to_string(
-                    'mainapp/includes/_comment_text.html',
+                    'mainapp/includes/_post_comment_text.html',
                     {
                         'user': request.user,
                         'post': post,

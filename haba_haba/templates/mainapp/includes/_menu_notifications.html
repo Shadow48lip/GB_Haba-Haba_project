@@ -1,0 +1,49 @@
+{% if user.is_authenticated %}
+    {% if user.is_superuser %}
+        <li class="nav-item dropdown me-2">
+            <a class="nav-link position-relative" href="#" role="button"
+               data-bs-auto-close="outside"
+               data-bs-toggle="dropdown" aria-expanded="false">
+
+                {% if note > 0 %}
+                    <i class="bi bi-bell-fill notif text-danger">
+                        <small id="notification_id"
+                               class="position-absolute fw-semibold badge custom-badge">
+                            {{ note }}
+                        </small>
+                    </i>
+                {% else %}
+                    <i class="bi bi-bell"></i>
+                {% endif %}
+
+            </a>
+
+            {% if note > 0 %}
+                <div class="dropdown-menu dropdown-menu-end">
+                    <div class="notify-card card mt-1">
+                        <div class="card-body">
+                            Какое-то Уведомление 1
+                        </div>
+                    </div>
+                    <div class="notify-card card mt-1">
+                        <div class="card-body">
+                            Какое-то Уведомление 2
+                        </div>
+                    </div>
+                    <div class="notify-card card mt-1">
+                        <div class="card-body">
+                            Какое-то Уведомление 3
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="dropdown-menu dropdown-menu-end">
+                    <div class="notify-nothing card-body m-1">
+                        Ничего нет...
+                    </div>
+                </div>
+            {% endif %}
+
+        </li>
+    {% endif %}
+{% endif %}
