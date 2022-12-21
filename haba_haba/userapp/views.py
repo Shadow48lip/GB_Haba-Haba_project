@@ -30,7 +30,7 @@ class MyProfile(LoginRequiredMixin, DataMixin, PaginatorMixin, ListView):
         paginate_context = self.get_paginate_context()
 
         context = context | extra_context | paginate_context
-        print('profile:\n', context)
+        # print('profile:\n', context)
         return context
 
     def get_queryset(self):
@@ -63,7 +63,7 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
         password2 = form.cleaned_data.get('password2')
         if password1 and password2 and password1 == password2:
             self.object.set_password(password1)
-            print('пароль изменен')
+            # print('пароль изменен')
 
         return super().form_valid(form)
 
@@ -90,7 +90,7 @@ class UserProfileList(DataMixin, PaginatorMixin, ListView):
 
         context = context | extra_context | paginate_context
 
-        print('user:\n', context)
+        # print('user:\n', context)
         return context
 
     def get_queryset(self):

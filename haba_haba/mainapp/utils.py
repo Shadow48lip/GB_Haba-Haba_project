@@ -29,5 +29,5 @@ class PaginatorMixin:
         except EmptyPage:
             context['posts'] = paginator.page(paginator.num_pages)
 
-        print('paginatemixin:\n', context)
+        # print('paginatemixin:\n', context)
         return context
