@@ -1211,9 +1211,10 @@ body.dark .form-search:hover {
 }
 
 .form-search:focus {
+    font-size: 150%;
     padding-right: 3.75rem !important;
     width: 70% !important;
-    line-height: 3 !important;
+    line-height: 2 !important;
     cursor: inherit !important;
     transform: translateY(4rem);
     transition: .3s all ease-in-out !important;

@@ -27,7 +27,7 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
         # оператор | объединяет словари (для python 3.9+)
         context = context | extra_context | paginate_context
 
-        print('main:\n', context)
+        # print('main:\n', context)
         return context
 
 
@@ -47,7 +47,7 @@ class ShowPost(DataMixin, DetailView):
         self.object.total_views += 1
         self.object.save()
 
-        print('showpost:\n', context)
+        # print('showpost:\n', context)
         return context
 
 
