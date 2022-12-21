@@ -1,0 +1,18 @@
+<li class="nav-item me-3 btn-search-i">
+    <form action="{% url 'search:main' %}"
+          method="get"
+          class="d-flex justify-content-end"
+          role="search"
+          id="search-form">
+        <input class="form-control form-search custom-search-input"
+               type="search"
+               name="q"
+               placeholder="Поиск..."
+               aria-label="Search"
+               id="search-input"
+               autocomplete="off">
+        <button type="submit" class="btn btn-search">
+            <i class="bi bi-search " id="btn-search"></i>
+        </button>
+    </form>
+</li>

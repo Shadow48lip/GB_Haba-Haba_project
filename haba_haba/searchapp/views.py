@@ -15,7 +15,7 @@ class SearchView(DataMixin, PaginatorMixin, ListView):
             Q(title__icontains=search_query) |
             Q(content__icontains=search_query) |
             Q(author__username__icontains=search_query)
-        )
+        ).filter(is_published=True, is_blocked=False)
         return queryset
 
     def get_context_data(self, *args, **kwargs):

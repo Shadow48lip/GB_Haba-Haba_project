@@ -24,7 +24,7 @@
 
     <!-- заголовок -->
     {% block header %}
-        {% include 'mainapp/includes/_header.html' %}
+        {% include 'mainapp/includes/__header.html' %}
     {% endblock %}
 
 
@@ -47,15 +47,15 @@
                 {% endblock %}
 
                 {% block pagination %}
-                    {% include 'mainapp/includes/_pagination.html' %}
+                    {% include 'mainapp/includes/_content_pagination.html' %}
                 {% endblock %}
             </div>
 
             <!-- сайдбар -->
             <div class="col-md-3 gy-5">
                 {% block sidebar %}
-                    {% include 'mainapp/includes/_create_new_post_button.html' %}
-                    {% include 'mainapp/includes/_sidebar.html' %}
+                    {% include 'mainapp/includes/_post_create_button.html' %}
+                    {% include 'mainapp/includes/_content_sidebar.html' %}
                 {% endblock %}
             </div>
 
@@ -64,7 +64,7 @@
 
     <!-- подвал -->
     {% block footer %}
-        {% include 'mainapp/includes/_footer.html' %}
+        {% include 'mainapp/includes/__footer.html' %}
     {% endblock %}
 
 </div>
