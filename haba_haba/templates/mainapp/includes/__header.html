@@ -10,11 +10,11 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                     aria-label="Toggle navigation">
-
                 <div class="menu-icon">
                     <span></span>
                 </div>
             </button>
+
             <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
 
                 {% main_categories cat_selected %}
@@ -34,15 +34,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item mt-2 ms-1 me-3">
-                            <label class="theme">
-                                <input class="theme-switch" type="checkbox">
-                                <span class="theme-wrapper">
-                                    <i class="bi bi-sun sun"></i>
-                                    <i class="bi bi-moon moon"></i>
-                                </span>
-                            </label>
-                        </li>
+                        {% include 'mainapp/includes/_menu_theme_toggle.html' %}
 
                     </span>
                 </ul>

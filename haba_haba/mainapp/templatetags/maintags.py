@@ -12,5 +12,3 @@ def show_main_categories(cat_selected=None):
     """
     categories = Category.objects.all()
     return {'categories': categories, 'cat_selected': cat_selected}
-
-

@@ -1109,7 +1109,8 @@ body.dark .unused-page-link:hover {
     border-color: rgba(5, 5, 5, .5) !important;
 }
 
-.btn-custom:hover {
+.btn-custom:hover,
+.btn-custom:focus {
     background: rgba(255, 255, 255, .4) !important;
 }
 
@@ -1123,7 +1124,8 @@ body.dark .btn-custom {
     border-color: rgba(255, 255, 255, .5) !important;
 }
 
-body.dark .btn-custom:hover {
+body.dark .btn-custom:hover,
+body.dark .btn-custom:focus {
     background: rgba(5, 5, 5, .4) !important;
 }
 

@@ -7,24 +7,24 @@
         <div class="row">
 
             <div class="col-md-4">
-                <a href="{{ p.get_absolute_url }}" class="text-decoration-none">
-                    <img src="{{ p.photo|post_photo_process }}" alt="{{ p.title }}" class="card-img-top">
+                <a href="{{ post.get_absolute_url }}" class="text-decoration-none">
+                    <img src="{{ post.photo|post_photo_process }}" alt="{{ post.title }}" class="card-img-top">
                 </a>
             </div>
 
             <div class="col-md-8">
                 <div class="card-body pt-0">
 
-                    <a href="{{ p.get_absolute_url }}" class="card-link text-decoration-none">
+                    <a href="{{ post.get_absolute_url }}" class="card-link text-decoration-none">
                         <h5 class="fw-bold custom-card-header">
-                            <span>{{ p.title }}</span>
+                            <span>{{ post.title }}</span>
                         </h5>
                     </a>
 
                     <p class="card-text">
-                        {{ p.content|striptags|truncatewords:50 }}
+                        {{ post.content|striptags|truncatewords:50 }}
                         <br>
-                        <a href="{{ p.get_absolute_url }}" class="trans-color-02">Читать далее...</a>
+                        <a href="{{ post.get_absolute_url }}" class="trans-color-02">Читать далее...</a>
                     </p>
 
                 </div>
@@ -36,26 +36,26 @@
                 <small class="text-muted">
 
                     <span class="ms-2"><i class="bi bi-eye"></i></span>
-                    <span>{{ p.total_views }}</span>
+                    <span>{{ post.total_views }}</span>
 
 
                     <span class="ms-2"><i class="bi bi-heart"></i></span>
-                    <span>{% post_like_count p %}</span>
+                    <span>{% post_like_count post %}</span>
 
-                    <a href="{% url 'main:comment' p.slug %}" class="trans-color-02">
+                    <a href="{% url 'main:comment' post.slug %}" class="trans-color-02">
                         <span class="ms-2"><i class="bi bi-chat"></i></span>
-                        <span>{% comment_count p %}</span>
+                        <span>{% comment_count post %}</span>
                     </a>
                 </small>
 
                 <small class="text-muted">
                     <span>
-                        <a href="{% url 'user:user_profile' p.author.slug %}" class="trans-color-02">
-                            {{ p.author.username }}
+                        <a href="{% url 'user:user_profile' post.author.slug %}" class="trans-color-02">
+                            {{ post.author.username }}
                         </a>
                     </span>
                     <span class="fw-bold separ">|</span>
-                    <span>{{ p.time_update|date:"d.m.Y H:i" }}</span>
+                    <span>{{ post.time_update|date:"d.m.Y H:i" }}</span>
 
                     {% if user.is_authenticated %}
                         {% if user.username == 'admin' %}

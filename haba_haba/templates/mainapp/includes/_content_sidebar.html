@@ -3,17 +3,17 @@
 
 <ul class="list-group sidebar-sticky-top sticky-top mb-3">
 
-    {% for p in news %}
-        <a href="{{ p.get_absolute_url }}"
+    {% for post in last_posts %}
+        <a href="{{ post.get_absolute_url }}"
            class="sidebar-item list-group-item list-group-item-action custom-sidebar-item">
 
             <div class="sidebar-card-small w-100 d-flex flex-column justify-content-between">
                 <div class="box row g-0">
                     <div class="img-box col-md-2">
-                        <img src="{{ p.photo|post_photo_process }}" alt="{{ p.title }}" class="card-img-bottom">
+                        <img src="{{ post.photo|post_photo_process }}" alt="{{ post.title }}" class="card-img-bottom">
                     </div>
                     <div class="col-md-custom">
-                        <span class="sidebar-item-title card-text">{{ p.title }}</span>
+                        <span class="sidebar-item-title card-text">{{ post.title }}</span>
                     </div>
                 </div>
 
@@ -21,19 +21,19 @@
                     <small class="text-muted">
                         <span>
                             <i class="bi bi-eye"></i>
-                            <span>{{ p.total_views }}</span>
+                            <span>{{ post.total_views }}</span>
                         </span>
                         <span class="ms-2">
                             <i class="bi bi-chat"></i>
-                            <span>{% comment_count p %}</span>
+                            <span>{% comment_count post %}</span>
                         </span>
                     </small>
                     <small class="text-muted d-flex flex-column justify-content-between">
                         <span class="d-flex justify-content-end">
-                            {{ p.time_update|date:'d.m.Y' }}
+                            {{ post.time_update|date:'d.m.Y' }}
                         </span>
                         <span class="author-hidden d-flex justify-content-end">
-                            {{ p.author }}
+                            {{ post.author }}
                         </span>
                     </small>
                 </div>

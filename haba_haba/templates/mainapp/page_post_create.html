@@ -1,4 +1,6 @@
 {% extends 'mainapp/base.html' %}
+{% load static %}
+{% load posttags %}
 
 {% block title %}
     {{ title }} :: {{ block.super }}
@@ -29,14 +31,12 @@
                     <span class="input-file-text "></span>
                 </label>
             </div>
-
             <div id="custom-post-text-labels" class="position-relative mb-3">
                 <small class="post-text-position position-absolute">
                     Текст статьи
                 </small>
                 {{ form.content|safe }}
             </div>
-
             <div id="custom-tags-labels"
                  class="position-relative d-flex flex-wrap justify-content-between mt-3 mb-3">
                 <small class="tags-position position-absolute">Теги</small>
@@ -44,15 +44,18 @@
                     {{ tag }}
                 {% endfor %}
             </div>
-
             <div class="form-check form-switch d-flex justify-content-end mt-5">
                 {{ form.is_published }}
                 <label class="form-check-label ms-2" for="id_published">Публикуем?</label>
             </div>
-
             <div class="d-grid mt-5">
                 <button type="submit" class="btn btn-outline-primary btn-lg">Добавить статью</button>
             </div>
         </form>
     </div>
 {% endblock content %}
+
+{% block sidebar %}
+    {% include 'mainapp/includes/_post_create_button.html' %}
+    {% include 'mainapp/includes/_content_sidebar.html' %}
+{% endblock %}

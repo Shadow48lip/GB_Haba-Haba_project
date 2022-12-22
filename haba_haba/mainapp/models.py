@@ -20,7 +20,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория(ю)'
         verbose_name_plural = 'Категории'
-        ordering = ['name', ]
+        ordering = ('name',)
 
 
 class Tag(models.Model):
@@ -36,14 +36,12 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тэг'
         verbose_name_plural = 'Тэги'
-        ordering = ['name', ]
+        ordering = ('name',)
 
 
 class Post(models.Model):
-    cat = models.ForeignKey(Category, on_delete=models.CASCADE,
-                            verbose_name='Категория')
-    author = models.ForeignKey(HabaUser, on_delete=models.CASCADE,
-                               verbose_name='Автор')
+    cat = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    author = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Автор')
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='url')
     content = models.TextField(blank=True, verbose_name='Текст')
@@ -69,12 +67,14 @@ class Post(models.Model):
 
     @staticmethod
     def get_new_post():
-        return Post.objects.filter(is_published=True, is_blocked=False).order_by('-time_create')[:5]
+        return Post.objects.select_related(
+            'author', 'cat'
+        ).filter(is_published=True, is_blocked=False)[:5]  # .order_by('-time_create')
 
     class Meta:
         verbose_name = 'Статья(ю)'
         verbose_name_plural = 'Статьи'
-        ordering = ['-time_create', 'title']
+        ordering = ('-time_create', 'title')
 
 
 class Comment(models.Model):
@@ -90,17 +90,20 @@ class Comment(models.Model):
 
     @staticmethod
     def get_count(post):
-        return Comment.objects.filter(post=post, is_published=True).count()
+        return Comment.objects.select_related(
+            'user', 'post'
+        ).filter(post=post, is_published=True).count()
 
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-        ordering = ['time_create', 'user']
+        ordering = ('time_create', 'user')
 
 
 class AuthorLike(models.Model):
-    user = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Пользователь',
-                             related_name='user_author_set')
+    user = models.ForeignKey(
+        HabaUser, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='user_author_set'
+    )
     author = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Автор', related_name='author_set')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
 
@@ -109,12 +112,14 @@ class AuthorLike(models.Model):
 
     @staticmethod
     def get_count(author):
-        return AuthorLike.objects.filter(author=author).count()
+        return AuthorLike.objects.select_related(
+            'user', 'author'
+        ).filter(author=author).count()
 
     class Meta:
         verbose_name = 'Лайк автору'
         verbose_name_plural = 'Лайки автору'
-        ordering = ['time_create']
+        ordering = ('time_create',)
 
 
 class PostLike(models.Model):
@@ -127,11 +132,16 @@ class PostLike(models.Model):
 
     @staticmethod
     def get_count(post):
-        return PostLike.objects.filter(post=post).count()
+        return PostLike.objects.select_related(
+            'post', 'user'
+        ).filter(post=post).count()
 
     @staticmethod
     def post_liked(post, user):
-        obj = PostLike.objects.filter(post=post, user=user).first()
+        obj = PostLike.objects.select_related(
+            'post', 'user'
+        ).filter(post=post, user=user).first()
+
         if obj:
             return 'bi-heart-fill'
         else:
@@ -139,7 +149,10 @@ class PostLike(models.Model):
 
     @staticmethod
     def set_like(post, user):
-        obj = PostLike.objects.filter(post=post, user=user).first()
+        obj = PostLike.objects.select_related(
+            'post', 'user'
+        ).filter(post=post, user=user).first()
+
         if obj:
             obj.delete()
             return 0
@@ -150,7 +163,7 @@ class PostLike(models.Model):
     class Meta:
         verbose_name = 'Лайк к статье'
         verbose_name_plural = 'Лайки к статье'
-        ordering = ['time_create']
+        ordering = ('time_create',)
 
 
 class CommentLike(models.Model):
@@ -163,11 +176,14 @@ class CommentLike(models.Model):
 
     @staticmethod
     def get_count(comment):
-        return CommentLike.objects.filter(comment=comment).count()
+        return CommentLike.objects.select_related(
+            'comment', 'user'
+        ).filter(comment=comment).count()
 
     @staticmethod
     def comment_liked(comment, user):
         obj = CommentLike.objects.filter(comment=comment, user=user).first()
+
         if obj:
             return 'bi-heart-fill'
         else:
@@ -175,7 +191,10 @@ class CommentLike(models.Model):
 
     @staticmethod
     def set_like(comment, user):
-        obj = CommentLike.objects.filter(comment=comment, user=user).first()
+        obj = CommentLike.objects.select_related(
+            'comment', 'user'
+        ).filter(comment=comment, user=user).first()
+
         if obj:
             obj.delete()
             return 0
@@ -186,19 +205,23 @@ class CommentLike(models.Model):
     class Meta:
         verbose_name = 'Лайк к комментарию'
         verbose_name_plural = 'Лайки к комментарию'
-        ordering = ['time_create']
+        ordering = ('time_create',)
 
 
 class UserComplaints(models.Model):
-    user = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Заявитель',
-                             related_name='user_complaint_set')
-    bad_user = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Виновный',
-                                 related_name='bad_user_set')
+    user = models.ForeignKey(
+        HabaUser, on_delete=models.CASCADE, verbose_name='Заявитель', related_name='user_complaint_set'
+    )
+    bad_user = models.ForeignKey(
+        HabaUser, on_delete=models.CASCADE, verbose_name='Виновный', related_name='bad_user_set'
+    )
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Статья')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='Комментарий')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    moderator = models.ForeignKey(HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
-                                  related_name='moderator_complaint_set')
+    moderator = models.ForeignKey(
+        HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
+        related_name='moderator_complaint_set'
+    )
     moderated_time = models.DateTimeField(default=datetime.datetime(2000, 1, 1, 0, 0, 0), verbose_name='Время создания')
 
     def __str__(self):
@@ -206,7 +229,10 @@ class UserComplaints(models.Model):
 
     @staticmethod
     def set_сomplaint(post, user, comment):
-        obj = UserComplaints.objects.filter(post=post, user=user, comment=comment).first()
+        obj = UserComplaints.objects.select_related(
+            'post', 'user', 'comment'
+        ).filter(post=post, user=user, comment=comment).first()
+
         if obj:
             obj.delete()
             return 0
@@ -216,7 +242,10 @@ class UserComplaints(models.Model):
 
     @staticmethod
     def get_сomplaint(post, user, comment):
-        obj = UserComplaints.objects.filter(post=post, user=user, comment=comment).first()
+        obj = UserComplaints.objects.select_related(
+            'post', 'user', 'comment'
+        ).filter(post=post, user=user, comment=comment).first()
+
         if obj:
             return 'bi bi-exclamation-circle-fill'
         else:
@@ -224,19 +253,23 @@ class UserComplaints(models.Model):
 
     @staticmethod
     def get_new_complaints():
-        return UserComplaints.objects.filter(moderator=None).count()
+        return UserComplaints.objects.select_related(
+            'post', 'user', 'comment'
+        ).filter(moderator=None).count()
 
     class Meta:
         verbose_name = 'Жалоба пользователя'
         verbose_name_plural = 'Жалобы пользователя'
-        ordering = ['time_create']
+        ordering = ('time_create',)
 
 
 class BlockedUser(models.Model):
-    user = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Пользователь',
-                             related_name='user_block_set')
-    moderator = models.ForeignKey(HabaUser, on_delete=models.CASCADE, verbose_name='Модератор',
-                                  related_name='moderator_block_set')
+    user = models.ForeignKey(
+        HabaUser, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='user_block_set'
+    )
+    moderator = models.ForeignKey(
+        HabaUser, on_delete=models.CASCADE, verbose_name='Модератор', related_name='moderator_block_set'
+    )
     complaint = models.ForeignKey(UserComplaints, on_delete=models.CASCADE, verbose_name='Жалоба пользователя')
     lock_date = models.DateField(verbose_name='Заблокирован до')
     reason_for_blocking = models.CharField(max_length=255, verbose_name='Причина блокировки')
@@ -247,4 +280,4 @@ class BlockedUser(models.Model):
     class Meta:
         verbose_name = 'Заблокированный пользователь'
         verbose_name_plural = 'Заблокированные пользователи'
-        ordering = ['lock_date']
+        ordering = ('lock_date',)
