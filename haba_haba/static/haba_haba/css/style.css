@@ -1178,20 +1178,27 @@ body.dark .form-select:focus {
 
 
 /* search */
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance:none !important;
+}
+
 .form-search {
     cursor: pointer !important;
-    width: 20% !important;
+    width: 10% !important;
     position: absolute !important;
     padding-right: 2.25rem !important;
     line-height: 1 !important;
     transition: .2s all ease-in-out !important;
     z-index: 1111 !important;
-    color: rgba(5,5,5,.25) !important;
+    color: rgba(5, 5, 5, .25) !important;
 }
 
 body.dark .form-search {
-    color: rgba(255,255,255,.25) !important;
-
+    color: rgba(255, 255, 255, .25) !important;
 }
 
 .form-search::placeholder {
@@ -1201,15 +1208,16 @@ body.dark .form-search {
 
 .form-search:hover {
     transform: scale(1.05);
-    color: rgba(5,5,5,.5) !important;
+    color: rgba(5, 5, 5, .5) !important;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25) !important;
 }
+
 body.dark .form-search:hover {
-    color: rgba(255,255,255,.5) !important;
+    color: rgba(255, 255, 255, .5) !important;
 }
 
 .form-search:hover + .btn-search {
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 .form-search:focus {
@@ -1218,27 +1226,27 @@ body.dark .form-search:hover {
     width: 70% !important;
     line-height: 2 !important;
     cursor: inherit !important;
-    transform: translateY(4rem);
+    transform: translateY(5rem);
     transition: .3s all ease-in-out !important;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25) !important;
-    color: rgba(5,5,5,1) !important;
-    background: rgba(255,255,255,.97) !important;
+    color: rgba(5, 5, 5, 1) !important;
+    background: rgba(255, 255, 255, .97) !important;
 }
 
 body.dark .form-search:focus {
-    color: rgba(255,255,255,1) !important;
-    background: rgba(5,5,5,.97) !important;
+    color: rgba(255, 255, 255, 1) !important;
+    background: rgba(5, 5, 5, .97) !important;
 }
 
 .form-search:focus + .btn-search {
+    cursor: default !important;
     padding-right: 1.5rem !important;
-    transform: translateY(4rem);
+    transform: translateY(5.25rem);
     line-height: 3 !important;
     transition: .3s all ease-in-out !important;
 }
 
 .btn-search {
-
     cursor: pointer !important;
     z-index: 2050 !important;
     position: absolute !important;

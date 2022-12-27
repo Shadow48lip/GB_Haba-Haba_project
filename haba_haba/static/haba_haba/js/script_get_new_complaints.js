@@ -17,5 +17,5 @@ setInterval(
     function () {
         ajaxGetNewComplaints();
     },
-    600000 // 1min
+    60000 // 1min
 );
