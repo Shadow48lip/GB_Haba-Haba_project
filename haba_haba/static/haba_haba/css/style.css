@@ -1212,6 +1212,7 @@ body.dark .form-search:hover {
 }
 
 .form-search:hover + .btn-search {
+    z-index: 2050 !important;
     transform: translateX(3px);
 }
 
@@ -1234,6 +1235,7 @@ body.dark .form-search:focus {
 }
 
 .form-search:focus + .btn-search {
+    z-index: 2050 !important;
     cursor: default !important;
     padding-right: 1.5rem !important;
     transform: translateY(5.25rem);
@@ -1243,18 +1245,12 @@ body.dark .form-search:focus {
 
 .btn-search {
     cursor: pointer !important;
-    z-index: 2050 !important;
+    z-index: 950 !important;
     position: absolute !important;
     color: rgba(5, 5, 5, .5) !important;
     background: transparent !important;
     border: transparent !important;
     transition: .2s all ease-in-out !important;
-}
-
-body.dark .btn-search {
-    color: rgba(255, 255, 255, .5) !important;
-    background: transparent !important;
-    border: transparent !important;
 }
 
 body.dark .btn-search {
