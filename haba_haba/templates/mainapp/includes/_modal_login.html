@@ -1,5 +1,10 @@
-<div class="modal fade blurred-container" id="staticBackdropLogin" data-bs-backdrop="static" data-bs-keyboard="false"
-     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div id="staticBackdropLogin"
+     class="modal fade blurred-container"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true"
+     tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-bg">
 
@@ -9,7 +14,9 @@
 
             <div class="alert alert-danger m-3 d-none error-auth" role="alert"></div>
 
-            <form method="post" action="{% url 'auth:login' %}" id="login_form_modal">
+            <form method="post"
+                  action="{% url 'auth:login' %}"
+                  id="login_form_modal">
                 {% csrf_token %}
                 {{ login_ajax.non_field_errors }}
 

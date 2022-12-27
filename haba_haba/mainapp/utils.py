@@ -4,11 +4,11 @@ from mainapp.models import Post
 
 
 class DataMixin:
-    @staticmethod
-    def get_extra_context(**kwargs):
-        context = kwargs
-        context['news'] = Post.get_new_post()
 
+    def get_extra_context(self, **kwargs):
+        context = kwargs
+        context['last_posts'] = Post.get_new_post()
+        # print('datamixin:\n', context)
         return context
 
 
@@ -18,7 +18,9 @@ class PaginatorMixin:
 
         # пагинация для ajax
         context['posts'] = self.object_list
-        context['posts'].filter(is_published=True, is_blocked=False).order_by('-time_create')
+        context['posts'].filter(
+            is_published=True, is_blocked=False
+        ) # .order_by('-time_create')
         paginator = Paginator(context['posts'], per_page=5, orphans=1)
         page = self.request.GET.get('page')
 
@@ -28,6 +30,5 @@ class PaginatorMixin:
             context['posts'] = paginator.page(1)
         except EmptyPage:
             context['posts'] = paginator.page(paginator.num_pages)
-
         # print('paginatemixin:\n', context)
         return context

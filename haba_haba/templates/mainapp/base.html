@@ -11,6 +11,7 @@
             Haba-Haba
         {% endblock %}
     </title>
+
     <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -37,11 +38,11 @@
         {% include 'mainapp/includes/_modal_login.html' %}
     {% endblock %}
 
-
+    <!-- основное содержимое -->
     <div class="container mt-5">
         <div class="row row-main">
 
-            <!-- основное содержимое -->
+            <!-- контент -->
             <div id="cards" class="col-md-9 row g-4">
                 {% block content %}
                 {% endblock %}
@@ -54,8 +55,6 @@
             <!-- сайдбар -->
             <div class="col-md-3 gy-5">
                 {% block sidebar %}
-                    {% include 'mainapp/includes/_post_create_button.html' %}
-                    {% include 'mainapp/includes/_content_sidebar.html' %}
                 {% endblock %}
             </div>
 

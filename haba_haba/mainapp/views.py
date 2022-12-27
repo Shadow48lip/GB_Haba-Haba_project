@@ -18,7 +18,9 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(is_published=True, is_blocked=False).order_by('-time_create')
+        return queryset.select_related(
+            'author', 'cat'
+        ).filter(is_published=True, is_blocked=False)  # .order_by('-time_create')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +35,7 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
 
 class ShowPost(DataMixin, DetailView):
     model = Post
-    template_name = 'mainapp/includes/_content_post_single.html'
+    template_name = 'mainapp/page_post_single.html'
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
 
@@ -51,15 +53,18 @@ class ShowPost(DataMixin, DetailView):
         return context
 
 
-class PostCategory(DataMixin, PaginatorMixin, ListView):
+class PostsCategory(DataMixin, PaginatorMixin, ListView):
+    """ Вывод статей по категориям """
     model = Post
     template_name = 'mainapp/index.html'
-    context_object_name = 'posts'
+    context_object_name = 'post_categories'
     allow_empty = False
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(cat__slug=self.kwargs['slug'], is_published=True, is_blocked=False).select_related('cat')
+        return queryset.select_related(
+            'author', 'cat'
+        ).filter(cat__slug=self.kwargs['slug'], is_published=True, is_blocked=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -69,20 +74,23 @@ class PostCategory(DataMixin, PaginatorMixin, ListView):
         paginate_context = self.get_paginate_context()
 
         context = context | extra_context | paginate_context
+
+        # print('postcat\n', context)
         return context
 
 
-class PostTags(DataMixin, PaginatorMixin, ListView):
+class PostsTag(DataMixin, PaginatorMixin, ListView):
     """ Вывод статей по тегам """
-
     model = Post
     template_name = 'mainapp/index.html'
-    context_object_name = 'posts'
+    context_object_name = 'post_tags'
     allow_empty = False
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(tags__slug=self.kwargs['slug'])
+        return queryset.select_related(
+            'author', 'cat'
+        ).filter(tags__slug=self.kwargs['slug'], is_published=True, is_blocked=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,34 +99,48 @@ class PostTags(DataMixin, PaginatorMixin, ListView):
         paginate_context = self.get_paginate_context()
 
         context = context | extra_context | paginate_context
+
+        # print('posttags\n', context)
         return context
 
 
-class ShowComments(ListView):
+class ShowComments(DataMixin, ListView):
     model = Post
-    template_name = 'mainapp/includes/_content_post_single.html'
+    template_name = 'mainapp/page_post_single.html'
     context_object_name = 'comments'
 
     # allow_empty = False
     def get_queryset(self):
         queryset = super().get_queryset()
-        post = Post.objects.get(slug=self.kwargs['slug'])
-        return queryset.filter(post=post, is_published=True).order_by('-time_update')
+        post = Post.objects.select_related('author', 'cat').get(slug=self.kwargs['slug'])
+        return queryset.select_related(
+            'author', 'cat'
+        ).filter(post=post, is_published=True)  # .order_by('-time_update')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        post = Post.objects.get(slug=self.kwargs['slug'])
-        context['title'] = 'Комментарии к статье - ' + str(post.title)
+        post = Post.objects.select_related('author', 'cat').get(slug=self.kwargs['slug'])
         context['post'] = post
         context['comm_count'] = Comment.get_count(post)
         context['read_post'] = False
+        extra_context = self.get_extra_context(title=f'Комментарии к статье "{post.title}"')
+
+        context = context | extra_context
+
+        # print('showcomments\n', context)
         return context
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, DataMixin, CreateView):
     model = Post
     form_class = PostForm
-    template_name = 'mainapp/create_post.html'
+    template_name = 'mainapp/page_post_create.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.select_related(
+            'author', 'cat'
+        ).filter(is_published=True, is_blocked=False)  # .order_by('-time_create')
 
     # Добавляем автора к публикации в момент сохранения
     def form_valid(self, form):
@@ -129,7 +151,22 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Новая статья'
+        extra_context = self.get_extra_context(title='Новая статья')
+
+        context = context | extra_context
+
+        # print('postcreate\n', context)
+        return context
+
+
+class AboutView(DataMixin, ListView):
+    model = Post
+    template_name = 'mainapp/page_about.html'
+
+    def get_context_data(self, **kwargs):
+        context = self.get_extra_context(title='О сайте')
+
+        # print('about:\n', context)
         return context
 
 
@@ -226,11 +263,11 @@ def bad_comment(request):
     if is_ajax and comment and post:
         post = get_object_or_404(Post, id=post)
         comment = get_object_or_404(Comment, id=comment)
-        сomplaint_add = UserComplaints.set_сomplaint(post, request.user, comment)
+        complaint_add = UserComplaints.set_сomplaint(post, request.user, comment)
         return JsonResponse(
             {
                 'object': str(comment.id),
-                'complaint': сomplaint_add,
+                'complaint': complaint_add,
                 'data': render_to_string(
                     'mainapp/includes/_post_comment_text.html',
                     {
@@ -250,19 +287,20 @@ def new_complaints(request):
         new_complaint_count = UserComplaints.get_new_complaints()
         return JsonResponse({'object': new_complaint_count}, status=200)
 
-
-def about(request):
-    return render(request, 'mainapp/about.html', {'title': 'О сайте'})
-
-
-def show_post(request, slug):
-    return HttpResponse('<h1>Статья</h1>')
-
-
-def site_category(request, slug):
-    return HttpResponse('<h1>Категория</h1>')
-
-
-# Обработчик не найденной страницы
-def page_not_found(request, exception):
-    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+#
+# def about(request):
+#     return render(request, 'mainapp/page_about.html', {'title': 'О сайте'})
+#
+#
+# def show_post(request, slug):
+#     return HttpResponse('<h1>Статья</h1>')
+#
+#
+# def site_category(request, slug):
+#     return HttpResponse('<h1>Категория</h1>')
+#
+#
+# # Обработчик не найденной страницы
+# def page_not_found(request, exception):
+#     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+#

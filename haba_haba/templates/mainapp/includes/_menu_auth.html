@@ -1,65 +1,74 @@
 <li class="nav-item dropdown custom-border">
-    <a class="nav-link" href="#" role="button" data-bs-auto-close="outside"
-       data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="nav-link"
+          data-bs-auto-close="outside"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          role="button">
         <i class="bi bi-person-circle"></i>
-    </a>
+    </span>
     <ul class="dropdown-menu dropdown-menu-end">
 
         {% if user.is_authenticated %}
-
             <span class="d-flex justify-content-center">
                 <span>
                     Привет,
-                    <a href="{% url 'user:my_profile_edit' %}">{{ user.username|title }}</a>
+                    <a href="{% url 'user:my_profile_edit' %}">{{ user.username }}</a>
                 </span>
             </span>
 
             <hr class="text-muted">
 
             <li>
-                <a href="{% url 'user:my_profile_view' %}" class=" auth">
+                <a href="{% url 'user:my_profile_view' %}" class="auth">
                     <button class="btn w-100 btn-auth auth text-start">
                         Кабинет
                     </button>
                 </a>
             </li>
-            <li><a href="{% url 'moderator:index' %}" class=" auth">
-                <button class="btn w-100 btn-auth auth text-start">
-                    Модератор
-                </button>
-            </a>
+            <li>
+                <a href="{% url 'moderator:index' %}" class="auth">
+                    <button class="btn w-100 btn-auth auth text-start">
+                        Модератор
+                    </button>
+                </a>
             </li>
             <li>
-                <a href="{% url 'auth:logout' %}" class="auth" id="logout">
-                    <button type="submit" class="btn w-100 btn-auth auth text-start"
-                            id="logout">
+                <a href="{% url 'auth:logout' %}"
+                   class="auth"
+                   id="logout">
+                    <button type="submit" class="btn w-100 btn-auth auth text-start">
                         Выйти
                     </button>
                 </a>
             </li>
-        {% else %}
 
+        {% else %}
             <span class="d-flex justify-content-center">
                 Привет, Гость
             </span>
 
             <hr class="text-muted">
 
+
             <li>
-                <a href="{% url 'auth:register' %}" class="auth" data-bs-toggle="modal"
-                   data-bs-target="#staticBackdropRegister">
+                {# <a href="{% url 'auth:register' %}" #}
+                <span class="auth"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropRegister">
                     <button type="submit" class="btn w-100 btn-auth auth text-start">
                         Регистрация
                     </button>
-                </a>
+                </span>
             </li>
             <li>
-                <a href="{% url 'auth:login' %}" class="auth" data-bs-toggle="modal"
-                   data-bs-target="#staticBackdropLogin">
+                {# <a href="{% url 'auth:login' %}" #}
+                <span class="auth"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropLogin">
                     <button type="submit" class="btn w-100 btn-auth auth text-start">
                         Войти
                     </button>
-                </a>
+                </span>
             </li>
         {% endif %}
     </ul>

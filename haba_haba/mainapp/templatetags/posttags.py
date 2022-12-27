@@ -14,7 +14,7 @@ def show_post_mini(post, user):
     @post: статья
     """
 
-    return {'p': post, 'user': user}
+    return {'post': post, 'user': user}
 
 
 @register.filter(name='post_photo_process')

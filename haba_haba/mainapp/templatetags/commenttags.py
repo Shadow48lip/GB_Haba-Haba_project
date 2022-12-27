@@ -1,6 +1,6 @@
 from django import template
 
-from mainapp.models import Comment,CommentLike, UserComplaints
+from mainapp.models import Comment, CommentLike, UserComplaints
 
 register = template.Library()
 
@@ -12,7 +12,9 @@ def get_comment_count(post):
 
 @register.inclusion_tag('mainapp/includes/_post_comments.html', name='post_comments')
 def show_comments(post, user, read_post):
-    comments = Comment.objects.filter(post=post, is_published=True).order_by('-time_create')
+    comments = Comment.objects.select_related(
+        'post', 'user'
+    ).filter(post=post, is_published=True).order_by('-time_create')
     comment_count = Comment.get_count(post)
     return {'comments': comments, 'user': user, 'comment_count': comment_count, 'post': post, 'read_post': read_post}
 

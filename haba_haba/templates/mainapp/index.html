@@ -8,12 +8,19 @@
 
 {% block content %}
     <div class="custom-card-bg card border border-secondary border-opacity-25 pt-3">
+
         {% if posts %}
-            {% for p in posts %}
-                {% post_mini p user %}
+            {% for post in posts %}
+                {% post_mini post user %}
             {% endfor %}
         {% else %}
             {% include 'mainapp/includes/__not_found.html' %}
         {% endif %}
+
     </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'mainapp/includes/_post_create_button.html' %}
+    {% include 'mainapp/includes/_content_sidebar.html' %}
 {% endblock %}
