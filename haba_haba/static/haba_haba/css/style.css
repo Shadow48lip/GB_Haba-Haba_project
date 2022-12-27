@@ -763,13 +763,8 @@ body.dark .custom-card-info {
     z-index: 1000 !important;
     margin-top: 1.75em !important;
     margin-bottom: .75em !important;
-    background: rgba(5, 5, 5, .03) !important;
 }
 
-body.dark .sidebar-item:hover,
-body.dark .custom-sidebar-item:hover {
-    background: rgba(255, 255, 255, .03) !important;
-}
 
 .custom-sidebar-item .img-box {
     opacity: 0;
@@ -1183,7 +1178,7 @@ input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
-  -webkit-appearance:none !important;
+    -webkit-appearance: none !important;
 }
 
 .form-search {
@@ -1432,7 +1427,15 @@ body.dark .comment-footer {
         box-shadow: 0 0 15px rgba(0, 0, 0, .25) !important;
     }
 
-    .sidebar-item:hover,
+    .sidebar-item:hover {
+        background: rgba(5, 5, 5, .03) !important;
+    }
+
+    body.dark .sidebar-item:hover {
+        background: rgba(255, 255, 255, .03) !important;
+    }
+
+    /*.sidebar-item:hover,*/
     .blurred-container,
     body.dark .blurred-container {
         -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
@@ -1463,7 +1466,7 @@ body.dark .comment-footer {
         background: rgba(255, 255, 255, 0.9) !important;
     }
 
-    .sidebar-item:hover,
+    body.dark .sidebar-item:hover,
     body.dark .blurred-container {
         background: rgba(5, 5, 5, 0.95) !important;
     }
