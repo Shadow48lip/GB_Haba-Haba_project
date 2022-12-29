@@ -64,3 +64,29 @@ $('.input-file input[type=file]').on('change', function () {
     let file = this.files[0];
     $(this).closest('.input-file').find('.input-file-text').html(file.name);
 });
+
+
+// вызов search-box
+const $searchInput = $('#search-input')
+$('#btn-search').click(() => {
+    $searchInput.toggleClass('hide-search-input')
+    $searchInput.focus()
+
+    if ($searchInput.hasClass('hide-search-input')) {
+        $('.btn-search-li').css({
+            'background': 'transparent',
+            'border-radius': '6px',
+            'transition': '.3s'
+        })
+    } else {
+        $('.btn-search-li').css({
+            'background': 'rgba(13, 110, 253, .1)',
+            'border-radius': '6px',
+            'transition': '.3s'
+        })
+    }
+})
+// вызов со страницы 404
+$('#searchbox').click(() => {
+    $('#btn-search').click()
+})

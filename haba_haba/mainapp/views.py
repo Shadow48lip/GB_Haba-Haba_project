@@ -22,6 +22,9 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
             'author', 'cat'
         ).filter(is_published=True, is_blocked=False)  # .order_by('-time_create')
 
+    def get_ordering(self):
+        return self.request.GET.get('order_by')
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         extra_context = self.get_extra_context(title='Все категории')
@@ -29,7 +32,7 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
         # оператор | объединяет словари (для python 3.9+)
         context = context | extra_context | paginate_context
 
-        # print('main:\n', context)
+        print('main:\n', context)
         return context
 
 

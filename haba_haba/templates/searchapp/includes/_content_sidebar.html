@@ -1,0 +1,48 @@
+<form class="sidebar-sort-sticky-top sticky-top" method="get">
+    <ul class="list-group mb-3">
+
+        <div class="border border-secondary custom-card-info">
+            <h6 class="text-center m-2">
+                <i class="bi bi-filter-circle"></i>
+                <span>Сортировка</span>
+            </h6>
+        </div>
+
+        <li class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center p-0">
+            <input type="submit" name="order_by" value="-time_create" class="sidebar-item-title"
+                   id="date-sort-up">
+            <label for="date-sort-up" class="w-100 pt-2 pb-2 ps-3 pe-3">
+                <i class="bi bi-sort-down"></i>
+                <span>Сначала новые</span>
+            </label>
+        </li>
+
+        <li class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center p-0">
+            <input type="submit" name="order_by" value="time_create" class="sidebar-item-title"
+                   id="date-sort-down">
+            <label for="date-sort-down" class="w-100 pt-2 pb-2 ps-3 pe-3">
+                <i class="bi bi-sort-down-alt"></i>
+                <span>Сначала старые</span>
+            </label>
+        </li>
+
+        <li class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center p-0">
+            <input type="submit" name="order_by" value="-total_views" class="sidebar-item-title"
+                   id="rating-sort-up">
+            <label for="rating-sort-up" class="w-100 pt-2 pb-2 ps-3 pe-3">
+                <i class="bi bi-sort-down"></i>
+                <span>Сначала популярные</span>
+            </label>
+        </li>
+
+        <li class="sidebar-item list-group-item list-group-item-action d-flex justify-content-between align-items-center p-0">
+            <input type="submit" name="order_by" value="total_views" class="sidebar-item-title"
+                   id="rating-sort-down">
+            <label for="rating-sort-down" class="w-100 pt-2 pb-2 ps-3 pe-3">
+                <i class="bi bi-sort-down-alt"></i>
+                <span>Сначала не популярные</span>
+            </label>
+        </li>
+
+    </ul>
+</form>

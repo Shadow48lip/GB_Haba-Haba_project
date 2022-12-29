@@ -11,7 +11,9 @@ class SearchView(DataMixin, PaginatorMixin, ListView):
 
     def get_queryset(self):
         search_query = self.request.GET.get('q')
-        queryset = Post.objects.filter(
+        queryset = Post.objects.select_related(
+            'cat', 'author'
+        ).filter(
             Q(title__icontains=search_query) |
             Q(content__icontains=search_query) |
             Q(author__username__icontains=search_query)
