@@ -24,7 +24,7 @@ class SearchView(DataMixin, PaginatorMixin, ListView):
         context = super().get_context_data(*args, **kwargs)
         search_query = self.request.GET.get('q')
 
-        context['q'] = f"q={search_query}&"
+        context['q'] = f'q={search_query}&'
         extra_context = self.get_extra_context(title=f'Результаты поиска по запросу "{search_query}"')
         paginate_context = self.get_paginate_context()
 

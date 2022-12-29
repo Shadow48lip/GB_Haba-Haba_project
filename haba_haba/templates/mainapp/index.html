@@ -21,5 +21,7 @@
 {% block sidebar %}
     {% include 'mainapp/includes/_post_create_button.html' %}
     {% include 'mainapp/includes/_content_sidebar.html' %}
-    {% include 'searchapp/includes/_content_sidebar.html' %}
+    {% if posts %}
+        {% include 'searchapp/includes/_content_sidebar.html' %}
+    {% endif %}
 {% endblock %}
