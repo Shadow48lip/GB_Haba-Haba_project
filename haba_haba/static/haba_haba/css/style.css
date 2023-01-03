@@ -1048,9 +1048,9 @@ body.dark .complaint:hover {
 
 /* ========== PAGINATION ========== */
 
-#pagination {
-    margin-bottom: 11em !important;
-}
+/*#pagination {*/
+/*    margin-bottom: 11em !important;*/
+/*}*/
 
 .page-link:focus,
 body.dark .page-link:focus {

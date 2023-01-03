@@ -41,9 +41,19 @@
                         <label for="id_password2">Подтвердите пароль</label>
                     </div>
 
-                    <div class="mb-3 form-check mb-3">
+                    <div class="form-check mb-3">
                         {{ register_ajax.check }}
                         <label class="form-check-label mt-1" for="id_check">Я даю своё согласие...</label>
+                    </div>
+
+                    <div class="mb-1 mt-5">
+                        <span class="auth"
+                              data-bs-toggle="modal"
+                              data-bs-target="#staticBackdropLogin">
+                            <button type="submit" class="btn w-100 btn-auth auth text-end">
+                                Уже есть учетная запись?
+                            </button>
+                        </span>
                     </div>
                 </div>
 
