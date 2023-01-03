@@ -11,14 +11,16 @@ class SearchView(DataMixin, PaginatorMixin, ListView):
 
     def get_queryset(self):
         search_query = self.request.GET.get('q')
-        queryset = Post.objects.select_related(
+        order = self.request.GET.get('order_by', '-time_create')
+        return Post.objects.select_related(
             'cat', 'author'
         ).filter(
             Q(title__icontains=search_query) |
             Q(content__icontains=search_query) |
-            Q(author__username__icontains=search_query)
-        ).filter(is_published=True, is_blocked=False)
-        return queryset
+            Q(author__username__icontains=search_query),
+            is_published=True,
+            is_blocked=False,
+        ).order_by(order)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
