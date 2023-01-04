@@ -9,13 +9,11 @@
 {% block content %}
     <div class="custom-card-bg card border border-secondary border-opacity-25 pt-3">
 
-        {% if posts %}
-            {% for post in posts %}
-                {% post_mini post user %}
-            {% endfor %}
-        {% else %}
+        {% for post in posts %}
+            {% post_mini post user %}
+        {% empty %}
             {% include 'mainapp/includes/__not_found.html' %}
-        {% endif %}
+        {% endfor %}
 
     </div>
 {% endblock %}
@@ -23,4 +21,7 @@
 {% block sidebar %}
     {% include 'mainapp/includes/_post_create_button.html' %}
     {% include 'mainapp/includes/_content_sidebar.html' %}
+    {% if posts %}
+        {% include 'searchapp/includes/_content_sidebar.html' %}
+    {% endif %}
 {% endblock %}

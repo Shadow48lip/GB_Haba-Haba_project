@@ -18,18 +18,25 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        order = self.request.GET.get('order_by', '-time_create')
         return queryset.select_related(
             'author', 'cat'
-        ).filter(is_published=True, is_blocked=False)  # .order_by('-time_create')
+        ).filter(is_published=True, is_blocked=False).order_by(order)
+
+    # def get_ordering(self):
+    #     return self.request.GET.get('order_by')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        order_query = self.request.GET.get('order_by', '-time_create')
+
+        context['order_by'] = f"order_by={order_query}&"
         extra_context = self.get_extra_context(title='Все категории')
         paginate_context = self.get_paginate_context()
         # оператор | объединяет словари (для python 3.9+)
         context = context | extra_context | paginate_context
 
-        # print('main:\n', context)
+        print('main:\n', context)
         return context
 
 
