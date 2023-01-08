@@ -28,6 +28,7 @@ class MyProfile(LoginRequiredMixin, DataMixin, PaginatorMixin, ListView):
         context = super().get_context_data(**kwargs)
         extra_context = self.get_user_context(user=self.request.user, title=f'Кабинет {self.request.user}')
         paginate_context = self.get_paginate_context()
+        context['object_user'] = self.request.user
 
         context = context | extra_context | paginate_context
         # print('profile:\n', context)

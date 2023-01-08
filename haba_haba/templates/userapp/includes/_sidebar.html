@@ -4,9 +4,11 @@
         <h6 class="text-center m-2">
             <i class="bi bi-info-circle"></i>
             <span>Краткая информация</span>
+            {% if user.is_authenticated and object_user == user %}
             <small class="">
-                [<a href="#" class="trans-color-02">Ред.</a>]
+                [<a href="{% url 'user:my_profile_edit' %}" class="trans-color-02">Ред.</a>]
             </small>
+            {% endif %}
         </h6>
 
         <ul class="list-group m-3 text-muted lh-base">
