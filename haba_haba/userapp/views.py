@@ -97,6 +97,7 @@ class UserProfileList(DataMixin, PaginatorMixin, ListView):
         queryset = super().get_queryset()
         self.user = get_object_or_404(HabaUser, slug=self.kwargs['slug'])
         # подстановка вместо сокращенного наименования "М" полного "Мужской"
+        self.user.gender = 'НД'
         self.user.gender = next(filter(lambda x: x[0] == self.user.gender, self.user.GENDER_CHOICES))[1]
 
         return queryset.filter(
