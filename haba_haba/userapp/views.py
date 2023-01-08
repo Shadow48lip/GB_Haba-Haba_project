@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, UpdateView
+from django.views.generic import ListView, UpdateView
 from django.conf import settings
 
 from mainapp.models import Post
@@ -28,6 +28,7 @@ class MyProfile(LoginRequiredMixin, DataMixin, PaginatorMixin, ListView):
         context = super().get_context_data(**kwargs)
         extra_context = self.get_user_context(user=self.request.user, title=f'Кабинет {self.request.user}')
         paginate_context = self.get_paginate_context()
+        context['object_user'] = self.request.user
 
         context = context | extra_context | paginate_context
         # print('profile:\n', context)
@@ -49,6 +50,7 @@ class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['object_user'] = self.request.user
         extra_context = self.get_user_context(user=self.request.user, title=f'Редактирование {self.request.user}')
 
         context = context | extra_context
@@ -96,7 +98,8 @@ class UserProfileList(DataMixin, PaginatorMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         self.user = get_object_or_404(HabaUser, slug=self.kwargs['slug'])
-        # подстановка вместо сокращенного наименования "М" полного "Мужской"
+        # подстановка вместо краткого наименования "М" полного "Мужской"
+        self.user.gender = 'НД'
         self.user.gender = next(filter(lambda x: x[0] == self.user.gender, self.user.GENDER_CHOICES))[1]
 
         return queryset.filter(

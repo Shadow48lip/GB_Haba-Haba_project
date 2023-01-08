@@ -48,11 +48,12 @@ class Post(models.Model):
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Презентационная картинка', blank=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
-    is_published = models.BooleanField(default=False, verbose_name='Публикация')
+    is_published = models.BooleanField(default=True, db_index=True, verbose_name='Публикация')
     is_blocked = models.BooleanField(default=False, verbose_name='Заблокирована')
     # related_name указывает обратный вызов из таблицы Tags. tag.posts.all
     tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='posts')
     total_views = models.IntegerField(default=0, verbose_name='Просмотры')
+    is_deleted = models.BooleanField(verbose_name='удален', db_index=True, default=False)
 
     def __str__(self):
         return self.title
@@ -64,6 +65,12 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+
+    # переопределяем метод, удаляющий пост (скрываем)
+    def delete(self):
+        self.is_deleted = True
+        self.is_published = False
+        self.save()
 
     @staticmethod
     def get_new_post():

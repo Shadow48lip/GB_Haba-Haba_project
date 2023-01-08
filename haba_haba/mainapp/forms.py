@@ -57,7 +57,7 @@ class PostForm(forms.ModelForm):
                 attrs={
                     'class': 'form-check-input',
                     'id': 'id_published',
-                    'checked': True,
+                    # 'checked': True,
                 }
             ),
         }

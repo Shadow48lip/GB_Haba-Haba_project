@@ -11,6 +11,7 @@ class DataMixin:
         like_posts = PostLike.objects.filter(post__author=user).count()
         like_comment = CommentLike.objects.filter(comment__user=user).count()
         context['like_receive_count'] = like_author + like_posts + like_comment
+        context['cat_selected'] = 'user_profile'
 
         # print('usermixin:\n', context)
         return context

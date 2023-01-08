@@ -1,0 +1,30 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% load posttags %}
+
+{% block title %}
+    {{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="single-card card border border-secondary border-opacity-25 p-3">
+        <h1 class="text-center fw-bold card-title mt-3 mb-3">Удаление статьи</h1>
+        <h3 class="text-center fw-bold card-title mt-3 mb-3">{{ object.title }}</h3>
+
+        <hr class="text-muted mt-2 mb-5">
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            <div class="d-grid mt-5">
+                <button type="submit" class="btn btn-outline-danger btn-lg">Я уверен! Удалить!</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block sidebar %}
+    {% include 'mainapp/includes/_post_create_button.html' %}
+    {% include 'mainapp/includes/_content_sidebar.html' %}
+{% endblock %}
