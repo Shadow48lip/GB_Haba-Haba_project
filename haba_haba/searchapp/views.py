@@ -32,5 +32,5 @@ class SearchView(DataMixin, PaginatorMixin, ListView):
 
         context = context | extra_context | paginate_context
 
-        print('search:\n', context)
+        # print('search:\n', context)
         return context
