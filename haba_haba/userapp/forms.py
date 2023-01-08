@@ -78,7 +78,7 @@ class EditUserForm(forms.ModelForm):
         }
 
     # def clean_password1(self):
-    #     """Пример валидатора по полю first_name"""
+    #     """Пример валидатора по полю password1"""
     #     password1 = self.cleaned_data['password1']
     #     if len(password1) < 5:
     #         raise ValidationError('Длина пароля слишком маленькая')

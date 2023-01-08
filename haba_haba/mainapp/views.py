@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.shortcuts import get_object_or_404
@@ -36,7 +37,7 @@ class MainappHome(DataMixin, PaginatorMixin, ListView):
         # оператор | объединяет словари (для python 3.9+)
         context = context | extra_context | paginate_context
 
-        print('main:\n', context)
+        # print('main:\n', context)
         return context
 
 
@@ -45,10 +46,13 @@ class ShowPost(DataMixin, DetailView):
     template_name = 'mainapp/page_post_single.html'
     slug_url_kwarg = 'slug'
     context_object_name = 'post'
+    queryset = Post.objects.filter(is_blocked=False, is_deleted=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['read_post'] = True
+        # c = Category.objects.get(slug=self.kwargs['slug'])
+        context['cat_selected'] = self.object.cat.slug
         extra_context = self.get_extra_context(title=self.object.title)
 
         context = context | extra_context
@@ -75,9 +79,11 @@ class PostsCategory(DataMixin, PaginatorMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c = Category.objects.get(slug=self.kwargs['slug'])
-        context['cat_selected'] = c.slug
-        extra_context = self.get_extra_context(title=f'Статьи категории "{c.name}"')
+        # Не смысла делать этот запрос, данные уже содержаться в self.object_list
+        # c = Category.objects.get(slug=self.kwargs['slug'])
+        # context['cat_selected'] = c.slug
+        context['cat_selected'] = self.object_list[0].cat.slug
+        extra_context = self.get_extra_context(title=f'Статьи категории "{self.object_list[0].cat.name}"')
         paginate_context = self.get_paginate_context()
 
         context = context | extra_context | paginate_context
@@ -171,8 +177,29 @@ class PostCreateView(LoginRequiredMixin, DataMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, DataMixin, UpdateView):
     """Изменение статьи"""
     model = Post
+    form_class = PostForm
     template_name = 'mainapp/page_post_update.html'
-    fields = ['title', 'content']
+
+    # Даём редактировать только свои статьи
+    def get_object(self, **kwargs):
+        return get_object_or_404(Post, pk=self.kwargs['pk'], author=self.request.user, is_deleted=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        extra_context = self.get_extra_context(title='Редактирование')
+        context = context | extra_context
+        return context
+
+
+class PostDeleteView(LoginRequiredMixin, DataMixin, DeleteView):
+    """Удаление статьи"""
+    model = Post
+    template_name = 'mainapp/page_post_delete.html'
+    success_url = reverse_lazy('user:my_profile_view')
+
+    # Даём удалять только свои статьи
+    def get_object(self, **kwargs):
+        return get_object_or_404(Post, pk=self.kwargs['pk'], author=self.request.user, is_deleted=False)
 
 
 class AboutView(DataMixin, ListView):

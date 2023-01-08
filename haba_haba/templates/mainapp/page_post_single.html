@@ -15,7 +15,9 @@
                 <h5 class="text-center fw-bold card-title custom-card-title mt-2">{{ post.title }}</h5>
                 <img src="{{ post.photo|post_photo_process }}" alt="{{ post.title }}" class="card-img-top mt-2">
             </div>
-
+            {% if user.is_authenticated and post.author == user %}
+                <a href="{% url 'main:edit_post' post.pk %}">edit post</a>
+            {%  endif %}
             <div class="card-body">
                 <p class="card-text">
                     {{ post.content|safe }}
@@ -62,9 +64,6 @@
                     <span>{{ post.time_update|date:"d.m.Y H:i" }}</span>
 
                     {% if user.is_authenticated %}
-                        {% if post.author == user %}
-                            <a href="{% url 'main:edit_post' post.pk %}">edit post</a>
-                        {% endif %}
 
                         {% if user.username == 'admin' %}
 
@@ -91,7 +90,6 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% include 'mainapp/includes/_post_update_button.html' %}
     {% include 'mainapp/includes/_post_create_button.html' %}
     {% include 'mainapp/includes/_content_sidebar.html' %}
 {% endblock %}

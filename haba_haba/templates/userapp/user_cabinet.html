@@ -34,14 +34,17 @@
         {% endif %}
         {% for post in posts %}
             {% if not post.is_published %}
-                <span>не опубликован</span>
+                <span>статья не опубликована</span>
             {% endif %}
 
             {% if post.is_blocked %}
                 <span>статься заблокирована</span>
+            {% else %}
+                <a href="{% url 'main:edit_post' post.pk %}">edit post</a>
             {% endif %}
 
             {% post_mini post user %}
+
         {% endfor %}
 
     </div>
