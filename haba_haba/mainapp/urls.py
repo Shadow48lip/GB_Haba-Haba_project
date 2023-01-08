@@ -7,6 +7,7 @@ urlpatterns = [
     path('', MainappHome.as_view(), name='home'),
     path('post/<slug:slug>/', ShowPost.as_view(), name='post'),
     path('create_post/', PostCreateView.as_view(), name='create_post'),
+    path('update_post/<int:pk>/', PostUpdateView.as_view(), name='edit_post'),
 
     path('comments/<slug:slug>/', ShowComments.as_view(), name='comment'),
     path('comment/delete/', delete_comment, name='delete_comment'),

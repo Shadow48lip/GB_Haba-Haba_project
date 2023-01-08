@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.shortcuts import get_object_or_404
 
@@ -139,6 +139,8 @@ class ShowComments(DataMixin, ListView):
 
 
 class PostCreateView(LoginRequiredMixin, DataMixin, CreateView):
+    """Создание статьи"""
+
     model = Post
     form_class = PostForm
     template_name = 'mainapp/page_post_create.html'
@@ -164,6 +166,13 @@ class PostCreateView(LoginRequiredMixin, DataMixin, CreateView):
 
         # print('postcreate\n', context)
         return context
+
+
+class PostUpdateView(LoginRequiredMixin, DataMixin, UpdateView):
+    """Изменение статьи"""
+    model = Post
+    template_name = 'mainapp/page_post_update.html'
+    fields = ['title', 'content']
 
 
 class AboutView(DataMixin, ListView):

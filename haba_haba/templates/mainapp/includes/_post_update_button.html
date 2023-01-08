@@ -1,0 +1,9 @@
+{% if user.is_authenticated and post.author == user %}
+<div class="pt-3 pb-3 list-group sidebar-btn-sticky-top sticky-top mb-1">
+    <a class="btn btn-outline-primary btn-lg create-post-btn"
+       href="{% url 'main:edit_post' post.pk %}"
+       role="button">
+        <span><i class="bi bi-pencil custom-pencil"></i>Изменить статью</span>
+    </a>
+</div>
+{% endif %}
