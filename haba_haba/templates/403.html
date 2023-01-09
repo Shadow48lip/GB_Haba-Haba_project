@@ -1,0 +1,18 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% load posttags %}
+
+{% block title %}
+    403 error :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="custom-card-bg card border border-secondary border-opacity-25 pb-3">
+        <h2>Доступ сюда запрещён!</h2>
+
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'mainapp/includes/_post_create_button.html' %}
+{% endblock %}
