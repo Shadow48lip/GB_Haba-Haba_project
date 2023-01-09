@@ -3,7 +3,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from django.conf import settings
 
-from mainapp.models import PostLike
+from mainapp.models import PostLike, UserComplaints
 
 register = template.Library()
 
@@ -39,3 +39,8 @@ def get_post_liked(post, user):
     if not user.is_authenticated:
         return 'bi-heart'
     return PostLike.post_liked(post, user)
+
+
+@register.simple_tag(name='get_post_complaint')
+def get_post_complaint(post, user):
+    return UserComplaints.get_post_сomplaint(post, user)

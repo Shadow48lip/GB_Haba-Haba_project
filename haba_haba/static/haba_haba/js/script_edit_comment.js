@@ -14,7 +14,6 @@ function edit() {
     let id = get_id_num(this.id)
     let comment_text = document.getElementById('text_area_' + id);
     comment_text.contentEditable = true;
-
     toggle_class(document.getElementById('icon_edit_' + id), 'bi-pencil-fill', 'bi-pencil');
     this.addEventListener('click', send);
 }

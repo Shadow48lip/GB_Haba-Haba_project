@@ -4,92 +4,94 @@
 {% load commenttags %}
 
 {% block title %}
-    {{ title }} :: {{ block.super }}
+{{ title }} :: {{ block.super }}
 {% endblock %}
 
 {% block content %}
-    <div class="card-body">
-        <div class="single-card card border border-secondary border-opacity-25">
+<div class="card-body">
+    <div class="single-card card border border-secondary border-opacity-25">
 
-            <div class="card-header">
-                <h5 class="text-center fw-bold card-title custom-card-title mt-2">{{ post.title }}</h5>
-                <img src="{{ post.photo|post_photo_process }}" alt="{{ post.title }}" class="card-img-top mt-2">
-            </div>
-            {% if user.is_authenticated and post.author == user %}
-                <a href="{% url 'main:edit_post' post.pk %}">edit post</a>
-            {%  endif %}
-            <div class="card-body">
-                <p class="card-text">
-                    {{ post.content|safe }}
-                </p>
-            </div>
+        <div class="card-header">
+            <h5 class="text-center fw-bold card-title custom-card-title mt-2">{{ post.title }}</h5>
+            <img src="{{ post.photo|post_photo_process }}" alt="{{ post.title }}" class="card-img-top mt-2">
+        </div>
+        {% if user.is_authenticated and post.author == user %}
+        <a href="{% url 'main:edit_post' post.pk %}">edit post</a>
+        {% endif %}
+        <div class="card-body">
+            <p class="card-text">
+                {{ post.content|safe }}
+            </p>
+        </div>
 
-            <div class="card-footer no-border-modal-footer">
-                <small class="text-muted">
-                    <span>Тэги:</span>
-                    {% for tag in post.tags.all %}
-                        <a href="{% url 'main:tag' tag.slug %}" class="category-link text-decoration-none">
-                            #{{ tag.name }}
-                        </a>
-                    {% endfor %}
-                </small>
-            </div>
+        <div class="card-footer no-border-modal-footer">
+            <small class="text-muted">
+                <span>Тэги:</span>
+                {% for tag in post.tags.all %}
+                <a href="{% url 'main:tag' tag.slug %}" class="category-link text-decoration-none">
+                    #{{ tag.name }}
+                </a>
+                {% endfor %}
+            </small>
+        </div>
 
-            <div class="card-footer no-border-modal-footer d-flex justify-content-between align-items-center">
+        <div class="card-footer no-border-modal-footer d-flex justify-content-between align-items-center">
 
-                <small class="text-muted">
-                    <span class="ms-2"><i class="bi bi-eye"></i></span>
-                    <span>{{ post.total_views }}</span>
+            <small class="text-muted">
+                <span class="ms-2"><i class="bi bi-eye"></i></span>
+                <span>{{ post.total_views }}</span>
 
-                    {% include 'mainapp/includes/_post_likes.html' %}
+                {% include 'mainapp/includes/_post_likes.html' %}
 
-                    <a href="#comment" class="trans-color-02">
-                        <span class="ms-2"><i class="bi bi-chat"></i></span>
-                        <span>{{ comm_count }}</span>
-                    </a>
+                <a href="#comment" class="trans-color-02">
+                    <span class="ms-2"><i class="bi bi-chat"></i></span>
+                    <span>{{ comm_count }}</span>
+                </a>
 
-                    <a href="#postReply" class="trans-color-02">
-                        <span class="ms-2"><i class="bi bi-reply"></i></span>
-                        <span>Ответить</span>
-                    </a>
-                </small>
+                <a href="#postReply" class="trans-color-02">
+                    <span class="ms-2"><i class="bi bi-reply"></i></span>
+                    <span>Ответить</span>
+                </a>
+            </small>
 
-                <small class="text-muted">
+            <small class="text-muted">
                     <span>
                         <a href="{% url 'user:user_profile' post.author.slug %}" class="trans-color-02">
                             {{ post.author.username }}
                         </a>
                     </span>
-                    <span class="fw-bold separ">|</span>
-                    <span>{{ post.time_update|date:"d.m.Y H:i" }}</span>
+                <span class="fw-bold separ">|</span>
+                <span>{{ post.time_update|date:"d.m.Y H:i" }}</span>
 
-                    {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
 
-                        {% if user.username == 'admin' %}
+                {% if user.username == 'admin' %}
 
-                            <button class="btn btn-sm complaint ms-3">
-                                <i class="bi bi-x-circle"></i>
-                            </button>
+                <button class="btn btn-sm complaint ms-3">
+                    <i class="bi bi-x-circle"></i>
+                </button>
 
-                        {% else %}
+                {% else %}
 
-                            <button class="btn btn-sm complaint ms-3">
-                                <i class="bi bi-exclamation-circle "></i>
-                            </button>
+                <span onclick="ajaxBadPost('{% url 'main:bad_post' %}', '{{ post.id }}')"
+                      class="complaint ms-3">
+                        {% get_post_complaint post user as complaint %}
+                                <i id="bad_post_{{ post.id }}" class="{{ complaint }}"></i>
+                    </span>
 
-                        {% endif %}
-                    {% endif %}
-                </small>
+                {% endif %}
+                {% endif %}
+            </small>
 
-            </div>
         </div>
     </div>
+</div>
 
-    {% post_comments post user read_post %}
+{% post_comments post user read_post %}
 
 {% endblock %}
 
 {% block sidebar %}
-    {% include 'mainapp/includes/_post_create_button.html' %}
-    {% include 'mainapp/includes/_content_sidebar.html' %}
+{% include 'mainapp/includes/_post_create_button.html' %}
+{% include 'mainapp/includes/_content_sidebar.html' %}
 {% endblock %}

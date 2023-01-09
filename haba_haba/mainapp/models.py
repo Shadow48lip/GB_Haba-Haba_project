@@ -223,7 +223,7 @@ class UserComplaints(models.Model):
         HabaUser, on_delete=models.CASCADE, verbose_name='Виновный', related_name='bad_user_set'
     )
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Статья')
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='Комментарий')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='Комментарий', null=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     moderator = models.ForeignKey(
         HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
@@ -236,22 +236,47 @@ class UserComplaints(models.Model):
 
     @staticmethod
     def set_сomplaint(post, user, comment):
-        obj = UserComplaints.objects.select_related(
-            'post', 'user', 'comment'
-        ).filter(post=post, user=user, comment=comment).first()
 
-        if obj:
-            obj.delete()
-            return 0
+        if comment is None:  # Жалоба на статью
+            obj = UserComplaints.objects.select_related(
+                'post', 'user'
+            ).filter(post=post, user=user).first()
+            print(f'Проверка {obj}')
+
+            if obj:
+                obj.delete()
+                return 0
+            else:
+                UserComplaints.objects.create(user=user, bad_user=post.author, post=post)
+                return 1
         else:
-            UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
-            return 1
+            obj = UserComplaints.objects.select_related(
+                'post', 'user', 'comment'
+            ).filter(post=post, user=user, comment=comment).first()
+
+            if obj:
+                obj.delete()
+                return 0
+            else:
+                UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
+                return 1
 
     @staticmethod
     def get_сomplaint(post, user, comment):
         obj = UserComplaints.objects.select_related(
             'post', 'user', 'comment'
         ).filter(post=post, user=user, comment=comment).first()
+
+        if obj:
+            return 'bi bi-exclamation-circle-fill'
+        else:
+            return 'bi bi-exclamation-circle'
+
+    @staticmethod
+    def get_post_сomplaint(post, user):
+        obj = UserComplaints.objects.select_related(
+            'post', 'user'
+        ).filter(post=post, user=user, comment=None).first()
 
         if obj:
             return 'bi bi-exclamation-circle-fill'

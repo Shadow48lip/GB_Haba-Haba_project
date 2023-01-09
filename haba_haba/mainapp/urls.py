@@ -23,7 +23,8 @@ urlpatterns = [
     path('badcomment/', bad_comment, name='bad_comment'),
     path('newcomplaints/', new_complaints, name='new_complaints'),
 
+    path('badpost/', bad_post, name='bad_post'),
+
     path('about/', AboutView.as_view(), name='about'),
     # path('update_post/<str:pk>', views.update_post, name='update_post'),
 ]
-
