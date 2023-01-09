@@ -2,25 +2,20 @@
     {% if user.is_superuser or user.is_staff %}
         <li class="nav-item dropdown me-2">
 
-            <span class="nav-link position-relative"
-                  data-bs-auto-close="outside"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  role="button">
-
-                {% if note %}
-                    <a href="{%  url 'moderator:index' %}">
-                        <i class="bi bi-bell-fill notif text-danger">
-                            <small class="position-absolute fw-semibold badge custom-badge"
-                               id="notification_id">
-                            {{ note }}
-                            </small>
-                        </i>
-                    </a>
-                {% else %}
+            {% if note %}
+                <a href="{% url 'moderator:index' %}" class="nav-link position-relative">
+                    <i class="bi bi-bell-fill notif text-danger">
+                        <small class="position-absolute fw-semibold badge custom-badge"
+                           id="notification_id">
+                        {{ note }}
+                        </small>
+                    </i>
+                </a>
+            {% else %}
+                <span href="{% url 'moderator:index' %}" class="nav-link position-relative">
                     <i class="bi bi-bell"></i>
-                {% endif %}
-            </span>
+                </span>
+            {% endif %}
 
             {#            {% if note > 0 %}#}
             {#                <div class="dropdown-menu dropdown-menu-end">#}

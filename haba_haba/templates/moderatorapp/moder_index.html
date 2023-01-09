@@ -2,6 +2,7 @@
 {% load static %}
 {% load posttags %}
 
+
 {% block title %}
     {{ title }} :: {{ block.super }}
 {% endblock %}
@@ -22,27 +23,37 @@
             </h5>
             <hr class="text-muted w-50 mt-2">
             {% for complain in new_complains %}
-                <p>{{ complain.bad_user }}</p>
+                {% if complain.comment.text %}
+                    <h3>Жалоба на комментарий к статье</h3>
+                {% else %}
+                    <h3>Жалоба на статью</h3>
+                {% endif %}
+
+                {% post_mini complain.post complain.post.author %}
+
+                {% if complain.comment.text %}
+                    <h3>Сам комментарий</h3>
+                    <p><i>{{ complain.comment.text }}</i></p>
+
+                    <p>Действия: <a href="#">удалить комментарий</a>, <a href="#">заблокировать автора</a></p>
+                {% else %}
+                    <p>Действия: <a href="#">удалить статью</a>, <a href="#">заблокировать автора</a></p>
+                {% endif %}
+
+
+                <hr class="custom-hr">
             {%  endfor %}
 
+
+
             {% if not new_complains %}
-                жалоб нет
+                Ура! Жалоб нет!
             {% endif %}
 
         </div>
 
-        <hr class="custom-hr">
 
-        <div class="card-body">
-            <h5 class="fw-bold">
-                <i class="bi bi-arrow-right-short custom-arrow"></i>
-                Какой-то еще раздел
-            </h5>
-            <hr class="text-muted w-50 mt-2">
-            <p class="card-text lh-base fst-italic custom-p">
-                бла бла бла
-            </p>
-        </div>
+
 
 
     </div>
