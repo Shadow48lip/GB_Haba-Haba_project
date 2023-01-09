@@ -8,4 +8,5 @@ def moderator_index(request):
         print('superuser')
     return HttpResponse('<h1>Модератор</h1>')
 
+
 # https://qna.habr.com/q/567186
