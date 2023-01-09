@@ -1,0 +1,54 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% load posttags %}
+
+{% block title %}
+    {{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="custom-card-bg card border border-secondary border-opacity-25 pb-3">
+
+        <h1 class="text-center fw-bold card-title mt-3 mb-3">
+            Модерирование жалоб
+        </h1>
+
+        <hr class="text-muted mb-4">
+
+        <div class="card-body">
+            <h5 class="fw-bold">
+                <i class="bi bi-arrow-right-short custom-arrow"></i>
+                Новые жалобы
+            </h5>
+            <hr class="text-muted w-50 mt-2">
+            {% for complain in new_complains %}
+                <p>{{ complain.bad_user }}</p>
+            {%  endfor %}
+
+            {% if not new_complains %}
+                жалоб нет
+            {% endif %}
+
+        </div>
+
+        <hr class="custom-hr">
+
+        <div class="card-body">
+            <h5 class="fw-bold">
+                <i class="bi bi-arrow-right-short custom-arrow"></i>
+                Какой-то еще раздел
+            </h5>
+            <hr class="text-muted w-50 mt-2">
+            <p class="card-text lh-base fst-italic custom-p">
+                бла бла бла
+            </p>
+        </div>
+
+
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'mainapp/includes/_post_create_button.html' %}
+    {% include 'mainapp/includes/_content_sidebar.html' %}
+{% endblock %}

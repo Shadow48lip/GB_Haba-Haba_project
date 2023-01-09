@@ -229,7 +229,7 @@ class UserComplaints(models.Model):
         HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
         related_name='moderator_complaint_set'
     )
-    moderated_time = models.DateTimeField(default=datetime.datetime(2000, 1, 1, 0, 0, 0), verbose_name='Время создания')
+    time_moderated = models.DateTimeField(null=True, blank=True, verbose_name='Отмодерировано')
 
     def __str__(self):
         return f'{self.user} / {self.bad_user} / {self.post}'
