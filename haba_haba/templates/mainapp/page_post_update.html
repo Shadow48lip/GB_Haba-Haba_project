@@ -50,12 +50,16 @@
                 <label class="form-check-label ms-2" for="id_published">Публикуем?</label>
             </div>
             <div class="d-grid mt-5">
-                <button type="submit" class="btn btn-outline-primary btn-lg">Изменить статью</button>
-            </div>
-            <div class="d-grid mt-5">
-                <a class="btn btn-outline-danger btn-lg" href="{% url 'main:delete_post' object.pk %}" >
-                Удалить статью
-                </a>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-outline-primary btn-lg">Изменить статью</button>
+                    </div>
+                    <div class="col-md-auto">
+                        <a class="btn btn-outline-danger btn-lg" href="{% url 'main:delete_post' object.pk %}">
+                            Удалить статью
+                        </a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

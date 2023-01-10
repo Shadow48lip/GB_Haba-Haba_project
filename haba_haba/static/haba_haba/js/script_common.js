@@ -52,11 +52,18 @@ $('#custom-tags-labels label').each(function () {
     $(this).addClass('btn btn-outline-primary btn-sm m-1')
 })
 // менять стили при выборе Тега
-$('.custom-btn-check').click(function () {
-    if ($(this).is(':checked')) {
+const $tagStyle = $('.custom-btn-check')
+$tagStyle.click(function () {
+    if ($(this).prop('checked')) {
         $(this).parent().addClass('active');
     } else {
         $(this).parent().removeClass('active');
+    }
+});
+// применить стили для активного Тега (checked)
+$tagStyle.each(function () {
+    if ($(this).prop('checked')) {
+        $(this).parent().addClass('active');
     }
 });
 // вывод имени выбранного файла в input[file]

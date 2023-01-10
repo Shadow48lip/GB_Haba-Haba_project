@@ -12,13 +12,21 @@
         <div class="single-card card border border-secondary border-opacity-25">
 
             <div class="card-header">
-                <h5 class="text-center fw-bold card-title custom-card-title mt-2">{{ post.title }}</h5>
-                <img src="{{ post.photo|post_photo_process }}" alt="{{ post.title }}" class="card-img-top mt-2">
+                <h5 class="text-center fw-bold card-title custom-card-title mt-2">
+                    {{ post.title }}
+
+                    {% if user.is_authenticated and post.author == user %}
+                        <a href="{% url 'main:edit_post' post.pk %}"
+                           class="ms-3 position-absolute"
+                           title="Редактировать">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    {% endif %}
+                </h5>
             </div>
-            {% if user.is_authenticated and post.author == user %}
-                <a href="{% url 'main:edit_post' post.pk %}">edit post</a>
-            {%  endif %}
             <div class="card-body">
+                <img src="{{ post.photo|post_photo_process }}" alt="{{ post.title }}"
+                     class="card-img mt-3 me-3 float-start">
                 <p class="card-text">
                     {{ post.content|safe }}
                 </p>

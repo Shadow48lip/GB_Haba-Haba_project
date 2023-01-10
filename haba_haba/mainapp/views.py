@@ -186,7 +186,7 @@ class PostUpdateView(LoginRequiredMixin, DataMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        extra_context = self.get_extra_context(title='Редактирование')
+        extra_context = self.get_extra_context(title='Редактирование статьи')
         context = context | extra_context
         return context
 
@@ -200,6 +200,12 @@ class PostDeleteView(LoginRequiredMixin, DataMixin, DeleteView):
     # Даём удалять только свои статьи
     def get_object(self, **kwargs):
         return get_object_or_404(Post, pk=self.kwargs['pk'], author=self.request.user, is_deleted=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        extra_context = self.get_extra_context(title='Удаление')
+        context = context | extra_context
+        return context
 
 
 class AboutView(DataMixin, ListView):

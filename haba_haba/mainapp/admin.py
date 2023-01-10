@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Category, Tag, Post, PostLike, CommentLike, AuthorLike, \
-    BlockedUser, UserComplaints, Comment
+from .models import (Category, Tag, Post, PostLike, CommentLike, AuthorLike,
+                     BlockedUser, UserComplaints, Comment)
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -12,9 +12,9 @@ class PostAdmin(SummernoteModelAdmin):
     search_fields = ('title', 'content')
     list_editable = ('is_published',)
     list_filter = ('is_published', 'time_create', 'cat')
-    readonly_fields = ('total_views',)
+    readonly_fields = ('slug', 'total_views')
 
-    prepopulated_fields = {'slug': ('title',)}
+    # prepopulated_fields = {'slug': ('title',)}
     # Подключаем виджет к админке
     summernote_fields = ('content',)
 
