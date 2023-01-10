@@ -223,7 +223,7 @@ class UserComplaints(models.Model):
         HabaUser, on_delete=models.CASCADE, verbose_name='Виновный', related_name='bad_user_set'
     )
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Статья')
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name='Комментарий', null=True)
+    comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Комментарий')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     moderator = models.ForeignKey(
         HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',

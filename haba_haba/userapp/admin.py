@@ -30,7 +30,6 @@ class HabaUserAdmin(SummernoteModelAdmin, admin.ModelAdmin):
         'date_joined',
         'is_blocked',
         'lock_date',
-        'is_staff',
     )
 
     summernote_fields = ('about',)

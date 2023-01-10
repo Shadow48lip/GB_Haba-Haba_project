@@ -40,10 +40,11 @@
                 </span>
             {% endif %}
 
-            {% if user.username == 'admin' %}
-                <span class="complaint ms-3">
+            {% if user.is_superuser or user.is_staff %}
+                <a href="{% url 'moderator:action_comment' c.id %}"
+                   class="complaint ms-3" title="модерация">
                     <i class="bi bi-x-circle"></i>
-                </span>
+                </a>
             {% else %}
                 <span onclick="ajaxBadComment('{% url 'main:bad_comment' %}', '{{ c.id }}', '{{ post.id }}')"
                       class="complaint ms-3">
