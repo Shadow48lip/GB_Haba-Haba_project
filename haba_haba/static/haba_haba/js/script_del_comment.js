@@ -10,6 +10,8 @@ function ajaxDeleteComment(_url, _comment) {
         success: function callback(response) {
             document.getElementById('commentList_' + response.comment_id).remove();
             document.getElementById('commentListFooter_' + response.comment_id).remove();
+            let tag_id = document.getElementById('comment_count_id');
+            tag_id.innerHTML = 'Комментарии ('+response.comment_count+')';
         }
     })
 }
