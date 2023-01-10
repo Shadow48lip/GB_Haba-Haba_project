@@ -6,6 +6,8 @@ from django.shortcuts import render
 
 from authapp.forms import UserLoginForm, UserRegisterForm
 
+from datetime import datetime, date
+
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -108,6 +110,17 @@ class LoginAjaxView(LoginView):
                     username=username,
                     password=password
                 )
+
+                print('lock', user.lock_date)
+                if user.lock_date > date.today():
+                    print('пользователь заблокирован до', user.lock_date)
+                    return JsonResponse (
+                        data={
+                            'error': f'пользователь заблокирован до {user.lock_date}',
+                            'status': 400,
+                        },
+                        status=200,
+                    )
 
                 if user:
                     login(request, user)

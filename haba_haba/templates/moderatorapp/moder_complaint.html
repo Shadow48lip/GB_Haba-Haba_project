@@ -1,0 +1,67 @@
+
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% load posttags %}
+
+
+{% block title %}
+    {{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="custom-card-bg card border border-secondary border-opacity-25 pb-3">
+
+        <h1 class="text-center fw-bold card-title mt-3 mb-3">
+            Обработка жалобы №{{ complain.id }}
+        </h1>
+
+                {% if complain.comment %}
+                    <div class="alert alert-warning" role="alert">
+                        Комментарий к
+                        <a href="{{ complain.post.get_absolute_url }}">статье</a>.
+                    </div>
+                    <div class="card">
+                      <div class="card-body">
+                          <h5 class="card-title">Автор <a href="{{ complain.comment.user.get_absolute_url }}">{{ complain.comment.user }}</a></h5>
+
+                        <p class="card-text">{{ complain.comment.text }}</p>
+                      </div>
+                    </div>
+
+                {% else %}
+                    <div class="alert alert-warning" role="alert">Жалоба на статью</div>
+                    {% post_mini complain.post complain.post.author %}
+                {% endif %}
+
+                <hr class="custom-hr">
+
+                <form action="{% url 'moderator:complain' complain.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-error">{{ form.non_field_errors }}</div>
+
+
+                    {% for f in form %}
+                        <div class="col-md mb-3">
+                        {% if f.html_name != 'action_hide' %}
+                        <div class="form-floating">
+                        {% endif %}
+                            {{ f }}
+                            <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                        {% if f.html_name != 'action_hide' %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-outline-primary">произвести модерацию</button>
+                    </div>
+                </form>
+
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'mainapp/includes/_post_create_button.html' %}
+    {% include 'mainapp/includes/_content_sidebar.html' %}
+{% endblock %}
