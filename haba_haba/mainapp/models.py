@@ -229,7 +229,7 @@ class UserComplaints(models.Model):
         HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
         related_name='moderator_complaint_set'
     )
-    moderated_time = models.DateTimeField(default=datetime.datetime(2000, 1, 1, 0, 0, 0), verbose_name='Время создания')
+    time_moderated = models.DateTimeField(null=True, blank=True, verbose_name='Отмодерировано')
 
     def __str__(self):
         return f'{self.user} / {self.bad_user} / {self.post}'
@@ -309,7 +309,7 @@ class BlockedUser(models.Model):
         HabaUser, on_delete=models.CASCADE, verbose_name='Модератор', related_name='moderator_block_set'
     )
     complaint = models.ForeignKey(UserComplaints, on_delete=models.CASCADE, verbose_name='Жалоба пользователя')
-    lock_date = models.DateField(verbose_name='Заблокирован до')
+    lock_date = models.DateField(null=True, blank=True, verbose_name='Заблокирован до')
     reason_for_blocking = models.CharField(max_length=255, verbose_name='Причина блокировки')
 
     def __str__(self):
