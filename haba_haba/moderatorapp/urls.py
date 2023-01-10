@@ -7,7 +7,7 @@ app_name = 'moderator'
 urlpatterns = [
     path('', moderator_index, name='index'),
     path('complain/<int:pk>/', moderation_complain, name='complain'),
-    path('action/post/<int:pk>/', moderator_index, name='action_post'),
-    path('action/comnet/<int:pk>/', moderator_index, name='action_comment'),
+    path('action/post/<int:pk>/', action_post, name='action_post'),
+    path('action/comnent/<int:pk>/', action_comment, name='action_comment'),
 ]
 
