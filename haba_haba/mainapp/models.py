@@ -229,29 +229,60 @@ class UserComplaints(models.Model):
         HabaUser, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Модератор',
         related_name='moderator_complaint_set'
     )
-    time_moderated = models.DateTimeField(null=True, blank=True, verbose_name='Отмодерировано')
+    moderated_time = models.DateTimeField(default=datetime.datetime(2000, 1, 1, 0, 0, 0), verbose_name='Время создания')
 
     def __str__(self):
         return f'{self.user} / {self.bad_user} / {self.post}'
 
     @staticmethod
     def set_сomplaint(post, user, comment):
-        obj = UserComplaints.objects.select_related(
-            'post', 'user', 'comment'
-        ).filter(post=post, user=user, comment=comment).first()
 
-        if obj:
-            obj.delete()
-            return 0
+        if comment is None:  # Жалоба на статью
+            obj = UserComplaints.objects.select_related(
+                'post', 'user'
+            ).filter(post=post, user=user, comment=comment).first()
+
+            if obj:
+                if obj.user == user:
+                    if obj.moderator is None:
+                        obj.delete()
+                        return 0
+                else:
+                    UserComplaints.objects.create(user=user, bad_user=post.author, post=post)
+                    return 1
+            else:
+                UserComplaints.objects.create(user=user, bad_user=post.author, post=post)
+                return 1
+
         else:
-            UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
-            return 1
+            obj = UserComplaints.objects.select_related(
+                'post', 'user', 'comment'
+            ).filter(post=post, user=user, comment=comment).first()
+
+            if obj:
+                if obj.moderator is None:
+                    obj.delete()
+                    return 0
+            else:
+                UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
+                return 1
 
     @staticmethod
     def get_сomplaint(post, user, comment):
         obj = UserComplaints.objects.select_related(
             'post', 'user', 'comment'
         ).filter(post=post, user=user, comment=comment).first()
+
+        if obj:
+            return 'bi bi-exclamation-circle-fill'
+        else:
+            return 'bi bi-exclamation-circle'
+
+    @staticmethod
+    def get_post_сomplaint(post, user):
+        obj = UserComplaints.objects.select_related(
+            'post', 'user'
+        ).filter(post=post, user=user, comment=None).first()
 
         if obj:
             return 'bi bi-exclamation-circle-fill'
@@ -278,7 +309,7 @@ class BlockedUser(models.Model):
         HabaUser, on_delete=models.CASCADE, verbose_name='Модератор', related_name='moderator_block_set'
     )
     complaint = models.ForeignKey(UserComplaints, on_delete=models.CASCADE, verbose_name='Жалоба пользователя')
-    lock_date = models.DateField(null=True, blank=True, verbose_name='Заблокирован до')
+    lock_date = models.DateField(verbose_name='Заблокирован до')
     reason_for_blocking = models.CharField(max_length=255, verbose_name='Причина блокировки')
 
     def __str__(self):
