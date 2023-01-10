@@ -36,7 +36,7 @@ def moderation_complain(request, pk):
         if form.is_valid():
             # расчёт даты конца блокировки, если блокируем
             user_block_date = None
-            user_block_days = int(request.POST.get('user_block_days', 0))
+            user_block_days = form.cleaned_data['user_block_days']
             if user_block_days > 0:
                 user_block_date = datetime.now() + timedelta(days=user_block_days)
 
@@ -50,7 +50,7 @@ def moderation_complain(request, pk):
                 moderator=request.user,
                 user=complain.bad_user,
                 complaint=complain,
-                reason_for_blocking=request.POST.get('reason', None)
+                reason_for_blocking=form.cleaned_data['reason'],
             )
             if user_block_date:
                 new_blocked.lock_date = user_block_date
@@ -58,7 +58,7 @@ def moderation_complain(request, pk):
             new_blocked.save()
 
             # снимаем с публикации (если есть комментарий то скрываем его, если нет, то статью)
-            if request.POST.get('action_hide', False):
+            if form.cleaned_data['action_hide']:
                 if complain.comment:
                     print('скрываем комментарий')
                     complain.comment.is_published = False
