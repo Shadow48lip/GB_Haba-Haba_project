@@ -19,7 +19,7 @@ class HabaUser(AbstractUser):
 
     email = models.EmailField(null=False, unique=True, db_index=True, verbose_name='Электронная почта')
     creation_time = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    age = models.PositiveSmallIntegerField(default=0, null=False)
+    age = models.PositiveSmallIntegerField(default=0, null=False, verbose_name='Возраст')
     lock_date = models.DateField(verbose_name='Заблокирован до', default=datetime.date(1970, 1, 1))
     is_blocked = models.BooleanField(default=False, verbose_name='Заблокирован')
     about = models.TextField(verbose_name="О себе", blank=True)

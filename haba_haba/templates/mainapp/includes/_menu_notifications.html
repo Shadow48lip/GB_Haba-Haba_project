@@ -1,5 +1,8 @@
 {% if user.is_authenticated %}
     {% if user.is_superuser or user.is_staff %}
+        {% load notificationtags %}
+        {% get_new_complaint_count as note %}
+
         <li class="nav-item dropdown me-2">
 
             {% if note %}

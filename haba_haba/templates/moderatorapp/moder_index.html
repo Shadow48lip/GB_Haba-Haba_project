@@ -23,24 +23,33 @@
             </h5>
             <hr class="text-muted w-50 mt-2">
             {% for complain in new_complains %}
-                {% if complain.comment.text %}
-                    <h3>Жалоба на комментарий к статье</h3>
+                {% if complain.comment %}
+                    <div class="alert alert-warning" role="alert">
+                        Жалоба №{{ complain.id }} на комментарий к
+                        <a href="{{ complain.post.get_absolute_url }}">статье</a>.
+                    </div>
                 {% else %}
-                    <h3>Жалоба на статью</h3>
-                {% endif %}
-
-                {% post_mini complain.post complain.post.author %}
-
-                {% if complain.comment.text %}
-                    <h3>Сам комментарий</h3>
-                    <p><i>{{ complain.comment.text }}</i></p>
-
-                    <p>Действия: <a href="#">удалить комментарий</a>, <a href="#">заблокировать автора</a></p>
-                {% else %}
-                    <p>Действия: <a href="#">удалить статью</a>, <a href="#">заблокировать автора</a></p>
+                    <div class="alert alert-warning" role="alert">Жалоба на статью</div>
+                    {% post_mini complain.post complain.post.author %}
                 {% endif %}
 
 
+
+                {% if complain.comment %}
+                    <div class="card">
+                      <h5 class="card-header">{{ complain.post.title }}</h5>
+                      <div class="card-body">
+                        <h5 class="card-title">Текст пользователя "{{ complain.comment.user }}"</h5>
+                        <p class="card-text">{{ complain.comment.text }}</p>
+                      </div>
+                    </div>
+                    <br>
+                {% endif %}
+
+                <div class="d-grid mt-4">
+{#                        <button type="submit" class="btn btn-outline-primary">произвести модерацию</button>#}
+                        <a href="{% url 'moderator:complain' complain.id %}" class="btn btn-outline-primary btn-sm" role="button">модерация жалобы</a>
+                    </div>
                 <hr class="custom-hr">
             {%  endfor %}
 
