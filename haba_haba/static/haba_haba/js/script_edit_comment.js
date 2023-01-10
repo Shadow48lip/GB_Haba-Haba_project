@@ -1,6 +1,5 @@
 function ajaxEditComment() {
     let buttons = document.querySelectorAll('span[data-id]');
-
     buttons.forEach((btn) => {
         btn.addEventListener('click', edit);
     })

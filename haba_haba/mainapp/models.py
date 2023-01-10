@@ -240,23 +240,29 @@ class UserComplaints(models.Model):
         if comment is None:  # Жалоба на статью
             obj = UserComplaints.objects.select_related(
                 'post', 'user'
-            ).filter(post=post, user=user).first()
-            print(f'Проверка {obj}')
+            ).filter(post=post, user=user, comment=comment).first()
 
             if obj:
-                obj.delete()
-                return 0
+                if obj.user == user:
+                    if obj.moderator is None:
+                        obj.delete()
+                        return 0
+                else:
+                    UserComplaints.objects.create(user=user, bad_user=post.author, post=post)
+                    return 1
             else:
                 UserComplaints.objects.create(user=user, bad_user=post.author, post=post)
                 return 1
+
         else:
             obj = UserComplaints.objects.select_related(
                 'post', 'user', 'comment'
             ).filter(post=post, user=user, comment=comment).first()
 
             if obj:
-                obj.delete()
-                return 0
+                if obj.moderator is None:
+                    obj.delete()
+                    return 0
             else:
                 UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
                 return 1

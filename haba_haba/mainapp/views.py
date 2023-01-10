@@ -220,7 +220,7 @@ def add_comment(request):
         new_comment.save()
         return JsonResponse(
             data={
-                'comment_likes_count': Comment.get_count(post),
+                'comment_count': Comment.get_count(post),
                 'id': new_comment.id,
                 'data': render_to_string(
                     'mainapp/includes/_post_comment_text.html',
@@ -237,7 +237,8 @@ def delete_comment(request):
         comment = get_object_or_404(Comment, id=comment_id)
         comment.is_published = False
         comment.save()
-        return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
+        return JsonResponse({'result': 'ok', 'comment_id': comment_id, 'comment_count': Comment.get_count(comment.post)}
+                            , status=200)
 
 
 def edit_comment(request):
