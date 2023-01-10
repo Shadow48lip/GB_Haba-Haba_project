@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from datetime import datetime, timedelta
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils.timezone import get_current_timezone
 
 from mainapp.models import Post, UserComplaints, BlockedUser, Comment
 from moderatorapp.forms import ComplainAction
@@ -38,7 +39,7 @@ def moderation_complain(request, pk):
             user_block_date = None
             user_block_days = form.cleaned_data['user_block_days']
             if user_block_days > 0:
-                user_block_date = datetime.now() + timedelta(days=user_block_days)
+                user_block_date = datetime.now(tz=get_current_timezone()) + timedelta(days=user_block_days)
 
             # закрытие жалобы
             complain.moderator = request.user

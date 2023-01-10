@@ -7,7 +7,34 @@
 {% endblock %}
 
 {% block content %}
+
+
     <div class="custom-card-bg card border border-secondary border-opacity-25 pt-3">
+
+        {% if form %}
+            <div class="card-body">
+            <form method="get">
+                {% csrf_token %}
+                {% for f in form %}
+                    {% if f.html_name == 'q' %}
+                        <div class="row g-2 mb-3">
+                        <div class="col-md">
+                    {% elif f.html_name == 'order_by' %}
+                        <div class="col-md-3">
+                    {% endif %}
+
+                        <div class="form-floating">
+                        {{ f }}
+                        <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                        {% if f.html_name == 'order_by' %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    </div>
+                {% endfor %}
+            </form>
+            </div>
+        {% endif %}
 
         {% for post in posts %}
             {% post_mini post user %}

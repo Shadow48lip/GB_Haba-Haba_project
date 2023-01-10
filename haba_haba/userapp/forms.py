@@ -64,7 +64,7 @@ class EditUserForm(forms.ModelForm):
                     'class': 'form-control'
                 }
             ),
-            'age': forms.TextInput(
+            'age': forms.NumberInput(
                 attrs={
                     'class': 'form-control'
                 }
