@@ -35,7 +35,7 @@ class MyProfile(LoginRequiredMixin, DataMixin, PaginatorMixin, ListView):
         return context
 
     def get_queryset(self):
-        return Post.objects.filter(author=self.request.user)
+        return Post.objects.filter(author=self.request.user, is_deleted=False)
 
 
 class MyProfileUpdate(LoginRequiredMixin, DataMixin, UpdateView):
