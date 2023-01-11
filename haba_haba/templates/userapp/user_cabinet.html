@@ -34,17 +34,18 @@
         {% endif %}
         {% for post in posts %}
             {% if not post.is_published %}
-                <div class="alert alert-warning" role="alert">
-                    статья не опубликована
+                <div class="alert alert-warning d-flex justify-content-between" role="alert">
+                    <span>Статья не опубликована</span>
+                    <a href="{% url 'main:edit_post' post.pk %}">Редактировать</a>
                 </div>
-            {% endif %}
+{#            {% endif %}#}
 
-            {% if post.is_blocked %}
+            {% elif post.is_blocked %}
                 <div class="alert alert-danger" role="alert">
-                    статься заблокирована
+                    Статья заблокирована
                 </div>
             {% else %}
-                <a href="{% url 'main:edit_post' post.pk %}">edit post</a>
+                <a href="{% url 'main:edit_post' post.pk %}" class="d-flex justify-content-end">Редактировать</a>
             {% endif %}
 
             {% post_mini post user %}

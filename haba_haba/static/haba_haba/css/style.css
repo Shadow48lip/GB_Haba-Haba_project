@@ -819,7 +819,7 @@ body.dark .custom-sidebar-item .sidebar-item-title {
 
 .custom-sidebar-item:hover .sidebar-item-title,
 body.dark .custom-sidebar-item:hover .sidebar-item-title {
-    -webkit-line-clamp: none !important;
+    -webkit-line-clamp: initial !important;
     text-align: justify !important;
 }
 
@@ -984,25 +984,25 @@ body.dark .card-body a:hover {
 
 }
 
-.single-card .card-img-top {
-
+.single-card .card-img {
+    width: 50% !important;
 }
 
 .custom-card-title {
-    color: rgba(0, 0, 0, 0.55) !important;
-    background: rgba(255, 255, 255, .75) !important;
-    position: absolute !important;
-    width: 97% !important;
-    padding: 1% 5% !important;
+    /*color: rgba(0, 0, 0, 0.55) !important;*/
+    /*background: rgba(255, 255, 255, .75) !important;*/
+    /*position: absolute !important;*/
+    /*width: 97% !important;*/
+    /*padding: 1% 5% !important;*/
     cursor: default !important;
-    border-radius: 5px 5px 0 0 !important;
+    /*border-radius: 5px 5px 0 0 !important;*/
     transition: .2s color ease-in-out,
     .2s background ease-in-out !important;
 }
 
 body.dark .custom-card-title {
-    color: rgba(255, 255, 255, 0.85) !important;
-    background: rgba(0, 0, 0, .55) !important;
+    /*color: rgba(255, 255, 255, 0.85) !important;*/
+    /*background: rgba(0, 0, 0, .55) !important;*/
 }
 
 .single-card,

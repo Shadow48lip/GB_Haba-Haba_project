@@ -13,12 +13,28 @@
 
         <hr class="text-muted mt-2 mb-5">
 
+        <p class="card-text">
+            {{ object.content|striptags|linebreaksbr|truncatewords:150 }}
+        </p>
+
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
 
             <div class="d-grid mt-5">
-                <button type="submit" class="btn btn-outline-danger btn-lg">Я уверен! Удалить!</button>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-primary btn-lg"
+                                onclick="history.back(); return false;">
+                            Нет, я передумал!
+                        </button>
+                    </div>
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn btn-outline-danger btn-lg">
+                            Я уверен! Удалить!
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
