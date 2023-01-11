@@ -4,7 +4,7 @@
 {% load commenttags %}
 
 {% block title %}
-    {{ title }} :: {{ block.super }}
+{{ title }} :: {{ block.super }}
 {% endblock %}
 
 {% block content %}
@@ -82,9 +82,11 @@
 
                         {% else %}
 
-                            <button class="btn btn-sm complaint ms-3">
-                                <i class="bi bi-exclamation-circle" title="жалоба"></i>
-                            </button>
+                <span onclick="ajaxBadPost('{% url 'main:bad_post' %}', '{{ post.id }}')"
+                      class="complaint ms-3">
+                        {% get_post_complaint post user as complaint %}
+                                <i id="bad_post_{{ post.id }}" class="{{ complaint }}"></i>
+                    </span>
 
                         {% endif %}
                     {% endif %}

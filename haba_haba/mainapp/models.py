@@ -236,22 +236,53 @@ class UserComplaints(models.Model):
 
     @staticmethod
     def set_сomplaint(post, user, comment):
-        obj = UserComplaints.objects.select_related(
-            'post', 'user', 'comment'
-        ).filter(post=post, user=user, comment=comment).first()
 
-        if obj:
-            obj.delete()
-            return 0
+        if comment is None:  # Жалоба на статью
+            obj = UserComplaints.objects.select_related(
+                'post', 'user'
+            ).filter(post=post, user=user, comment=comment).first()
+
+            if obj:
+                if obj.user == user:
+                    if obj.moderator is None:
+                        obj.delete()
+                        return 0
+                else:
+                    UserComplaints.objects.create(user=user, bad_user=post.author, post=post)
+                    return 1
+            else:
+                UserComplaints.objects.create(user=user, bad_user=post.author, post=post)
+                return 1
+
         else:
-            UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
-            return 1
+            obj = UserComplaints.objects.select_related(
+                'post', 'user', 'comment'
+            ).filter(post=post, user=user, comment=comment).first()
+
+            if obj:
+                if obj.moderator is None:
+                    obj.delete()
+                    return 0
+            else:
+                UserComplaints.objects.create(user=user, bad_user=comment.user, post=post, comment=comment)
+                return 1
 
     @staticmethod
     def get_сomplaint(post, user, comment):
         obj = UserComplaints.objects.select_related(
             'post', 'user', 'comment'
         ).filter(post=post, user=user, comment=comment).first()
+
+        if obj:
+            return 'bi bi-exclamation-circle-fill'
+        else:
+            return 'bi bi-exclamation-circle'
+
+    @staticmethod
+    def get_post_сomplaint(post, user):
+        obj = UserComplaints.objects.select_related(
+            'post', 'user'
+        ).filter(post=post, user=user, comment=None).first()
 
         if obj:
             return 'bi bi-exclamation-circle-fill'

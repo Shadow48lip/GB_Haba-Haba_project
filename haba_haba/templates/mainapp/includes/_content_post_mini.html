@@ -68,13 +68,13 @@
                     {% else %}
 
                     <!-- модератору не нужна кнопка Пожаловаться -->
-{#                    <span onclick="ajaxBadPost('{% url 'main:bad_post' %}', '{{ post.id }}')"#}
-{#                          class="complaint ms-3">#}
-{#                        {% get_post_complaint post user as complaint %}#}
-{#                                <i id="bad_post_{{ post.id }}" class="{{ complaint }}"></i>#}
-{#                    </span>#}
+                    <span onclick="ajaxBadPost('{% url 'main:bad_post' %}', '{{ post.id }}')"
+                          class="complaint ms-3">
+                        {% get_post_complaint post user as complaint %}
+                                <i id="bad_post_{{ post.id }}" class="{{ complaint }}"></i>
+                    </span>
 
-                    {% endif %}
+                        {% endif %}
                     {% endif %}
                 </small>
             </div>

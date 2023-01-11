@@ -122,14 +122,6 @@ class ShowComments(DataMixin, ListView):
     template_name = 'mainapp/page_post_single.html'
     context_object_name = 'comments'
 
-    # allow_empty = False
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        post = Post.objects.select_related('author', 'cat').get(slug=self.kwargs['slug'])
-        return queryset.select_related(
-            'author', 'cat'
-        ).filter(post=post, is_published=True)  # .order_by('-time_update')
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         post = Post.objects.select_related('author', 'cat').get(slug=self.kwargs['slug'])
@@ -234,11 +226,11 @@ def add_comment(request):
         new_comment.save()
         return JsonResponse(
             data={
-                'comment_likes_count': Comment.get_count(post),
+                'comment_count': Comment.get_count(post),
                 'id': new_comment.id,
                 'data': render_to_string(
                     'mainapp/includes/_post_comment_text.html',
-                    {'c': new_comment, 'user': user}
+                    {'c': new_comment, 'user': user, 'post': post}
                 )
             }
         )
@@ -251,7 +243,8 @@ def delete_comment(request):
         comment = get_object_or_404(Comment, id=comment_id)
         comment.is_published = False
         comment.save()
-        return JsonResponse({'result': 'ok', 'comment_id': comment_id}, status=200)
+        return JsonResponse({'result': 'ok', 'comment_id': comment_id, 'comment_count': Comment.get_count(comment.post)}
+                            , status=200)
 
 
 def edit_comment(request):
@@ -323,6 +316,28 @@ def bad_comment(request):
                         'user': request.user,
                         'post': post,
                         'c': comment
+                    }
+                )
+            },
+            status=200
+        )
+
+
+def bad_post(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    post = request.POST.get('post_id', None)
+    if is_ajax and post:
+        post = get_object_or_404(Post, id=post)
+        complaint_add = UserComplaints.set_сomplaint(post, request.user, None)
+        return JsonResponse(
+            {
+                'object': str(post.id),
+                'complaint': complaint_add,
+                'data': render_to_string(
+                    'mainapp/includes/_content_post_mini.html',
+                    {
+                        'user': request.user,
+                        'post': post,
                     }
                 )
             },
